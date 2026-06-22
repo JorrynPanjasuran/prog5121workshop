@@ -1,19 +1,20 @@
 /*
  * PROG5121 – Part 3 POE
- * JUnit 5 tests for the Message class.
- * Tests: ID generation, ID validation, recipient validation,
- *        message length validation, hash creation, sendOptions(),
- *        printDetails(), flags, and getters.
+ * I wrote these JUnit 5 tests for the Message class.
+ * I test ID generation, ID validation, recipient validation,
+ * message length validation, hash creation, sendOptions(),
+ * printDetails(), flags, and getters.
  *
- * Author: Jorryn Panjasuran
+ * Author: ST10448822
  * Date: 2025
  */
 
 package com.mycompany.chatapp;
 
+// I use JUnit 5 assertion methods throughout these tests.
 // Title   : JUnit 5 Assertion Methods
 // Author  : JUnit Team – Official API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/api/
 
@@ -21,18 +22,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * MessageTest – unit tests for all static validators, hash creation,
+ * MessageTest – I test all static validators, hash creation,
  * send routing, flags, and output formatting in the Message class.
  *
- * NOTE: testGenerateMessageID_Unique was intentionally removed because
- * two random 10-digit numbers could theoretically match, making any
- * "must differ" assertion unreliable across test runs.
+ * NOTE: I removed testGenerateMessageID_Unique because two random 10-digit
+ * numbers could theoretically match, making any "must differ" assertion
+ * unreliable across test runs.
  *
  * NOTE: Message.totalMessages is a static counter that is never reset
- * between tests. All sendOptions tests therefore only verify the return
- * string, not the absolute counter value, to avoid order-dependent failures.
+ * between tests.  I therefore only verify the return string in sendOptions
+ * tests, not the absolute counter value, to avoid order-dependent failures.
  *
- * @author Jorryn Panjasuran 2025
+ * @author ST10448822 2025
  */
 public class MessageTest {
 

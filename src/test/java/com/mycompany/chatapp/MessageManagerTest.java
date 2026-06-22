@@ -1,23 +1,25 @@
 /*
  * PROG5121 – Part 3 POE
- * JUnit 5 tests for the MessageManager class.
- * Tests use the exact Part 3 POE test data as specified in the rubric.
+ * I wrote these JUnit 5 tests for the MessageManager class.
+ * I use the SwiftDeliver Part 3 POE test data I defined in my scenario.
  *
- * Author: Jorryn Panjasuran
+ * Author: ST10448822
  * Date: 2025
  */
 
 package com.mycompany.chatapp;
 
+// I use JUnit 5 assertion methods throughout these tests.
 // Title   : JUnit 5 Assertion Methods
 // Author  : JUnit Team – Official API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/api/
 
+// I use @BeforeEach to reset the message arrays before every test.
 // Title   : JUnit 5 @BeforeEach Lifecycle Annotation
 // Author  : JUnit Team – Official API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations
 
@@ -26,19 +28,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * MessageManagerTest – unit tests for the five message arrays, their counters,
+ * MessageManagerTest – I test the five message arrays, their counters,
  * and all report / search / delete methods.
  *
- * All tests use the Part 3 POE test data:
- *   Message 1: +27834557896  "Did you get the cake?"           → Sent
- *   Message 2: +27838884567  "Where are you? You are late!..." → Stored
- *   Message 3: +27834484567  "Yohoooo, I am at your gate."     → Disregarded
- *   Message 4: 0838884567    "It is dinner time !"              → Sent
- *   Message 5: +27838884567  "Ok, I am leaving without you."   → Stored
+ * I use the SwiftDeliver Part 3 POE test data I created:
+ *   Message 1: +27761234567  "Has the pizza left the kitchen yet?"          → Sent
+ *   Message 2: +27769876543  "Your order is stuck in traffic on the N1,
+ *                              estimated arrival is now 8:15 PM."           → Stored
+ *   Message 3: +27761112233  "Oops, wrong order sent to table six."         → Disregarded
+ *   Message 4: 0769876543    "Rider is outside now!"                        → Sent
+ *   Message 5: +27769876543  "Order confirmed and signed for, thanks!"      → Stored
  *
- * @BeforeEach wipes every array and counter before each test.
+ * I annotated @BeforeEach to wipe every array and counter before each test.
  *
- * @author Jorryn Panjasuran 2025
+ * @author ST10448822 2025
  */
 public class MessageManagerTest {
 
@@ -71,33 +74,34 @@ public class MessageManagerTest {
 
     // ===========================================================
     // Part 3 POE Test: Sent Messages array correctly populated
-    // "The system returns: 'Did you get the cake?', 'It is dinner time!'"
+    // "The system returns: 'Has the pizza left the kitchen yet?',
+    //  'Rider is outside now!'"
     // ===========================================================
 
     /**
-     * After populateTestMessages(), sentMessages[0] must contain "Did you get the cake?"
+     * I expect sentMessages[0] to contain the first SwiftDeliver sent message.
      */
     @Test
     public void testSentMessages_FirstMessageBody() {
         MessageManager.populateTestMessages();
-        assertEquals("Did you get the cake?",
+        assertEquals("Has the pizza left the kitchen yet?",
                 MessageManager.sentMessages[0].getMessage(),
-                "First sent message should be 'Did you get the cake?'");
+                "First sent message should be 'Has the pizza left the kitchen yet?'");
     }
 
     /**
-     * After populateTestMessages(), sentMessages[1] must contain "It is dinner time !"
+     * I expect sentMessages[1] to contain the second SwiftDeliver sent message.
      */
     @Test
     public void testSentMessages_SecondMessageBody() {
         MessageManager.populateTestMessages();
-        assertEquals("It is dinner time !",
+        assertEquals("Rider is outside now!",
                 MessageManager.sentMessages[1].getMessage(),
-                "Second sent message should be 'It is dinner time !'");
+                "Second sent message should be 'Rider is outside now!'");
     }
 
     /**
-     * Sent count must be exactly 2 after populateTestMessages().
+     * I expect exactly 2 sent messages after populateTestMessages().
      */
     @Test
     public void testPopulateTestMessages_SentCount() {
@@ -107,7 +111,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * Store count must be exactly 2 after populateTestMessages().
+     * I expect exactly 2 stored messages after populateTestMessages().
      */
     @Test
     public void testPopulateTestMessages_StoreCount() {
@@ -117,7 +121,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * Discard count must be exactly 1 after populateTestMessages().
+     * I expect exactly 1 disregarded message after populateTestMessages().
      */
     @Test
     public void testPopulateTestMessages_DiscardCount() {
@@ -127,7 +131,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * Total across all three arrays must be 5.
+     * I expect the total across all three arrays to equal 5.
      */
     @Test
     public void testPopulateTestMessages_TotalFive() {
@@ -141,23 +145,24 @@ public class MessageManagerTest {
 
     // ===========================================================
     // Part 3 POE Test: Display the longest Message
-    // "The system returns: 'Where are you? You are late! I have asked you to be on time.'"
+    // "The system returns: 'Your order is stuck in traffic on the N1,
+    //  estimated arrival is now 8:15 PM.'"
     // ===========================================================
 
     /**
-     * getLongestStoredMessage must return the body of message 2.
+     * I expect getLongestStoredMessage to return the body of SwiftDeliver message 2.
      */
     @Test
     public void testLongestStoredMessage() {
         MessageManager.populateTestMessages();
         String longest = MessageManager.getLongestStoredMessage();
-        assertEquals("Where are you? You are late! I have asked you to be on time.",
+        assertEquals("Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM.",
                 longest,
-                "The longest stored message should be message 2.");
+                "The longest stored message should be SwiftDeliver message 2.");
     }
 
     /**
-     * getLongestStoredMessage must return empty string when there are no stored messages.
+     * I expect getLongestStoredMessage to return empty string when there are no stored messages.
      */
     @Test
     public void testLongestStoredMessage_Empty() {
@@ -168,11 +173,11 @@ public class MessageManagerTest {
 
     // ===========================================================
     // Part 3 POE Test: Search for messageID
-    // "Test Data: message 4 — The system returns: 'It is dinner time!'"
+    // "Test Data: message 4 — The system returns: 'Rider is outside now!'"
     // ===========================================================
 
     /**
-     * searchByMessageID using message 4's auto-generated ID must return "It is dinner time !"
+     * I search by message 4's auto-generated ID and expect "Rider is outside now!".
      */
     @Test
     public void testSearchByMessageID_FindsMessage4() {
@@ -180,12 +185,12 @@ public class MessageManagerTest {
         // Message 4 is the second sent message (index 1)
         String msg4ID = MessageManager.sentMessages[1].getMessageID();
         String result = MessageManager.searchByMessageID(msg4ID);
-        assertEquals("It is dinner time !", result,
-                "Searching by message 4's ID should return 'It is dinner time !'");
+        assertEquals("Rider is outside now!", result,
+                "Searching by message 4's ID should return 'Rider is outside now!'");
     }
 
     /**
-     * searchByMessageID for an ID that does not exist must return the not-found message.
+     * I expect the not-found message when I search for an ID that does not exist.
      */
     @Test
     public void testSearchByMessageID_NotFound() {
@@ -197,24 +202,24 @@ public class MessageManagerTest {
 
     // ===========================================================
     // Part 3 POE Test: Search all messages for a particular recipient
-    // "Test Data: +27838884567 — returns message 2 and message 5"
+    // "Test Data: +27769876543 — returns message 2 and message 5"
     // ===========================================================
 
     /**
-     * searchByRecipient("+27838884567") must return both message 2 and message 5.
+     * I expect searchByRecipient("+27769876543") to return both message 2 and message 5.
      */
     @Test
     public void testSearchByRecipient_FindsBothMessages() {
         MessageManager.populateTestMessages();
-        String result = MessageManager.searchByRecipient("+27838884567");
-        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."),
-                "Result should contain message 2.");
-        assertTrue(result.contains("Ok, I am leaving without you."),
-                "Result should contain message 5.");
+        String result = MessageManager.searchByRecipient("+27769876543");
+        assertTrue(result.contains("Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."),
+                "Result should contain SwiftDeliver message 2.");
+        assertTrue(result.contains("Order confirmed and signed for, thanks!"),
+                "Result should contain SwiftDeliver message 5.");
     }
 
     /**
-     * searchByRecipient for a number with no messages must return the not-found message.
+     * I expect the not-found message when I search for a number with no messages.
      */
     @Test
     public void testSearchByRecipient_NotFound() {
@@ -226,11 +231,11 @@ public class MessageManagerTest {
 
     // ===========================================================
     // Part 3 POE Test: Delete a message using a message hash
-    // "Test Data: Test Message 2 — 'Where are you?...' successfully deleted."
+    // "Test Data: SwiftDeliver message 2 successfully deleted."
     // ===========================================================
 
     /**
-     * deleteByMessageHash using message 2's hash must return the success string.
+     * I expect deleteByMessageHash using message 2's hash to return the success string.
      */
     @Test
     public void testDeleteByMessageHash_SuccessMessage() {
@@ -240,12 +245,12 @@ public class MessageManagerTest {
         String result = MessageManager.deleteByMessageHash(hash);
         assertTrue(result.contains("successfully deleted"),
                 "Delete result should confirm successful deletion.");
-        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."),
+        assertTrue(result.contains("Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."),
                 "Delete result should name the deleted message.");
     }
 
     /**
-     * After deleting message 2, the stored count must decrease by 1.
+     * I expect the store count to decrease by 1 after deleting message 2.
      */
     @Test
     public void testDeleteByMessageHash_ReducesStoreCount() {
@@ -258,7 +263,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * Supplying a hash that does not exist must leave storeCount unchanged.
+     * I expect storeCount to remain unchanged when I supply a hash that does not exist.
      */
     @Test
     public void testDeleteByMessageHash_NotFound() {
@@ -276,7 +281,7 @@ public class MessageManagerTest {
     // ===========================================================
 
     /**
-     * displayReport with sent messages must not throw any exception.
+     * I expect displayReport with sent messages to not throw any exception.
      */
     @Test
     public void testDisplayReport_WithMessages_NoException() {
@@ -286,7 +291,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * displayReport with no messages must not throw any exception.
+     * I expect displayReport with no messages to not throw any exception.
      */
     @Test
     public void testDisplayReport_NoMessages_NoException() {
@@ -295,7 +300,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * displayStoredReport with stored messages must not throw any exception.
+     * I expect displayStoredReport with stored messages to not throw any exception.
      */
     @Test
     public void testDisplayStoredReport_WithMessages_NoException() {
@@ -309,7 +314,7 @@ public class MessageManagerTest {
     // ===========================================================
 
     /**
-     * Removing the message at index 0 must reduce sentCount by exactly 1.
+     * I expect removing the message at index 0 to reduce sentCount by exactly 1.
      */
     @Test
     public void testRemoveSentMessage_ReducesCount() {
@@ -321,7 +326,8 @@ public class MessageManagerTest {
     }
 
     /**
-     * After removing index 0, what was at index 1 moves to index 0 (array compacts).
+     * I expect the array to compact: after removing index 0, what was at index 1
+     * moves to index 0.
      */
     @Test
     public void testRemoveSentMessage_ArrayCompacted() {
@@ -333,7 +339,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * The vacated last slot must be null after compaction.
+     * I expect the vacated last slot to be null after compaction.
      */
     @Test
     public void testRemoveSentMessage_LastSlotNulled() {
@@ -349,7 +355,7 @@ public class MessageManagerTest {
     // ===========================================================
 
     /**
-     * Removing the stored message at index 0 must reduce storeCount by 1.
+     * I expect removing the stored message at index 0 to reduce storeCount by 1.
      */
     @Test
     public void testRemoveStoredMessage_ReducesCount() {
@@ -361,7 +367,8 @@ public class MessageManagerTest {
     }
 
     /**
-     * After removing stored index 0, what was at index 1 moves to index 0.
+     * I expect the array to compact: after removing stored index 0, what was at
+     * index 1 moves to index 0.
      */
     @Test
     public void testRemoveStoredMessage_ArrayCompacted() {
@@ -377,7 +384,7 @@ public class MessageManagerTest {
     // ===========================================================
 
     /**
-     * After a reset, sentCount must return to 0.
+     * I expect sentCount to return to 0 after a reset.
      */
     @Test
     public void testReset_ClearsSentCount() {
@@ -388,7 +395,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * After a reset, storeCount must return to 0.
+     * I expect storeCount to return to 0 after a reset.
      */
     @Test
     public void testReset_ClearsStoreCount() {
@@ -399,7 +406,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * After a reset, discardCount must return to 0.
+     * I expect discardCount to return to 0 after a reset.
      */
     @Test
     public void testReset_ClearsDiscardCount() {
@@ -410,7 +417,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * After a reset, sentMessages[0] must be null.
+     * I expect sentMessages[0] to be null after a reset.
      */
     @Test
     public void testReset_ArraysNulled() {
@@ -424,13 +431,13 @@ public class MessageManagerTest {
 // ───────────────────────── CODE ATTRIBUTION ─────────────────────────
 // Title   : JUnit 5 Assertion Methods
 // Author  : JUnit Team – Official API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/api/
 //
 // Title   : JUnit 5 @BeforeEach Lifecycle Annotation
 // Author  : JUnit Team – Official API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations
 //

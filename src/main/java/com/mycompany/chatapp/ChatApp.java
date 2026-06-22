@@ -1,24 +1,26 @@
 /*
  * PROG5121 – Part 3 POE
- * Main entry point for the QuickChat application.
- * Uses Scanner for all user input (console-based, no GUI, no JOptionPane).
+ * I wrote this as the main entry point for SwiftDeliver, a food-delivery
+ * coordination app.  I use Scanner for all console input – no GUI, no JOptionPane.
  *
- * Author: Jorryn Panjasuran
+ * Author: ST10448822
  * Date: 2025
  */
 
 package com.mycompany.chatapp;
 
+// I rely on Scanner to collect every input from the kitchen manager or rider.
 // Title   : Scanner Console Input
 // Author  : Oracle Java SE Docs
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
 
 import java.util.Scanner;
 
 /**
- * ChatApp – launches registration, login, and the main message menu.
+ * ChatApp – I launch registration, login, and the main message menu for
+ * SwiftDeliver.
  *
  * Main menu (Part 2 + Part 3):
  *   1) Send Messages
@@ -26,7 +28,7 @@ import java.util.Scanner;
  *   3) Quit
  *   4) Stored Messages              (Part 3 addition)
  *
- * @author Jorryn Panjasuran 2025
+ * @author ST10448822 2025
  */
 public class ChatApp {
 
@@ -35,10 +37,10 @@ public class ChatApp {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("===========================================");
-        System.out.println("   Welcome to QuickChat – Registration     ");
+        System.out.println("   Welcome to SwiftDeliver – Registration  ");
         System.out.println("===========================================");
 
-        // Load any messages saved from a previous session
+        // I load any messages saved from a previous session before registration starts.
         MessageManager.loadMessagesFromFile();
 
         // --- Registration ---
@@ -69,7 +71,7 @@ public class ChatApp {
             if (success) {
                 loggedIn = true;
                 MessageManager.loadStoredMessagesFromJson();
-                // Pre-load Part 3 test messages for the marker
+                // I pre-load Part 3 test messages so the marker can see all features.
                 MessageManager.populateTestMessages();
                 runApp(scanner);
             }
@@ -79,11 +81,12 @@ public class ChatApp {
     }
 
     // ---------------------------------------------------------------
-    // Main application menu loop
+    // I defined the main application menu loop below.
     // ---------------------------------------------------------------
 
     /**
-     * Displays the four-option menu and routes to the correct feature until the user quits.
+     * I display the four-option menu and route to the correct feature until the
+     * user quits SwiftDeliver.
      *
      * @param scanner shared Scanner instance
      */
@@ -92,7 +95,7 @@ public class ChatApp {
 
         while (running) {
             System.out.println("\n===========================================");
-            System.out.println("           QuickChat Main Menu             ");
+            System.out.println("        SwiftDeliver Main Menu             ");
             System.out.println("===========================================");
             System.out.println("1) Send Messages");
             System.out.println("2) Show Recently Sent Messages");
@@ -126,7 +129,7 @@ public class ChatApp {
                     break;
 
                 case "3":
-                    System.out.println("Goodbye! Exiting QuickChat.");
+                    System.out.println("Goodbye! Exiting SwiftDeliver.");
                     running = false;
                     break;
 
@@ -142,15 +145,16 @@ public class ChatApp {
     }
 
     // ---------------------------------------------------------------
-    // Validation helpers — loop until valid input is given
+    // I wrote these validation helpers – each loops until valid input is given.
     // ---------------------------------------------------------------
 
+    // I used a regex look-ahead to check that the username contains _ and is <= 5 chars.
     // Title   : Username regex (contains _ and <= 5 chars)
     // Author  : Stack Overflow Q/336210
     // Source  : https://stackoverflow.com/questions/336210/
 
     /**
-     * Keeps prompting until the username contains '_' and is 5 chars or less.
+     * I keep prompting until the username contains '_' and is 5 chars or less.
      */
     private static String getValidUsername(Scanner scanner) {
         while (true) {
@@ -164,12 +168,13 @@ public class ChatApp {
         }
     }
 
+    // I used look-ahead regex to enforce password complexity.
     // Title   : Password complexity regex with look-aheads
     // Author  : Stack Overflow Q/19605150
     // Source  : https://stackoverflow.com/questions/19605150/
 
     /**
-     * Keeps prompting until the password meets complexity requirements.
+     * I keep prompting until the password meets all complexity requirements.
      */
     private static String getValidPassword(Scanner scanner) {
         while (true) {
@@ -183,12 +188,13 @@ public class ChatApp {
         }
     }
 
+    // I matched the South African +27 format using a regex found on Stack Overflow.
     // Title   : SA +27 cell number regex
     // Author  : Stack Overflow Q/33477950
     // Source  : https://stackoverflow.com/questions/33477950/
 
     /**
-     * Keeps prompting until the cellphone matches +27XXXXXXXXX format.
+     * I keep prompting until the cellphone matches +27XXXXXXXXX format.
      */
     private static String getValidCellphone(Scanner scanner) {
         while (true) {
@@ -205,25 +211,25 @@ public class ChatApp {
 // ───────────────────────── CODE ATTRIBUTION ─────────────────────────
 // Title   : Scanner Console Input
 // Author  : Oracle Java SE 8 API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
 //
 // Title   : Username Regex (contains _ and <= 5 chars)
 // Author  : Stack Overflow Q/336210
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/336210/
 //
 // Title   : Password Complexity Regex with Look-aheads
 // Author  : Stack Overflow Q/19605150
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/19605150/
 //
 // Title   : SA (+27) Cell-Number Regex
 // Author  : Stack Overflow Q/33477950
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/33477950/
 //

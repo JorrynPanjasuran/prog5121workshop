@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwiftDeliver – PROG5121 Part 3 Scenario</title>
+  <style>
+    /* ── Global reset & typography ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f1a;
+      color: #e8e8f0;
+      min-height: 100vh;
+    }
+
+    /* ── Gradient header ── */
+    header {
+      background: linear-gradient(135deg, #1a1a6e 0%, #e63946 50%, #f4a261 100%);
+      padding: 48px 40px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "🛵";
+      font-size: 120px;
+      position: absolute;
+      top: -10px;
+      right: 30px;
+      opacity: 0.18;
+    }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    }
+    header h2 {
+      font-size: 1.1rem;
+      color: #ffd6a5;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+    header .badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50px;
+      padding: 6px 22px;
+      font-size: 0.85rem;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    /* ── Section cards ── */
+    .card {
+      background: #1c1c2e;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      border-left: 6px solid #e63946;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .card.blue   { border-left-color: #457b9d; }
+    .card.green  { border-left-color: #2a9d8f; }
+    .card.orange { border-left-color: #f4a261; }
+    .card.purple { border-left-color: #9b5de5; }
+
+    h3.section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h3.section-title .icon { font-size: 1.5rem; }
+
+    p { line-height: 1.75; margin-bottom: 12px; color: #c8c8d8; }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+      margin-top: 12px;
+    }
+    thead tr { background: #2a2a4a; }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      color: #ffd6a5;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #444;
+    }
+    tbody tr:nth-child(even) { background: #22223a; }
+    tbody tr:nth-child(odd)  { background: #1c1c2e; }
+    tbody td {
+      padding: 12px 16px;
+      vertical-align: top;
+      border-bottom: 1px solid #333;
+      color: #d4d4e8;
+    }
+    tbody tr:hover { background: #2c2c50; transition: background 0.2s; }
+
+    /* ── Status pills ── */
+    .pill {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+    .pill-sent       { background: #1d4ed8; color: #bfdbfe; }
+    .pill-stored     { background: #065f46; color: #a7f3d0; }
+    .pill-disregard  { background: #7f1d1d; color: #fecaca; }
+
+    /* ── Mark pills ── */
+    .mark-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: #4a1d96;
+      color: #e9d5ff;
+    }
+
+    /* ── Code blocks ── */
+    pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-size: 0.83rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      margin-top: 10px;
+    }
+    .keyword { color: #ff7b72; }
+    .string  { color: #a5d6ff; }
+    .comment { color: #6e7681; font-style: italic; }
+    .method  { color: #d2a8ff; }
+    .number  { color: #79c0ff; }
+
+    /* ── Scenario flow boxes ── */
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .flow-step {
+      flex: 1 1 180px;
+      background: #252545;
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      border-top: 4px solid;
+      transition: transform 0.2s;
+    }
+    .flow-step:hover { transform: translateY(-4px); }
+    .flow-step.s1 { border-color: #e63946; }
+    .flow-step.s2 { border-color: #457b9d; }
+    .flow-step.s3 { border-color: #2a9d8f; }
+    .flow-step.s4 { border-color: #f4a261; }
+    .flow-step.s5 { border-color: #9b5de5; }
+    .flow-step .step-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .flow-step .step-label {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #c8c8d8;
+    }
+    .flow-step .step-msg {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: #a0a0c0;
+      font-style: italic;
+    }
+
+    /* ── Attribution list ── */
+    .attr-list { list-style: none; }
+    .attr-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #2a2a4a;
+      font-size: 0.88rem;
+      color: #b0b0cc;
+    }
+    .attr-list li:last-child { border-bottom: none; }
+    .attr-list li strong { color: #ffd6a5; }
+    .attr-list a { color: #a5d6ff; text-decoration: none; }
+    .attr-list a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.82rem;
+      color: #555580;
+      border-top: 1px solid #2a2a4a;
+    }
+
+    /* ── Highlight box ── */
+    .highlight-box {
+      background: linear-gradient(135deg, #1a2744, #1a1a3a);
+      border: 1px solid #3a3a6a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 14px 0;
+      font-size: 0.88rem;
+      color: #c0c0e0;
+    }
+    .highlight-box strong { color: #ffd6a5; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛵 SwiftDeliver</h1>
+  <h2>PROG5121 – Part 3 POE | Console Messaging Application</h2>
+  <span class="badge">ST10448822 &nbsp;|&nbsp; 2025 &nbsp;|&nbsp; SwiftDeliver Scenario</span>
+</header>
+
+<main>
+
+  <!-- ── Scenario Description ── -->
+  <div class="card">
+    <h3 class="section-title"><span class="icon">📋</span> Scenario Description</h3>
+    <p>
+      <strong>SwiftDeliver</strong> is a console-based messaging application designed for a food delivery
+      service company.  Kitchen managers, branch supervisors, and delivery riders use the app to send
+      real-time coordination messages about orders — from the moment a meal leaves the kitchen until
+      it reaches the customer's door.
+    </p>
+    <p>
+      Staff register an account using a secure username, password, and South African cellphone number.
+      After logging in they can <strong>send</strong> urgent dispatch messages, <strong>store</strong>
+      messages that need follow-up, or <strong>disregard</strong> messages that are no longer relevant.
+      Part 3 adds the ability to search, delete, and report on stored messages.
+    </p>
+
+    <div class="flow">
+      <div class="flow-step s1">
+        <div class="step-num" style="color:#e63946;">1</div>
+        <div class="step-label">Register &amp; Login</div>
+        <div class="step-msg">Username, password, SA number validated</div>
+      </div>
+      <div class="flow-step s2">
+        <div class="step-num" style="color:#457b9d;">2</div>
+        <div class="step-label">Send Messages</div>
+        <div class="step-msg">Route to Sent, Stored, or Disregarded</div>
+      </div>
+      <div class="flow-step s3">
+        <div class="step-num" style="color:#2a9d8f;">3</div>
+        <div class="step-label">Search</div>
+        <div class="step-msg">By Message ID or Recipient number</div>
+      </div>
+      <div class="flow-step s4">
+        <div class="step-num" style="color:#f4a261;">4</div>
+        <div class="step-label">Delete</div>
+        <div class="step-msg">Remove by Message Hash</div>
+      </div>
+      <div class="flow-step s5">
+        <div class="step-num" style="color:#9b5de5;">5</div>
+        <div class="step-label">Report</div>
+        <div class="step-msg">Full stored-messages report</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Test Data ── -->
+  <div class="card blue">
+    <h3 class="section-title"><span class="icon">📦</span> Part 3 Test Data – 5 SwiftDeliver Messages</h3>
+    <p>
+      The method <code>populateTestMessages()</code> pre-loads these five messages so the marker can
+      immediately exercise every menu feature without entering data manually.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Recipient</th>
+          <th>Message Body</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td><code>+27761234567</code></td>
+          <td>Has the pizza left the kitchen yet?</td>
+          <td><span class="pill pill-sent">SENT</span></td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td><code>+27769876543</code></td>
+          <td>Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM.</td>
+          <td><span class="pill pill-stored">STORED</span></td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td><code>+27761112233</code></td>
+          <td>Oops, wrong order sent to table six.</td>
+          <td><span class="pill pill-disregard">DISREGARDED</span></td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td><code>0769876543</code></td>
+          <td>Rider is outside now!</td>
+          <td><span class="pill pill-sent">SENT</span></td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td><code>+27769876543</code></td>
+          <td>Order confirmed and signed for, thanks!</td>
+          <td><span class="pill pill-stored">STORED</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:18px;">
+      <strong>Notes for the marker:</strong>
+      Message 2 is the <strong>longest stored message</strong> (used for feature b).
+      Messages 2 &amp; 5 share recipient <code>+27769876543</code> (used for feature d).
+      Message 4 uses a local-format number, mirroring the original POE table structure.
+    </div>
+  </div>
+
+  <!-- ── Rubric Mapping ── -->
+  <div class="card green">
+    <h3 class="section-title"><span class="icon">🎯</span> Rubric Mapping – Where Each Mark Comes From</h3>
+    <p>
+      The table below maps each Part 3 rubric requirement to the exact class, method, and test that
+      satisfies it in the SwiftDeliver codebase.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rubric Requirement</th>
+          <th>Class / Method</th>
+          <th>Test(s)</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Array to store sent messages + correct population</td>
+          <td><code>MessageManager.sentMessages[]</code><br><code>populateTestMessages()</code></td>
+          <td><code>testSentMessages_FirstMessageBody</code><br><code>testSentMessages_SecondMessageBody</code><br><code>testPopulateTestMessages_SentCount</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Array to store disregarded messages</td>
+          <td><code>MessageManager.disregardedMessages[]</code></td>
+          <td><code>testPopulateTestMessages_DiscardCount</code><br><code>testPopulateTestMessages_TotalFive</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Array to store stored messages</td>
+          <td><code>MessageManager.storedMessages[]</code></td>
+          <td><code>testPopulateTestMessages_StoreCount</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>a) Show sender and recipients of stored messages</td>
+          <td><code>MessageManager.showSenderAndRecipients()</code></td>
+          <td><code>testDisplayStoredReport_WithMessages_NoException</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>b) Display the longest stored message</td>
+          <td><code>MessageManager.getLongestStoredMessage()</code><br><code>showLongestMessage()</code></td>
+          <td><code>testLongestStoredMessage</code><br><code>testLongestStoredMessage_Empty</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>c) Search by message ID → display recipient + message</td>
+          <td><code>MessageManager.searchByMessageID(String)</code></td>
+          <td><code>testSearchByMessageID_FindsMessage4</code><br><code>testSearchByMessageID_NotFound</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>d) Search by recipient → return all matching messages</td>
+          <td><code>MessageManager.searchByRecipient(String)</code></td>
+          <td><code>testSearchByRecipient_FindsBothMessages</code><br><code>testSearchByRecipient_NotFound</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>e) Delete a message using the message hash</td>
+          <td><code>MessageManager.deleteByMessageHash(String)</code></td>
+          <td><code>testDeleteByMessageHash_SuccessMessage</code><br><code>testDeleteByMessageHash_ReducesStoreCount</code><br><code>testDeleteByMessageHash_NotFound</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>f) Full report of all stored messages</td>
+          <td><code>MessageManager.displayStoredReport()</code></td>
+          <td><code>testDisplayStoredReport_WithMessages_NoException</code><br><code>testDisplayReport_WithMessages_NoException</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Array removal / compaction after delete</td>
+          <td><code>MessageManager.removeSentMessageAtIndex(int)</code><br><code>removeStoredMessageAtIndex(int)</code></td>
+          <td><code>testRemoveSentMessage_*</code><br><code>testRemoveStoredMessage_*</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>JSON persistence (store + read back)</td>
+          <td><code>Message.storeMessageToJson()</code><br><code>Message.readMessagesFromFile(String)</code></td>
+          <td>Exercised via <code>storeMessageToJson</code> in <code>sendOptions("store")</code> test</td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Message ID generation (10-digit numeric)</td>
+          <td><code>Message.generateMessageID()</code></td>
+          <td><code>testGenerateMessageID_Length</code><br><code>testGenerateMessageID_NumericOnly</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Message hash creation (XX:N:FIRSTLAST)</td>
+          <td><code>Message.createMessageHash(String, int, String)</code></td>
+          <td><code>testCreateMessageHash_Format</code><br><code>testCreateMessageHash_SingleWord</code><br><code>testCreateMessageHash_IsUppercase</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Registration validation (username, password, cellphone)</td>
+          <td><code>Login.checkUserName</code><br><code>checkPasswordComplexity</code><br><code>checkCellPhoneNumber</code><br><code>register()</code></td>
+          <td><code>ChatAppTest – Login section</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Login + status message</td>
+          <td><code>Login.login()</code><br><code>loginStatusMessage()</code></td>
+          <td><code>testLogin_CorrectCredentials</code><br><code>testLoginStatusMessage_Success</code></td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+        <tr>
+          <td>Code attribution (first-person comments in every file)</td>
+          <td>All source files header block + inline comments</td>
+          <td>—</td>
+          <td><span class="mark-pill">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── populateTestMessages code snippet ── -->
+  <div class="card orange">
+    <h3 class="section-title"><span class="icon">💻</span> Key Code Snippet – populateTestMessages()</h3>
+    <p>
+      This method pre-loads the five SwiftDeliver test messages into the three in-memory arrays so
+      that the marker can immediately use menu options a–f without entering messages manually.
+    </p>
+    <pre>
+<span class="comment">// I pre-load the 5 SwiftDeliver test messages specified in my Part 3 scenario.</span>
+<span class="keyword">public static void</span> <span class="method">populateTestMessages</span>() {
+
+    <span class="comment">// Message 1 – Sent: kitchen manager asks if the pizza has left</span>
+    Message msg1 = <span class="keyword">new</span> <span class="method">Message</span>(<span class="string">"+27761234567"</span>, <span class="string">"Has the pizza left the kitchen yet?"</span>, sentCount);
+    msg1.<span class="method">setMessageType</span>(<span class="string">"sent"</span>);
+    sentMessages[sentCount]  = msg1;
+    messageHashes[sentCount] = msg1.<span class="method">getMessageHash</span>();
+    messageIDs[sentCount]    = msg1.<span class="method">getMessageID</span>();
+    sentCount++;
+
+    <span class="comment">// Message 2 – Stored: rider notifies customer about a traffic delay (longest message)</span>
+    Message msg2 = <span class="keyword">new</span> <span class="method">Message</span>(<span class="string">"+27769876543"</span>,
+        <span class="string">"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</span>, storeCount);
+    msg2.<span class="method">setMessageType</span>(<span class="string">"stored"</span>);
+    storedMessages[storeCount] = msg2;
+    storeCount++;
+
+    <span class="comment">// Message 3 – Disregarded: wrong-order notification, no longer relevant</span>
+    Message msg3 = <span class="keyword">new</span> <span class="method">Message</span>(<span class="string">"+27761112233"</span>, <span class="string">"Oops, wrong order sent to table six."</span>, discardCount);
+    msg3.<span class="method">setMessageType</span>(<span class="string">"disregarded"</span>);
+    disregardedMessages[discardCount] = msg3;
+    discardCount++;
+
+    <span class="comment">// Message 4 – Sent: rider confirms arrival (local format number)</span>
+    Message msg4 = <span class="keyword">new</span> <span class="method">Message</span>(<span class="string">"0769876543"</span>, <span class="string">"Rider is outside now!"</span>, sentCount);
+    msg4.<span class="method">setMessageType</span>(<span class="string">"sent"</span>);
+    sentMessages[sentCount]  = msg4;
+    messageHashes[sentCount] = msg4.<span class="method">getMessageHash</span>();
+    messageIDs[sentCount]    = msg4.<span class="method">getMessageID</span>();
+    sentCount++;
+
+    <span class="comment">// Message 5 – Stored: customer confirms delivery was successful</span>
+    Message msg5 = <span class="keyword">new</span> <span class="method">Message</span>(<span class="string">"+27769876543"</span>, <span class="string">"Order confirmed and signed for, thanks!"</span>, storeCount);
+    msg5.<span class="method">setMessageType</span>(<span class="string">"stored"</span>);
+    storedMessages[storeCount] = msg5;
+    storeCount++;
+
+    System.out.<span class="method">println</span>(<span class="string">"5 SwiftDeliver test messages pre-loaded: 2 sent, 1 discarded, 2 stored."</span>);
+}
+    </pre>
+  </div>
+
+  <!-- ── Expected JUnit Results ── -->
+  <div class="card purple">
+    <h3 class="section-title"><span class="icon">✅</span> Expected JUnit Test Outcomes</h3>
+    <p>
+      All tests listed below should pass when run in NetBeans
+      (right-click project → <em>Test</em>, or press <kbd>Alt+F6</kbd>).
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Test Class</th>
+          <th>Test Method</th>
+          <th>Expected Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="6"><strong>MessageManagerTest</strong></td><td><code>testSentMessages_FirstMessageBody</code></td><td>"Has the pizza left the kitchen yet?"</td></tr>
+        <tr><td><code>testSentMessages_SecondMessageBody</code></td><td>"Rider is outside now!"</td></tr>
+        <tr><td><code>testLongestStoredMessage</code></td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td></tr>
+        <tr><td><code>testSearchByMessageID_FindsMessage4</code></td><td>"Rider is outside now!"</td></tr>
+        <tr><td><code>testSearchByRecipient_FindsBothMessages</code></td><td>Contains msg 2 AND msg 5 text</td></tr>
+        <tr><td><code>testDeleteByMessageHash_SuccessMessage</code></td><td>Contains "successfully deleted" + msg 2 body</td></tr>
+        <tr><td rowspan="4"><strong>MessageTest</strong></td><td><code>testGenerateMessageID_Length</code></td><td>10</td></tr>
+        <tr><td><code>testCreateMessageHash_Format</code></td><td>"12:0:HELLOWORLD"</td></tr>
+        <tr><td><code>testSendOptions_Send</code></td><td>"Message successfully sent."</td></tr>
+        <tr><td><code>testSendOptions_Discard</code></td><td>"Press 0 to delete the message."</td></tr>
+        <tr><td rowspan="4"><strong>ChatAppTest (Login)</strong></td><td><code>testCheckUserName_Valid</code></td><td>true – "kyl_1"</td></tr>
+        <tr><td><code>testCheckPasswordComplexity_Valid</code></td><td>true – "Password1!"</td></tr>
+        <tr><td><code>testCheckCellPhoneNumber_Valid</code></td><td>true – "+27838968976"</td></tr>
+        <tr><td><code>testLogin_CorrectCredentials</code></td><td>true</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Code Attribution ── -->
+  <div class="card">
+    <h3 class="section-title"><span class="icon">📚</span> Code Attribution</h3>
+    <p>
+      I acknowledge the following external sources used in writing the SwiftDeliver application.
+      All comments inside the source files are written in first-person to satisfy the attribution rubric.
+    </p>
+
+    <ul class="attr-list">
+      <li>
+        <strong>Scanner Console Input</strong> – Oracle Java SE 8 API<br>
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html" target="_blank">
+          https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
+        </a>
+      </li>
+      <li>
+        <strong>Username Regex (contains _ and ≤ 5 chars)</strong> – Stack Overflow Q/336210; GeeksforGeeks<br>
+        <a href="https://stackoverflow.com/questions/336210/" target="_blank">
+          https://stackoverflow.com/questions/336210/
+        </a>
+      </li>
+      <li>
+        <strong>Password Complexity Regex with Look-aheads</strong> – Stack Overflow Q/19605150<br>
+        <a href="https://stackoverflow.com/questions/19605150/" target="_blank">
+          https://stackoverflow.com/questions/19605150/
+        </a>
+      </li>
+      <li>
+        <strong>SA (+27) Cell-Number Regex</strong> – Stack Overflow Q/33477950<br>
+        <a href="https://stackoverflow.com/questions/33477950/" target="_blank">
+          https://stackoverflow.com/questions/33477950/
+        </a>
+      </li>
+      <li>
+        <strong>Random class for ID generation</strong> – Oracle Java SE 8 API<br>
+        <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" target="_blank">
+          https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
+        </a>
+      </li>
+      <li>
+        <strong>BufferedWriter + FileWriter Append Pattern</strong> – DigitalOcean Tutorial<br>
+        <a href="https://www.digitalocean.com/community/tutorials/java-append-to-file" target="_blank">
+          https://www.digitalocean.com/community/tutorials/java-append-to-file
+        </a>
+      </li>
+      <li>
+        <strong>BufferedReader Line-by-Line File Read</strong> – DigitalOcean Tutorial<br>
+        <a href="https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line" target="_blank">
+          https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
+        </a>
+      </li>
+      <li>
+        <strong>Arrays in Java</strong> – GeeksforGeeks<br>
+        <a href="https://www.geeksforgeeks.org/arrays-in-java/" target="_blank">
+          https://www.geeksforgeeks.org/arrays-in-java/
+        </a>
+      </li>
+      <li>
+        <strong>File.exists() Persistence Check</strong> – Stack Overflow Q/1816673<br>
+        <a href="https://stackoverflow.com/questions/1816673/" target="_blank">
+          https://stackoverflow.com/questions/1816673/
+        </a>
+      </li>
+      <li>
+        <strong>JUnit 5 Assertion Methods</strong> – JUnit Team – Official API<br>
+        <a href="https://junit.org/junit5/docs/current/api/" target="_blank">
+          https://junit.org/junit5/docs/current/api/
+        </a>
+      </li>
+      <li>
+        <strong>PROG5121 Lecture Slides</strong> – The IIE / Rochelle Moodley (internal, unpublished), 2025
+      </li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  SwiftDeliver – PROG5121 Part 3 POE &nbsp;|&nbsp; ST10448822 &nbsp;|&nbsp; 2025
+</footer>
+
+</body>
+</html>

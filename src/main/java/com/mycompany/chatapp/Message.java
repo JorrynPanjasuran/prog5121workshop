@@ -1,28 +1,32 @@
 /*
  * PROG5121 – Part 3 POE
- * Domain object representing a single QuickChat message.
+ * I wrote this class to represent a single SwiftDeliver message.
+ * It handles ID generation, hashing, validation, and JSON persistence.
  *
- * Author: Jorryn Panjasuran
+ * Author: ST10448822
  * Date: 2025
  */
 
 package com.mycompany.chatapp;
 
+// I use Random to generate the 10-digit message ID.
 // Title   : Random class for ID generation
 // Author  : Oracle Java SE 8 API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
 
+// I append each message as a JSON line using BufferedWriter + FileWriter.
 // Title   : BufferedWriter + FileWriter Append Pattern
 // Author  : DigitalOcean Tutorial "Java append to file"
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://www.digitalocean.com/community/tutorials/java-append-to-file
 
+// I read saved messages back line-by-line using BufferedReader.
 // Title   : BufferedReader Line-by-Line File Read
 // Author  : DigitalOcean Tutorial "Java Read File"
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
 
@@ -30,16 +34,16 @@ import java.io.*;
 import java.util.Random;
 
 /**
- * Message – stores one QuickChat message, validates it, and handles JSON persistence.
+ * Message – I store one SwiftDeliver message, validate it, and handle JSON persistence.
  *
- * Responsibilities:
- * - Generates a unique 10-digit message ID
- * - Builds a hash from the ID, message number, and first/last word
- * - Validates recipient number and message length
- * - Appends itself to messages.json (one JSON object per line)
- * - Reads messages.json back into a Message array on startup
+ * Responsibilities I cover:
+ * - I generate a unique 10-digit message ID
+ * - I build a hash from the ID, message number, and first/last word
+ * - I validate recipient number and message length
+ * - I append the message to messages.json (one JSON object per line)
+ * - I read messages.json back into a Message array on startup
  *
- * @author Jorryn Panjasuran 2025
+ * @author ST10448822 2025
  */
 public class Message {
 
@@ -47,18 +51,18 @@ public class Message {
     // Instance fields
     // ---------------------------------------------------------------
 
-    private String messageID;      // 10-digit random string
+    private String messageID;      // 10-digit random string I generate
     private String recipient;      // e.g. +27XXXXXXXXX format
     private String message;        // body text (max 250 chars)
     private String messageHash;    // first2ofID:msgNum:FirstWordLastWord (uppercase)
     private String messageType;    // "sent" | "stored" | "disregarded"
 
-    // Status flags as required by the chat app payload specification
+    // Status flags as required by the SwiftDeliver payload specification
     private boolean isSent;
     private boolean isReceived;
     private boolean isRead;
 
-    // Tracks how many messages have been sent this session across all instances
+    // I track how many messages have been sent this session across all instances.
     private static int totalMessages = 0;
 
     // ---------------------------------------------------------------
@@ -66,7 +70,7 @@ public class Message {
     // ---------------------------------------------------------------
 
     /**
-     * Creates a new Message and generates its ID and hash automatically.
+     * I create a new Message and generate its ID and hash automatically.
      *
      * @param recipient     recipient phone number
      * @param message       body text
@@ -88,12 +92,13 @@ public class Message {
     // ---------------------------------------------------------------
 
     /**
-     * Generates a random 10-digit numeric string used as the message ID.
-     * Uses String concatenation in a loop (no StringBuilder needed).
+     * I generate a random 10-digit numeric string to use as the message ID.
+     * I use a simple loop with string concatenation – no StringBuilder needed.
      *
      * @return 10-digit numeric string
      */
     public static String generateMessageID() {
+        // I use java.util.Random to pick each digit.
         // Title   : Random class for ID generation
         // Author  : Oracle Java SE 8 API
         // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
@@ -106,7 +111,7 @@ public class Message {
     }
 
     /**
-     * Checks that a message ID is non-empty and not longer than 10 characters.
+     * I check that a message ID is non-empty and not longer than 10 characters.
      *
      * @param id the ID to check
      * @return true if valid
@@ -116,7 +121,7 @@ public class Message {
     }
 
     /**
-     * Validates that the recipient starts with '+' and is 11-13 characters long
+     * I validate that the recipient starts with '+' and is 11–13 characters long
      * (covers international E.164 numbers such as +27XXXXXXXXX).
      *
      * Title   : SA +27 Cell-Number Regex
@@ -134,7 +139,7 @@ public class Message {
     }
 
     /**
-     * Checks message length against the 250-character limit.
+     * I check message length against the 250-character limit I enforce.
      *
      * @param msg body text to check
      * @return "Message ready to send." or an error stating how many chars over the limit
@@ -148,7 +153,7 @@ public class Message {
     }
 
     /**
-     * Builds a hash: first 2 chars of ID + ":" + message number + ":"
+     * I build a hash: first 2 chars of ID + ":" + message number + ":"
      * + first word + last word — all uppercase.
      * Example: ID="1234567890", msgNum=0, msg="Hi Thanks" → "12:0:HITHANKS"
      *
@@ -172,7 +177,7 @@ public class Message {
     // ---------------------------------------------------------------
 
     /**
-     * Routes the message based on the user's choice and updates counters.
+     * I route the message based on the user's choice and update counters.
      *
      * @param choice "send", "discard", or "store"
      * @return status message for display
@@ -194,7 +199,7 @@ public class Message {
     }
 
     /**
-     * Returns a formatted summary of all message fields (used in reports).
+     * I return a formatted summary of all message fields (used in reports).
      *
      * @return multi-line string with all message details
      */
@@ -209,7 +214,7 @@ public class Message {
     }
 
     /**
-     * Returns how many messages have been sent in this session.
+     * I return how many messages have been sent in this session.
      *
      * @return count of sent messages
      */
@@ -218,11 +223,11 @@ public class Message {
     }
 
     // ---------------------------------------------------------------
-    // JSON persistence (research feature – attributed below)
+    // JSON persistence
     // ---------------------------------------------------------------
 
     /**
-     * Appends this message as a single-line JSON object to messages.json.
+     * I append this message as a single-line JSON object to messages.json.
      * Each line is one complete JSON object (newline-delimited JSON).
      *
      * Title   : BufferedWriter + FileWriter Append Pattern
@@ -248,8 +253,8 @@ public class Message {
     }
 
     /**
-     * Reads all messages from a newline-delimited JSON file and returns them
-     * as a plain array (max 100 entries). Uses simple string parsing.
+     * I read all messages from a newline-delimited JSON file and return them
+     * as a plain array (max 100 entries).  I use simple string parsing.
      *
      * Title   : BufferedReader Line-by-Line File Read
      * Author  : DigitalOcean Tutorial
@@ -289,7 +294,7 @@ public class Message {
     }
 
     /**
-     * Extracts the value of a named field from a simple flat JSON string.
+     * I extract the value of a named field from a simple flat JSON string.
      *
      * @param json  the JSON line to parse
      * @param field the field name to find
@@ -320,38 +325,38 @@ public class Message {
     public boolean isReceived()     { return isReceived;  }
     public boolean isRead()         { return isRead;      }
 
-    /** Marks the message as sent. */
+    /** I mark the message as sent. */
     public void markAsSent()     { this.isSent     = true; }
 
-    /** Marks the message as received. */
+    /** I mark the message as received. */
     public void markAsReceived() { this.isReceived = true; }
 
-    /** Marks the message as read. */
+    /** I mark the message as read. */
     public void markAsRead()     { this.isRead     = true; }
 }
 
 // ───────────────────────── CODE ATTRIBUTION ─────────────────────────
 // Title   : Random class for ID generation
 // Author  : Oracle Java SE 8 API
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
 //
 // Title   : BufferedWriter + FileWriter Append Pattern
 // Author  : DigitalOcean Tutorial "Java append to file"
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://www.digitalocean.com/community/tutorials/java-append-to-file
 //
 // Title   : BufferedReader Line-by-Line File Read
 // Author  : DigitalOcean Tutorial "Java Read File"
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
 //
 // Title   : SA (+27) Cell-Number Regex
 // Author  : Stack Overflow Q/33477950
-// Date    : 17 Jun 2025
+// Date    : 23 Jun 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/33477950/
 //

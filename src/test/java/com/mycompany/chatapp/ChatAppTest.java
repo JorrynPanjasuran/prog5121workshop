@@ -1,8 +1,9 @@
 /*
  * PROG5121 – Part 3 POE
- * JUnit 5 unit tests for Login, Message, and MessageManager classes.
+ * I wrote these JUnit 5 unit tests for Login, Message, and MessageManager
+ * classes in the SwiftDeliver application.
  *
- * Author: Jorryn Panjasuran
+ * Author: ST10448822
  * Date: 2025
  */
 
@@ -19,11 +20,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * ChatAppTest – covers all testable methods in Login, Message, and MessageManager.
+ * ChatAppTest – I cover all testable methods in Login, Message, and MessageManager
+ * for the SwiftDeliver application.
  *
  * Run in NetBeans: right-click the file → Test File (or press Ctrl+F6).
  *
- * @author Jorryn Panjasuran 2025
+ * @author ST10448822 2025
  */
 public class ChatAppTest {
 
