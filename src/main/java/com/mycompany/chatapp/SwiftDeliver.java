@@ -19,7 +19,7 @@ package com.mycompany.chatapp;
 import java.util.Scanner;
 
 /**
- * ChatApp – I launch registration, login, and the main message menu for
+ * SwiftDeliver – I launch registration, login, and the main message menu for
  * SwiftDeliver.
  *
  * Main menu (Part 2 + Part 3):
@@ -30,7 +30,7 @@ import java.util.Scanner;
  *
  * @author ST10448822 2025
  */
-public class ChatApp {
+public class SwiftDeliver {
 
     public static void main(String[] args) {
 

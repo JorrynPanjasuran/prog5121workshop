@@ -20,14 +20,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * ChatAppTest – I cover all testable methods in Login, Message, and MessageManager
+ * SwiftDeliverTest – I cover all testable methods in Login, Message, and MessageManager
  * for the SwiftDeliver application.
  *
- * Run in NetBeans: right-click the file → Test File (or press Ctrl+F6).
+ * Run in NetBeans: right-click the file, choose Test File, or press Ctrl+F6.
  *
  * @author ST10448822 2025
  */
-public class ChatAppTest {
+public class SwiftDeliverTest {
 
     // Reset message arrays before every test so tests don't affect each other
     @BeforeEach

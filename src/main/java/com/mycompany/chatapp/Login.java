@@ -62,7 +62,7 @@ public class Login {
     }
 
     // ---------------------------------------------------------------
-    // Static validation methods (I call these from ChatApp before building the object)
+    // Static validation methods (I call these from SwiftDeliver before building the object)
     // ---------------------------------------------------------------
 
     /**
