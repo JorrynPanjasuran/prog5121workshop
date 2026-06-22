@@ -1,9 +1,7 @@
 /*
  * PROG5121 – Part 3 POE
  * JUnit 5 tests for the MessageManager class.
- * Tests: array counters, populateTestMessages, removeSentMessageAtIndex,
- *        deleteByMessageHash, searchByMessageID, searchByRecipient,
- *        showLongestMessage, displayReport, and resetForUnitTests.
+ * Tests use the exact Part 3 POE test data as specified in the rubric.
  *
  * Author: Jorryn Panjasuran
  * Date: 2025
@@ -28,20 +26,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * MessageManagerTest – unit tests for the three message arrays,
- * their counters, removal and deletion logic, and all report methods.
+ * MessageManagerTest – unit tests for the five message arrays, their counters,
+ * and all report / search / delete methods.
  *
- * @BeforeEach wipes every array and counter before each test so that
- * no test carries state into the next one.
+ * All tests use the Part 3 POE test data:
+ *   Message 1: +27834557896  "Did you get the cake?"           → Sent
+ *   Message 2: +27838884567  "Where are you? You are late!..." → Stored
+ *   Message 3: +27834484567  "Yohoooo, I am at your gate."     → Disregarded
+ *   Message 4: 0838884567    "It is dinner time !"              → Sent
+ *   Message 5: +27838884567  "Ok, I am leaving without you."   → Stored
+ *
+ * @BeforeEach wipes every array and counter before each test.
  *
  * @author Jorryn Panjasuran 2025
  */
 public class MessageManagerTest {
 
-    /**
-     * Wipes all arrays and zeroes all counters before every single test.
-     * This guarantees every test starts from a known empty state.
-     */
     @BeforeEach
     public void setUp() {
         MessageManager.resetForUnitTests();
@@ -51,51 +51,53 @@ public class MessageManagerTest {
     // Initial state — counters must all be zero after reset
     // ===========================================================
 
-    /**
-     * sentCount must be 0 immediately after a reset.
-     */
     @Test
     public void testSentCount_StartsAtZero() {
         assertEquals(0, MessageManager.getSentCount(),
                 "Sent count should start at 0.");
     }
 
-    /**
-     * storeCount must be 0 immediately after a reset.
-     */
     @Test
     public void testStoreCount_StartsAtZero() {
         assertEquals(0, MessageManager.getStoreCount(),
                 "Store count should start at 0.");
     }
 
-    /**
-     * discardCount must be 0 immediately after a reset.
-     */
     @Test
     public void testDiscardCount_StartsAtZero() {
         assertEquals(0, MessageManager.getDiscardCount(),
                 "Discard count should start at 0.");
     }
 
+    // ===========================================================
+    // Part 3 POE Test: Sent Messages array correctly populated
+    // "The system returns: 'Did you get the cake?', 'It is dinner time!'"
+    // ===========================================================
+
     /**
-     * Sum of all three counters must be 0 after a reset.
+     * After populateTestMessages(), sentMessages[0] must contain "Did you get the cake?"
      */
     @Test
-    public void testAllCounters_ZeroAfterReset() {
-        int total = MessageManager.getSentCount()
-                  + MessageManager.getStoreCount()
-                  + MessageManager.getDiscardCount();
-        assertEquals(0, total,
-                "All counters combined should equal 0 after reset.");
+    public void testSentMessages_FirstMessageBody() {
+        MessageManager.populateTestMessages();
+        assertEquals("Did you get the cake?",
+                MessageManager.sentMessages[0].getMessage(),
+                "First sent message should be 'Did you get the cake?'");
     }
 
-    // ===========================================================
-    // populateTestMessages — counter checks
-    // ===========================================================
+    /**
+     * After populateTestMessages(), sentMessages[1] must contain "It is dinner time !"
+     */
+    @Test
+    public void testSentMessages_SecondMessageBody() {
+        MessageManager.populateTestMessages();
+        assertEquals("It is dinner time !",
+                MessageManager.sentMessages[1].getMessage(),
+                "Second sent message should be 'It is dinner time !'");
+    }
 
     /**
-     * populateTestMessages must add exactly 2 messages to the sent array.
+     * Sent count must be exactly 2 after populateTestMessages().
      */
     @Test
     public void testPopulateTestMessages_SentCount() {
@@ -105,17 +107,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * populateTestMessages must add exactly 1 message to the disregarded array.
-     */
-    @Test
-    public void testPopulateTestMessages_DiscardCount() {
-        MessageManager.populateTestMessages();
-        assertEquals(1, MessageManager.getDiscardCount(),
-                "populateTestMessages should add 1 disregarded message.");
-    }
-
-    /**
-     * populateTestMessages must add exactly 2 messages to the stored array.
+     * Store count must be exactly 2 after populateTestMessages().
      */
     @Test
     public void testPopulateTestMessages_StoreCount() {
@@ -125,62 +117,191 @@ public class MessageManagerTest {
     }
 
     /**
-     * Total messages across all three arrays after populateTestMessages must be 5.
+     * Discard count must be exactly 1 after populateTestMessages().
+     */
+    @Test
+    public void testPopulateTestMessages_DiscardCount() {
+        MessageManager.populateTestMessages();
+        assertEquals(1, MessageManager.getDiscardCount(),
+                "populateTestMessages should add 1 disregarded message.");
+    }
+
+    /**
+     * Total across all three arrays must be 5.
      */
     @Test
     public void testPopulateTestMessages_TotalFive() {
         MessageManager.populateTestMessages();
         int total = MessageManager.getSentCount()
-                  + MessageManager.getDiscardCount()
-                  + MessageManager.getStoreCount();
+                  + MessageManager.getStoreCount()
+                  + MessageManager.getDiscardCount();
         assertEquals(5, total,
-                "populateTestMessages should place 5 messages in total across all arrays.");
+                "Total messages across all arrays should be 5.");
     }
 
     // ===========================================================
-    // populateTestMessages — content checks
+    // Part 3 POE Test: Display the longest Message
+    // "The system returns: 'Where are you? You are late! I have asked you to be on time.'"
     // ===========================================================
 
     /**
-     * The first sent message must be addressed to +27834557896.
+     * getLongestStoredMessage must return the body of message 2.
      */
     @Test
-    public void testPopulateTestMessages_FirstSentRecipient() {
+    public void testLongestStoredMessage() {
         MessageManager.populateTestMessages();
-        assertEquals("+27834557896",
-                MessageManager.sentMessages[0].getRecipient(),
-                "First sent message should be addressed to +27834557896.");
+        String longest = MessageManager.getLongestStoredMessage();
+        assertEquals("Where are you? You are late! I have asked you to be on time.",
+                longest,
+                "The longest stored message should be message 2.");
     }
 
     /**
-     * The second sent message must be addressed to +27831231234.
+     * getLongestStoredMessage must return empty string when there are no stored messages.
      */
     @Test
-    public void testPopulateTestMessages_SecondSentRecipient() {
+    public void testLongestStoredMessage_Empty() {
+        String longest = MessageManager.getLongestStoredMessage();
+        assertEquals("", longest,
+                "Should return empty string when no stored messages exist.");
+    }
+
+    // ===========================================================
+    // Part 3 POE Test: Search for messageID
+    // "Test Data: message 4 — The system returns: 'It is dinner time!'"
+    // ===========================================================
+
+    /**
+     * searchByMessageID using message 4's auto-generated ID must return "It is dinner time !"
+     */
+    @Test
+    public void testSearchByMessageID_FindsMessage4() {
         MessageManager.populateTestMessages();
-        assertEquals("+27831231234",
-                MessageManager.sentMessages[1].getRecipient(),
-                "Second sent message should be addressed to +27831231234.");
+        // Message 4 is the second sent message (index 1)
+        String msg4ID = MessageManager.sentMessages[1].getMessageID();
+        String result = MessageManager.searchByMessageID(msg4ID);
+        assertEquals("It is dinner time !", result,
+                "Searching by message 4's ID should return 'It is dinner time !'");
     }
 
     /**
-     * storedMessages[0] must not be null after populate.
+     * searchByMessageID for an ID that does not exist must return the not-found message.
      */
     @Test
-    public void testPopulateTestMessages_StoredNotNull() {
+    public void testSearchByMessageID_NotFound() {
         MessageManager.populateTestMessages();
-        assertNotNull(MessageManager.storedMessages[0],
-                "storedMessages[0] should not be null after populate.");
+        String result = MessageManager.searchByMessageID("9999999999");
+        assertEquals("Message ID not found.", result,
+                "Searching for a non-existent ID should return not-found message.");
+    }
+
+    // ===========================================================
+    // Part 3 POE Test: Search all messages for a particular recipient
+    // "Test Data: +27838884567 — returns message 2 and message 5"
+    // ===========================================================
+
+    /**
+     * searchByRecipient("+27838884567") must return both message 2 and message 5.
+     */
+    @Test
+    public void testSearchByRecipient_FindsBothMessages() {
+        MessageManager.populateTestMessages();
+        String result = MessageManager.searchByRecipient("+27838884567");
+        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."),
+                "Result should contain message 2.");
+        assertTrue(result.contains("Ok, I am leaving without you."),
+                "Result should contain message 5.");
     }
 
     /**
-     * disregardedMessages[0] must not be null after populate.
+     * searchByRecipient for a number with no messages must return the not-found message.
      */
     @Test
-    public void testPopulateTestMessages_DisregardedNotNull() {
+    public void testSearchByRecipient_NotFound() {
         MessageManager.populateTestMessages();
-        assertNotNull(MessageManager.disregardedMessages[0],
-                "disregardedMessages[0] should not be null after populate.");
+        String result = MessageManager.searchByRecipient("+27000000000");
+        assertEquals("No messages found for that recipient.", result,
+                "Should return not-found message when recipient has no messages.");
+    }
+
+    // ===========================================================
+    // Part 3 POE Test: Delete a message using a message hash
+    // "Test Data: Test Message 2 — 'Where are you?...' successfully deleted."
+    // ===========================================================
+
+    /**
+     * deleteByMessageHash using message 2's hash must return the success string.
+     */
+    @Test
+    public void testDeleteByMessageHash_SuccessMessage() {
+        MessageManager.populateTestMessages();
+        // Message 2 is the first stored message (index 0)
+        String hash = MessageManager.storedMessages[0].getMessageHash();
+        String result = MessageManager.deleteByMessageHash(hash);
+        assertTrue(result.contains("successfully deleted"),
+                "Delete result should confirm successful deletion.");
+        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."),
+                "Delete result should name the deleted message.");
+    }
+
+    /**
+     * After deleting message 2, the stored count must decrease by 1.
+     */
+    @Test
+    public void testDeleteByMessageHash_ReducesStoreCount() {
+        MessageManager.populateTestMessages();
+        int before = MessageManager.getStoreCount();
+        String hash = MessageManager.storedMessages[0].getMessageHash();
+        MessageManager.deleteByMessageHash(hash);
+        assertEquals(before - 1, MessageManager.getStoreCount(),
+                "Deleting a stored message should reduce storeCount by 1.");
+    }
+
+    /**
+     * Supplying a hash that does not exist must leave storeCount unchanged.
+     */
+    @Test
+    public void testDeleteByMessageHash_NotFound() {
+        MessageManager.populateTestMessages();
+        int before = MessageManager.getStoreCount();
+        String result = MessageManager.deleteByMessageHash("NONEXISTENT:HASH");
+        assertEquals(before, MessageManager.getStoreCount(),
+                "Deleting with an unknown hash must not change storeCount.");
+        assertEquals("Message hash not found.", result,
+                "Result should say hash not found.");
+    }
+
+    // ===========================================================
+    // Part 3 POE Test: Display Report (does not throw)
+    // ===========================================================
+
+    /**
+     * displayReport with sent messages must not throw any exception.
+     */
+    @Test
+    public void testDisplayReport_WithMessages_NoException() {
+        MessageManager.populateTestMessages();
+        assertDoesNotThrow(() -> MessageManager.displayReport(),
+                "displayReport with messages should not throw.");
+    }
+
+    /**
+     * displayReport with no messages must not throw any exception.
+     */
+    @Test
+    public void testDisplayReport_NoMessages_NoException() {
+        assertDoesNotThrow(() -> MessageManager.displayReport(),
+                "displayReport with empty array should not throw.");
+    }
+
+    /**
+     * displayStoredReport with stored messages must not throw any exception.
+     */
+    @Test
+    public void testDisplayStoredReport_WithMessages_NoException() {
+        MessageManager.populateTestMessages();
+        assertDoesNotThrow(() -> MessageManager.displayStoredReport(),
+                "displayStoredReport with messages should not throw.");
     }
 
     // ===========================================================
@@ -200,189 +321,55 @@ public class MessageManagerTest {
     }
 
     /**
-     * After removing index 0, the message that was at index 1 must now be at index 0
-     * (the array must compact with no gaps).
+     * After removing index 0, what was at index 1 moves to index 0 (array compacts).
      */
     @Test
     public void testRemoveSentMessage_ArrayCompacted() {
         MessageManager.populateTestMessages();
-        // Record the recipient of the message that is currently at index 1
-        String secondRecipient = MessageManager.sentMessages[1].getRecipient();
+        String secondMsg = MessageManager.sentMessages[1].getMessage();
         MessageManager.removeSentMessageAtIndex(0);
-        // After compaction, what was [1] must now be at [0]
-        assertEquals(secondRecipient, MessageManager.sentMessages[0].getRecipient(),
+        assertEquals(secondMsg, MessageManager.sentMessages[0].getMessage(),
                 "After removal at [0], the former [1] message must move to [0].");
     }
 
     /**
-     * The slot at the old end of the array must be null after removal
-     * (no dangling reference left behind).
+     * The vacated last slot must be null after compaction.
      */
     @Test
     public void testRemoveSentMessage_LastSlotNulled() {
         MessageManager.populateTestMessages();
-        int before = MessageManager.getSentCount();   // 2
+        int before = MessageManager.getSentCount();
         MessageManager.removeSentMessageAtIndex(0);
-        // Slot [before - 1] = slot [1] must now be null
         assertNull(MessageManager.sentMessages[before - 1],
                 "The vacated last slot must be null after compaction.");
     }
 
-    /**
-     * Removing both messages one at a time must leave sentCount at 0.
-     */
-    @Test
-    public void testRemoveSentMessage_RemoveAll() {
-        MessageManager.populateTestMessages();   // sentCount = 2
-        MessageManager.removeSentMessageAtIndex(0);  // sentCount = 1
-        MessageManager.removeSentMessageAtIndex(0);  // sentCount = 0
-        assertEquals(0, MessageManager.getSentCount(),
-                "Removing all sent messages should leave sentCount at 0.");
-    }
-
     // ===========================================================
-    // deleteByMessageHash
+    // removeStoredMessageAtIndex
     // ===========================================================
 
     /**
-     * Deleting by the correct hash must reduce sentCount by 1.
+     * Removing the stored message at index 0 must reduce storeCount by 1.
      */
     @Test
-    public void testDeleteByMessageHash_ReducesCount() {
+    public void testRemoveStoredMessage_ReducesCount() {
         MessageManager.populateTestMessages();
-        int before = MessageManager.getSentCount();
-        String hash = MessageManager.sentMessages[0].getMessageHash();
-        MessageManager.deleteByMessageHash(hash);
-        assertEquals(before - 1, MessageManager.getSentCount(),
-                "Deleting by hash should reduce sentCount by 1.");
+        int before = MessageManager.getStoreCount();
+        MessageManager.removeStoredMessageAtIndex(0);
+        assertEquals(before - 1, MessageManager.getStoreCount(),
+                "Removing one stored message should reduce storeCount by 1.");
     }
 
     /**
-     * Supplying a hash that does not exist must leave sentCount unchanged.
+     * After removing stored index 0, what was at index 1 moves to index 0.
      */
     @Test
-    public void testDeleteByMessageHash_NotFound() {
+    public void testRemoveStoredMessage_ArrayCompacted() {
         MessageManager.populateTestMessages();
-        int before = MessageManager.getSentCount();
-        MessageManager.deleteByMessageHash("NONEXISTENT:HASH");
-        assertEquals(before, MessageManager.getSentCount(),
-                "Deleting with an unknown hash must not change sentCount.");
-    }
-
-    /**
-     * After deletion the removed message's recipient must no longer appear
-     * anywhere in the remaining sentMessages slots.
-     */
-    @Test
-    public void testDeleteByMessageHash_MessageGone() {
-        MessageManager.populateTestMessages();
-        String hash             = MessageManager.sentMessages[0].getMessageHash();
-        String deletedRecipient = MessageManager.sentMessages[0].getRecipient();
-        MessageManager.deleteByMessageHash(hash);
-
-        // Check every remaining slot — none should hold the deleted recipient
-        for (int i = 0; i < MessageManager.getSentCount(); i++) {
-            assertNotEquals(deletedRecipient,
-                    MessageManager.sentMessages[i].getRecipient(),
-                    "Deleted message's recipient must no longer appear in sentMessages.");
-        }
-    }
-
-    // ===========================================================
-    // searchByMessageID — must not throw
-    // ===========================================================
-
-    /**
-     * Searching for a message ID that exists must not throw any exception.
-     */
-    @Test
-    public void testSearchByMessageID_ExistingID_NoException() {
-        MessageManager.populateTestMessages();
-        String existingID = MessageManager.sentMessages[0].getMessageID();
-        assertDoesNotThrow(() -> MessageManager.searchByMessageID(existingID),
-                "Searching for an existing ID should not throw.");
-    }
-
-    /**
-     * Searching for a message ID that does not exist must not throw any exception.
-     */
-    @Test
-    public void testSearchByMessageID_NotFound_NoException() {
-        MessageManager.populateTestMessages();
-        assertDoesNotThrow(() -> MessageManager.searchByMessageID("9999999999"),
-                "Searching for a missing ID should not throw.");
-    }
-
-    // ===========================================================
-    // searchByRecipient — must not throw
-    // ===========================================================
-
-    /**
-     * Searching for a recipient that has sent messages must not throw.
-     */
-    @Test
-    public void testSearchByRecipient_ExistingRecipient_NoException() {
-        MessageManager.populateTestMessages();
-        assertDoesNotThrow(() -> MessageManager.searchByRecipient("+27834557896"),
-                "Searching for an existing recipient should not throw.");
-    }
-
-    /**
-     * Searching for a recipient with no messages must not throw.
-     */
-    @Test
-    public void testSearchByRecipient_NotFound_NoException() {
-        MessageManager.populateTestMessages();
-        assertDoesNotThrow(() -> MessageManager.searchByRecipient("+27000000000"),
-                "Searching for a missing recipient should not throw.");
-    }
-
-    // ===========================================================
-    // showLongestMessage — must not throw
-    // ===========================================================
-
-    /**
-     * showLongestMessage when there are sent messages must not throw.
-     */
-    @Test
-    public void testShowLongestMessage_WithMessages_NoException() {
-        MessageManager.populateTestMessages();
-        assertDoesNotThrow(() -> MessageManager.showLongestMessage(),
-                "showLongestMessage with messages should not throw.");
-    }
-
-    /**
-     * showLongestMessage when the sent array is empty must not throw.
-     */
-    @Test
-    public void testShowLongestMessage_NoMessages_NoException() {
-        // setUp() already reset everything — no messages exist
-        assertDoesNotThrow(() -> MessageManager.showLongestMessage(),
-                "showLongestMessage with an empty array should not throw.");
-    }
-
-    // ===========================================================
-    // displayReport — must not throw
-    // ===========================================================
-
-    /**
-     * displayReport when there are sent messages must not throw.
-     */
-    @Test
-    public void testDisplayReport_WithMessages_NoException() {
-        MessageManager.populateTestMessages();
-        assertDoesNotThrow(() -> MessageManager.displayReport(),
-                "displayReport with messages should not throw.");
-    }
-
-    /**
-     * displayReport when the sent array is empty must not throw.
-     */
-    @Test
-    public void testDisplayReport_NoMessages_NoException() {
-        // setUp() already reset everything — no messages exist
-        assertDoesNotThrow(() -> MessageManager.displayReport(),
-                "displayReport with an empty array should not throw.");
+        String secondMsg = MessageManager.storedMessages[1].getMessage();
+        MessageManager.removeStoredMessageAtIndex(0);
+        assertEquals(secondMsg, MessageManager.storedMessages[0].getMessage(),
+                "After removal at [0], the former [1] stored message must move to [0].");
     }
 
     // ===========================================================
@@ -423,7 +410,7 @@ public class MessageManagerTest {
     }
 
     /**
-     * After a reset, sentMessages[0] must be null — the array is truly cleared.
+     * After a reset, sentMessages[0] must be null.
      */
     @Test
     public void testReset_ArraysNulled() {
@@ -446,14 +433,6 @@ public class MessageManagerTest {
 // Date    : 17 Jun 2025
 // Version : 1.0
 // Source  : https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations
-//
-// Title   : Arrays.fill() Array Reset
-// Author  : Oracle Arrays API; W3Schools
-// Date    : 17 Jun 2025
-// Version : 1.0
-// Sources :
-//   https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html
-//   https://www.w3schools.com/java/ref_arrays_fill.asp
 //
 // Title   : PROG5121 Lecture Slides
 // Author  : The IIE / Rochelle Moodley (internal, unpublished)

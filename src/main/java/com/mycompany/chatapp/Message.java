@@ -8,13 +8,11 @@
 
 package com.mycompany.chatapp;
 
-// Title   : Random ID & StringBuilder Pattern
+// Title   : Random class for ID generation
 // Author  : Oracle Java SE 8 API
 // Date    : 17 Jun 2025
 // Version : 1.0
-// Sources :
-//   https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
-//   https://docs.oracle.com/javase/8/docs/api/java/lang/StringBuilder.html
+// Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
 
 // Title   : BufferedWriter + FileWriter Append Pattern
 // Author  : DigitalOcean Tutorial "Java append to file"
@@ -29,17 +27,17 @@ package com.mycompany.chatapp;
 // Source  : https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
 
 import java.io.*;
-import java.util.*;
+import java.util.Random;
 
 /**
  * Message – stores one QuickChat message, validates it, and handles JSON persistence.
- * <p>
+ *
  * Responsibilities:
  * - Generates a unique 10-digit message ID
  * - Builds a hash from the ID, message number, and first/last word
  * - Validates recipient number and message length
  * - Appends itself to messages.json (one JSON object per line)
- * - Reads messages.json back into a List on startup
+ * - Reads messages.json back into a Message array on startup
  *
  * @author Jorryn Panjasuran 2025
  */
@@ -50,17 +48,17 @@ public class Message {
     // ---------------------------------------------------------------
 
     private String messageID;      // 10-digit random string
-    private String recipient;      // +27XXXXXXXXX format
+    private String recipient;      // e.g. +27XXXXXXXXX format
     private String message;        // body text (max 250 chars)
     private String messageHash;    // first2ofID:msgNum:FirstWordLastWord (uppercase)
     private String messageType;    // "sent" | "stored" | "disregarded"
 
-    // Status flags
+    // Status flags as required by the chat app payload specification
     private boolean isSent;
     private boolean isReceived;
     private boolean isRead;
 
-    // Counts how many messages have been sent this session across all instances
+    // Tracks how many messages have been sent this session across all instances
     private static int totalMessages = 0;
 
     // ---------------------------------------------------------------
@@ -70,7 +68,7 @@ public class Message {
     /**
      * Creates a new Message and generates its ID and hash automatically.
      *
-     * @param recipient     recipient phone number in +27XXXXXXXXX format
+     * @param recipient     recipient phone number
      * @param message       body text
      * @param messageNumber zero-based position in the current send batch (used for hash)
      */
@@ -79,31 +77,32 @@ public class Message {
         this.recipient   = recipient;
         this.message     = message;
         this.messageHash = createMessageHash(this.messageID, messageNumber, message);
-        this.messageType = "sent";   // default; caller can change with setMessageType()
+        this.messageType = "sent";
         this.isSent      = true;
         this.isReceived  = true;
         this.isRead      = true;
     }
 
     // ---------------------------------------------------------------
-    // Static validation methods (called before object is constructed)
+    // Static validation methods
     // ---------------------------------------------------------------
 
     /**
      * Generates a random 10-digit numeric string used as the message ID.
+     * Uses String concatenation in a loop (no StringBuilder needed).
      *
      * @return 10-digit numeric string
      */
     public static String generateMessageID() {
-        // Title   : Random-ID & StringBuilder Pattern
+        // Title   : Random class for ID generation
         // Author  : Oracle Java SE 8 API
         // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
         Random rand = new Random();
-        StringBuilder id = new StringBuilder();
+        String id = "";
         for (int i = 0; i < 10; i++) {
-            id.append(rand.nextInt(10));
+            id = id + rand.nextInt(10);
         }
-        return id.toString();
+        return id;
     }
 
     /**
@@ -117,16 +116,17 @@ public class Message {
     }
 
     /**
-     * Validates that the recipient starts with '+' and is 11–13 characters long
-     * (covers +27XXXXXXXXX and similar E.164 numbers).
+     * Validates that the recipient starts with '+' and is 11-13 characters long
+     * (covers international E.164 numbers such as +27XXXXXXXXX).
+     *
+     * Title   : SA +27 Cell-Number Regex
+     * Author  : Stack Overflow Q/33477950
+     * Source  : https://stackoverflow.com/questions/33477950/
      *
      * @param number phone number string
      * @return true if valid
      */
     public static boolean checkRecipientCell(String number) {
-        // Title   : SA +27 Cell-Number Regex
-        // Author  : Stack Overflow Q/33477950
-        // Source  : https://stackoverflow.com/questions/33477950/
         return number != null
                 && number.startsWith("+")
                 && number.length() >= 11
@@ -148,9 +148,9 @@ public class Message {
     }
 
     /**
-     * Builds a simple hash: first 2 chars of ID + ":" + message number + ":"
+     * Builds a hash: first 2 chars of ID + ":" + message number + ":"
      * + first word + last word — all uppercase.
-     * Example: "AB:0:HIHELLO"
+     * Example: ID="1234567890", msgNum=0, msg="Hi Thanks" → "12:0:HITHANKS"
      *
      * @param id     the message ID
      * @param msgNum zero-based message index
@@ -158,13 +158,13 @@ public class Message {
      * @return uppercase hash string
      */
     public static String createMessageHash(String id, int msgNum, String msg) {
-        // Split on whitespace to extract first and last word
         String[] words = msg.trim().split("\\s+");
         String first = words.length > 0
                 ? words[0].replaceAll("[^a-zA-Z0-9]", "") : "NA";
         String last  = words.length > 1
                 ? words[words.length - 1].replaceAll("[^a-zA-Z0-9]", "") : "NA";
-        return (id.substring(0, 2) + ":" + msgNum + ":" + first + last).toUpperCase();
+        String hash = id.substring(0, 2) + ":" + msgNum + ":" + first + last;
+        return hash.toUpperCase();
     }
 
     // ---------------------------------------------------------------
@@ -179,17 +179,17 @@ public class Message {
      */
     public String sendOptions(String choice) {
         switch (choice.toLowerCase()) {
-            case "send" -> {
+            case "send":
                 markAsSent();
                 totalMessages++;
                 return "Message successfully sent.";
-            }
-            case "discard" -> { return "Press 0 to delete message."; }
-            case "store"   -> {
+            case "discard":
+                return "Press 0 to delete message.";
+            case "store":
                 storeMessageToJson();
                 return "Message successfully stored.";
-            }
-            default -> { return "Invalid option."; }
+            default:
+                return "Invalid option.";
         }
     }
 
@@ -218,21 +218,21 @@ public class Message {
     }
 
     // ---------------------------------------------------------------
-    // JSON persistence
+    // JSON persistence (research feature – attributed below)
     // ---------------------------------------------------------------
 
     /**
      * Appends this message as a single-line JSON object to messages.json.
      * Each line is one complete JSON object (newline-delimited JSON).
+     *
+     * Title   : BufferedWriter + FileWriter Append Pattern
+     * Author  : DigitalOcean Tutorial
+     * Source  : https://www.digitalocean.com/community/tutorials/java-append-to-file
      */
     public void storeMessageToJson() {
-        // Title   : BufferedWriter + FileWriter Append Pattern
-        // Author  : DigitalOcean Tutorial
-        // Source  : https://www.digitalocean.com/community/tutorials/java-append-to-file
         try (BufferedWriter writer = new BufferedWriter(
                 new FileWriter("messages.json", true))) {
 
-            // Manually build JSON (no external library needed for POE)
             String json = "{"
                     + "\"messageHash\":\""  + messageHash.replace("\"", "\\\"") + "\","
                     + "\"recipient\":\""    + recipient.replace("\"", "\\\"")   + "\","
@@ -249,35 +249,37 @@ public class Message {
 
     /**
      * Reads all messages from a newline-delimited JSON file and returns them
-     * as a list. Uses simple string parsing — no external JSON library.
+     * as a plain array (max 100 entries). Uses simple string parsing.
+     *
+     * Title   : BufferedReader Line-by-Line File Read
+     * Author  : DigitalOcean Tutorial
+     * Source  : https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
      *
      * @param fileName path to the JSON file
-     * @return list of reconstructed Message objects (may be empty)
+     * @return Message array; slots beyond the loaded count are null
      */
-    public static List<Message> readMessagesFromFile(String fileName) {
-        // Title   : BufferedReader Line-by-Line File Read
-        // Author  : DigitalOcean Tutorial
-        // Source  : https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line
-        List<Message> messages = new ArrayList<>();
+    public static Message[] readMessagesFromFile(String fileName) {
+        Message[] messages = new Message[100];
+        int count = 0;
         File file = new File(fileName);
 
         if (!file.exists()) {
-            return messages;  // nothing saved yet — return empty list
+            return messages;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null && count < messages.length) {
                 String hash      = extractJsonField(line, "messageHash");
                 String recipient = extractJsonField(line, "recipient");
                 String msgBody   = extractJsonField(line, "message");
                 String type      = extractJsonField(line, "messageType");
 
-                // Reconstruct Message object and restore original hash & type
-                Message m = new Message(recipient, msgBody, messages.size());
+                Message m = new Message(recipient, msgBody, count);
                 m.messageHash = hash;
                 m.setMessageType(type);
-                messages.add(m);
+                messages[count] = m;
+                count++;
             }
         } catch (IOException e) {
             System.out.println("Error reading messages from file: " + e.getMessage());
@@ -287,8 +289,7 @@ public class Message {
     }
 
     /**
-     * Extracts the value of a named field from a simple JSON string.
-     * Only works for flat (non-nested) JSON objects.
+     * Extracts the value of a named field from a simple flat JSON string.
      *
      * @param json  the JSON line to parse
      * @param field the field name to find
@@ -330,13 +331,11 @@ public class Message {
 }
 
 // ───────────────────────── CODE ATTRIBUTION ─────────────────────────
-// Title   : Random-ID & StringBuilder Pattern
+// Title   : Random class for ID generation
 // Author  : Oracle Java SE 8 API
 // Date    : 17 Jun 2025
 // Version : 1.0
-// Sources :
-//   https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
-//   https://docs.oracle.com/javase/8/docs/api/java/lang/StringBuilder.html
+// Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
 //
 // Title   : BufferedWriter + FileWriter Append Pattern
 // Author  : DigitalOcean Tutorial "Java append to file"
@@ -355,14 +354,6 @@ public class Message {
 // Date    : 17 Jun 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/33477950/
-//
-// Title   : File.exists() for Persistence Check
-// Author  : Stack Overflow Q/1816673; GeeksforGeeks
-// Date    : 17 Jun 2025
-// Version : 1.0
-// Sources :
-//   https://stackoverflow.com/questions/1816673/
-//   https://www.geeksforgeeks.org/java/file-exists-method-in-java-with-examples/
 //
 // Title   : PROG5121 Lecture Slides
 // Author  : The IIE / Rochelle Moodley (internal, unpublished)

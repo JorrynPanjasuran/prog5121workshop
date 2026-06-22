@@ -1,7 +1,7 @@
 /*
  * PROG5121 – Part 3 POE
  * Main entry point for the QuickChat application.
- * Uses Scanner for all user input (console-based).
+ * Uses Scanner for all user input (console-based, no GUI, no JOptionPane).
  *
  * Author: Jorryn Panjasuran
  * Date: 2025
@@ -20,13 +20,18 @@ import java.util.Scanner;
 /**
  * ChatApp – launches registration, login, and the main message menu.
  *
+ * Main menu (Part 2 + Part 3):
+ *   1) Send Messages
+ *   2) Show Recently Sent Messages  (Coming Soon)
+ *   3) Quit
+ *   4) Stored Messages              (Part 3 addition)
+ *
  * @author Jorryn Panjasuran 2025
  */
 public class ChatApp {
 
     public static void main(String[] args) {
 
-        // Single shared Scanner for the whole application lifetime
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("===========================================");
@@ -43,12 +48,10 @@ public class ChatApp {
         System.out.print("Enter your last name: ");
         String lastName = scanner.nextLine();
 
-        // Validate username, password, cellphone via loop until correct format
-        String username = getValidUsername(scanner);
-        String password = getValidPassword(scanner);
+        String username  = getValidUsername(scanner);
+        String password  = getValidPassword(scanner);
         String cellphone = getValidCellphone(scanner);
 
-        // Build and register the user
         Login user = new Login(username, password, cellphone, firstName, lastName);
         System.out.println("\n" + user.register());
 
@@ -65,11 +68,9 @@ public class ChatApp {
 
             if (success) {
                 loggedIn = true;
-                // Load stored messages from file into memory
                 MessageManager.loadStoredMessagesFromJson();
-                // Pre-load 5 demo messages for the marker
+                // Pre-load Part 3 test messages for the marker
                 MessageManager.populateTestMessages();
-                // Start main menu
                 runApp(scanner);
             }
         }
@@ -82,7 +83,7 @@ public class ChatApp {
     // ---------------------------------------------------------------
 
     /**
-     * Displays the menu and routes to the correct feature until user quits.
+     * Displays the four-option menu and routes to the correct feature until the user quits.
      *
      * @param scanner shared Scanner instance
      */
@@ -93,21 +94,16 @@ public class ChatApp {
             System.out.println("\n===========================================");
             System.out.println("           QuickChat Main Menu             ");
             System.out.println("===========================================");
-            System.out.println("1) Send Message");
+            System.out.println("1) Send Messages");
             System.out.println("2) Show Recently Sent Messages");
-            System.out.println("3) Disregard a Message");
-            System.out.println("4) Quit");
-            System.out.println("5) Reports");
+            System.out.println("3) Quit");
+            System.out.println("4) Stored Messages");
             System.out.print("Choose an option: ");
 
             String option = scanner.nextLine().trim();
 
-            // Title   : Modern switch-arrow syntax
-            // Author  : Oracle JEP 361
-            // Date    : 17 Jun 2025
-            // Source  : https://docs.oracle.com/en/java/javase/13/language/switch-expressions.html
             switch (option) {
-                case "1" -> {
+                case "1":
                     System.out.print("How many messages would you like to send? ");
                     int total;
                     try {
@@ -123,21 +119,24 @@ public class ChatApp {
                         }
                     }
                     System.out.println("Total messages sent so far: " + MessageManager.getSentCount());
-                }
-                case "2" -> {
-                    if (MessageManager.getSentCount() == 0) {
-                        System.out.println("No messages sent yet.");
-                    } else {
-                        MessageManager.displayReport();
-                    }
-                }
-                case "3" -> MessageManager.disregardMessage(scanner);
-                case "4" -> {
+                    break;
+
+                case "2":
+                    System.out.println("Coming Soon.");
+                    break;
+
+                case "3":
                     System.out.println("Goodbye! Exiting QuickChat.");
                     running = false;
-                }
-                case "5" -> MessageManager.showReports(scanner);
-                default -> System.out.println("Invalid option. Please choose 1-5.");
+                    break;
+
+                case "4":
+                    MessageManager.showStoredMessagesMenu(scanner);
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please choose 1-4.");
+                    break;
             }
         }
     }
@@ -148,7 +147,6 @@ public class ChatApp {
 
     // Title   : Username regex (contains _ and <= 5 chars)
     // Author  : Stack Overflow Q/336210
-    // Date    : 17 Jun 2025
     // Source  : https://stackoverflow.com/questions/336210/
 
     /**
@@ -161,13 +159,13 @@ public class ChatApp {
             if (Login.checkUserName(username)) {
                 return username;
             }
-            System.out.println("Invalid username. It must contain an underscore and be <= 5 characters.");
+            System.out.println("Username is not correctly formatted; please ensure that "
+                    + "your username contains an underscore and is no more than five characters in length.");
         }
     }
 
     // Title   : Password complexity regex with look-aheads
     // Author  : Stack Overflow Q/19605150
-    // Date    : 17 Jun 2025
     // Source  : https://stackoverflow.com/questions/19605150/
 
     /**
@@ -180,13 +178,13 @@ public class ChatApp {
             if (Login.checkPasswordComplexity(password)) {
                 return password;
             }
-            System.out.println("Invalid password. Must be 8+ chars with uppercase, number, and special character.");
+            System.out.println("Password is not correctly formatted; please ensure that the password "
+                    + "contains at least eight characters, a capital letter, a number, and a special character.");
         }
     }
 
     // Title   : SA +27 cell number regex
     // Author  : Stack Overflow Q/33477950
-    // Date    : 17 Jun 2025
     // Source  : https://stackoverflow.com/questions/33477950/
 
     /**
@@ -199,7 +197,7 @@ public class ChatApp {
             if (Login.checkCellPhoneNumber(phone)) {
                 return phone;
             }
-            System.out.println("Invalid number. Must start with +27 followed by 9 digits.");
+            System.out.println("Cell phone number incorrectly formatted or does not contain international code.");
         }
     }
 }
@@ -211,11 +209,23 @@ public class ChatApp {
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
 //
-// Title   : Modern switch-arrow syntax (JEP 361)
-// Author  : Oracle
+// Title   : Username Regex (contains _ and <= 5 chars)
+// Author  : Stack Overflow Q/336210
 // Date    : 17 Jun 2025
 // Version : 1.0
-// Source  : https://docs.oracle.com/en/java/javase/13/language/switch-expressions.html
+// Source  : https://stackoverflow.com/questions/336210/
+//
+// Title   : Password Complexity Regex with Look-aheads
+// Author  : Stack Overflow Q/19605150
+// Date    : 17 Jun 2025
+// Version : 1.0
+// Source  : https://stackoverflow.com/questions/19605150/
+//
+// Title   : SA (+27) Cell-Number Regex
+// Author  : Stack Overflow Q/33477950
+// Date    : 17 Jun 2025
+// Version : 1.0
+// Source  : https://stackoverflow.com/questions/33477950/
 //
 // Title   : PROG5121 Lecture Slides
 // Author  : The IIE / Rochelle Moodley (internal, unpublished)
