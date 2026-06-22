@@ -144,7 +144,7 @@ public class Message {
             return "Message ready to send.";
         }
         return "Message exceeds 250 characters by " + (msg.length() - 250)
-             + ", please reduce size.";
+             + "; please reduce the size.";
     }
 
     /**
@@ -184,7 +184,7 @@ public class Message {
                 totalMessages++;
                 return "Message successfully sent.";
             case "discard":
-                return "Press 0 to delete message.";
+                return "Press 0 to delete the message.";
             case "store":
                 storeMessageToJson();
                 return "Message successfully stored.";

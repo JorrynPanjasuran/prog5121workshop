@@ -260,13 +260,13 @@ public class MessageTest {
 
     /**
      * sendOptions("discard") must return the discard prompt string.
-     * POE requirement: "Press 0 to delete message."
+     * POE requirement: "Press 0 to delete the message."
      */
     @Test
     public void testSendOptions_Discard() {
         Message msg = new Message("+27834567890", "Test message", 0);
         String result = msg.sendOptions("discard");
-        assertEquals("Press 0 to delete message.", result,
+        assertEquals("Press 0 to delete the message.", result,
                 "sendOptions('discard') should return 'Press 0 to delete message.'");
     }
 
