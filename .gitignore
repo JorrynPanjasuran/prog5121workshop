@@ -1,0 +1,4 @@
+target/
+messages.json
+*.class
+.DS_Store
