@@ -1,7 +1,8 @@
 /*
- * PROG5121 – Part 3 POE
- * I wrote this as the main entry point for SwiftDeliver, a food-delivery
- * coordination app.  I use Scanner for all console input – no GUI, no JOptionPane.
+ * PROG5121 – Part 2 POE
+ * I wrote this as the main entry point for SwiftDeliver.
+ * Part 2 adds the message-sending loop on top of the Part 1 login.
+ * I use Scanner for all console input – no GUI, no JOptionPane.
  *
  * Author: ST10448822
  * Date: 2025
@@ -12,21 +13,19 @@ package com.mycompany.chatapp;
 // I rely on Scanner to collect every input from the kitchen manager or rider.
 // Title   : Scanner Console Input
 // Author  : Oracle Java SE Docs
-// Date    : 23 Jun 2025
+// Date    : 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
 
 import java.util.Scanner;
 
 /**
- * SwiftDeliver – I launch registration, login, and the main message menu for
- * SwiftDeliver.
+ * SwiftDeliver – I handle registration, login, and message sending for Part 2 of the POE.
  *
- * Main menu (Part 2 + Part 3):
+ * Main menu (Part 2):
  *   1) Send Messages
  *   2) Show Recently Sent Messages  (Coming Soon)
  *   3) Quit
- *   4) Stored Messages              (Part 3 addition)
  *
  * @author ST10448822 2025
  */
@@ -70,9 +69,6 @@ public class SwiftDeliver {
 
             if (success) {
                 loggedIn = true;
-                MessageManager.loadStoredMessagesFromJson();
-                // I pre-load Part 3 test messages so the marker can see all features.
-                MessageManager.populateTestMessages();
                 runApp(scanner);
             }
         }
@@ -85,7 +81,7 @@ public class SwiftDeliver {
     // ---------------------------------------------------------------
 
     /**
-     * I display the four-option menu and route to the correct feature until the
+     * I display the three-option menu and route to the correct feature until the
      * user quits SwiftDeliver.
      *
      * @param scanner shared Scanner instance
@@ -100,7 +96,6 @@ public class SwiftDeliver {
             System.out.println("1) Send Messages");
             System.out.println("2) Show Recently Sent Messages");
             System.out.println("3) Quit");
-            System.out.println("4) Stored Messages");
             System.out.print("Choose an option: ");
 
             String option = scanner.nextLine().trim();
@@ -133,12 +128,8 @@ public class SwiftDeliver {
                     running = false;
                     break;
 
-                case "4":
-                    MessageManager.showStoredMessagesMenu(scanner);
-                    break;
-
                 default:
-                    System.out.println("Invalid option. Please choose 1-4.");
+                    System.out.println("Invalid option. Please choose 1-3.");
                     break;
             }
         }
@@ -211,25 +202,25 @@ public class SwiftDeliver {
 // ───────────────────────── CODE ATTRIBUTION ─────────────────────────
 // Title   : Scanner Console Input
 // Author  : Oracle Java SE 8 API
-// Date    : 23 Jun 2025
+// Date    : 2025
 // Version : 1.0
 // Source  : https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html
 //
 // Title   : Username Regex (contains _ and <= 5 chars)
 // Author  : Stack Overflow Q/336210
-// Date    : 23 Jun 2025
+// Date    : 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/336210/
 //
 // Title   : Password Complexity Regex with Look-aheads
 // Author  : Stack Overflow Q/19605150
-// Date    : 23 Jun 2025
+// Date    : 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/19605150/
 //
 // Title   : SA (+27) Cell-Number Regex
 // Author  : Stack Overflow Q/33477950
-// Date    : 23 Jun 2025
+// Date    : 2025
 // Version : 1.0
 // Source  : https://stackoverflow.com/questions/33477950/
 //
