@@ -43,6 +43,3 @@ mvn clean test
 
 All 132 tests must pass before submission.
 
-## Scenario document
-
-`SwiftDeliver_Scenario.html` — open in any browser for the full POE scenario, test data, rubric, and attribution.
