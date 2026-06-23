@@ -37,7 +37,7 @@ public class SwiftDeliver {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("===========================================");
-        System.out.println("   Welcome to SwiftDeliver – Registration  ");
+        System.out.println("   Welcome to SwiftDeliver – Account Setup  ");
         System.out.println("===========================================");
 
         // I load any messages saved from a previous session before registration starts.
@@ -60,9 +60,9 @@ public class SwiftDeliver {
         // --- Login loop ---
         boolean loggedIn = false;
         while (!loggedIn) {
-            System.out.print("\nEnter username to login: ");
+            System.out.print("\nEnter username to sign in: ");
             String inputUser = scanner.nextLine();
-            System.out.print("Enter password: ");
+            System.out.print("Enter passkey: ");
             String inputPass = scanner.nextLine();
 
             boolean success = user.login(inputUser, inputPass);
@@ -97,10 +97,10 @@ public class SwiftDeliver {
             System.out.println("\n===========================================");
             System.out.println("        SwiftDeliver Main Menu             ");
             System.out.println("===========================================");
-            System.out.println("1) Send Messages");
-            System.out.println("2) Show Recently Sent Messages");
-            System.out.println("3) Quit");
-            System.out.println("4) Stored Messages");
+            System.out.println("1) Dispatch Messages");
+            System.out.println("2) Recently Dispatched");
+            System.out.println("3) Exit");
+            System.out.println("4) Saved Messages");
             System.out.print("Choose an option: ");
 
             String option = scanner.nextLine().trim();
@@ -121,15 +121,15 @@ public class SwiftDeliver {
                             System.out.println("Message not sent. Moving to next.");
                         }
                     }
-                    System.out.println("Total messages sent so far: " + MessageManager.getSentCount());
+                    System.out.println("Total dispatched so far: " + MessageManager.getSentCount());
                     break;
 
                 case "2":
-                    System.out.println("Coming Soon.");
+                    System.out.println("Coming soon.");
                     break;
 
                 case "3":
-                    System.out.println("Goodbye! Exiting SwiftDeliver.");
+                    System.out.println("Goodbye! You have been signed out.");
                     running = false;
                     break;
 
@@ -138,7 +138,7 @@ public class SwiftDeliver {
                     break;
 
                 default:
-                    System.out.println("Invalid option. Please choose 1-4.");
+                    System.out.println("Please choose option 1 to 4.");
                     break;
             }
         }
@@ -178,13 +178,13 @@ public class SwiftDeliver {
      */
     private static String getValidPassword(Scanner scanner) {
         while (true) {
-            System.out.print("Enter password (8+ chars, 1 uppercase, 1 number, 1 special): ");
+            System.out.print("Enter passkey (8+ chars, 1 uppercase, 1 digit, 1 special): ");
             String password = scanner.nextLine();
             if (Login.checkPasswordComplexity(password)) {
                 return password;
             }
-            System.out.println("Password is not correctly formatted; please ensure that the password "
-                    + "contains at least eight characters, a capital letter, a number, and a special character.");
+            System.out.println("Passkey does not meet requirements; it must have at least eight characters, "
+                    + "one capital letter, one digit, and one special character.");
         }
     }
 

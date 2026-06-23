@@ -104,10 +104,10 @@ public class MessageManager {
         System.out.println("Message ID  : " + msg.getMessageID());
         System.out.println("Message Hash: " + msg.getMessageHash());
 
-        System.out.println("What would you like to do?");
-        System.out.println("  1) Send");
-        System.out.println("  2) Discard");
-        System.out.println("  3) Store");
+        System.out.println("What would you like to do with this message?");
+        System.out.println("  1) Dispatch");
+        System.out.println("  2) Cancel");
+        System.out.println("  3) Save");
         System.out.print("Choice: ");
         String action = scanner.nextLine().trim();
 
@@ -235,14 +235,14 @@ public class MessageManager {
      */
     public static void showStoredMessagesMenu(Scanner scanner) {
         System.out.println("\n===========================================");
-        System.out.println("         Stored Messages Menu              ");
+        System.out.println("           Saved Messages Menu             ");
         System.out.println("===========================================");
-        System.out.println("a) Show Sender and Recipients");
-        System.out.println("b) Display Longest Stored Message");
-        System.out.println("c) Search by Message ID");
-        System.out.println("d) Search by Recipient");
-        System.out.println("e) Delete by Message Hash");
-        System.out.println("f) Display Full Report of Stored Messages");
+        System.out.println("a) View Senders and Recipients");
+        System.out.println("b) Longest Saved Message");
+        System.out.println("c) Find by Message ID");
+        System.out.println("d) Find by Recipient");
+        System.out.println("e) Remove by Message Hash");
+        System.out.println("f) Full Saved Messages Report");
         System.out.print("Choose an option: ");
 
         String choice = scanner.nextLine().trim().toLowerCase();

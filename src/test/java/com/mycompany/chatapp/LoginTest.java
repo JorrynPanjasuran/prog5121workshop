@@ -186,8 +186,8 @@ public class LoginTest {
     @Test
     public void testRegister_BadPassword() {
         Login user = new Login("kyl_1", "pass", "+27838968976", "Kyle", "Smith");
-        assertTrue(user.register().toLowerCase().contains("password"),
-                "Bad password should produce a password error message.");
+        assertTrue(user.register().toLowerCase().contains("passkey"),
+                "Bad passkey should produce a passkey error message.");
     }
 
     /**

@@ -188,8 +188,8 @@ public class SwiftDeliverTest {
     public void testRegister_BadPassword() {
         Login user = new Login("kyl_1", "pass", "+27838968976", "Kyle", "Smith");
         String result = user.register();
-        assertTrue(result.toLowerCase().contains("password"),
-                "Bad password should produce a password error message.");
+        assertTrue(result.toLowerCase().contains("passkey"),
+                "Bad passkey should produce a passkey error message.");
     }
 
     /**

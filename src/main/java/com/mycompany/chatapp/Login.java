@@ -118,7 +118,7 @@ public class Login {
         }
 
         if (!checkPasswordComplexity(password)) {
-            return "Password is not correctly formatted.\n"
+            return "Passkey is not correctly formatted.\n"
                  + "It must be 8+ characters and include:\n"
                  + "  - A capital letter\n  - A number\n  - A special character";
         }
@@ -129,8 +129,8 @@ public class Login {
         }
 
         // All fields valid
-        return "Username and password successfully captured.\n"
-             + "Cell phone number successfully added.";
+        return "Username and passkey successfully captured.\n"
+             + "Phone number successfully added.";
     }
 
     /**
@@ -155,7 +155,7 @@ public class Login {
             return "Welcome " + firstName + " " + lastName
                  + ", it is great to see you again.";
         }
-        return "Username or password incorrect, please try again.";
+        return "Username or passkey incorrect, please try again.";
     }
 
     // ---------------------------------------------------------------
