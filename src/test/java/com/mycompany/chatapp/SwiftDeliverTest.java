@@ -177,8 +177,8 @@ public class SwiftDeliverTest {
     public void testRegister_BadUsername() {
         Login user = new Login("kyle1", "Password1!", "+27838968976", "Kyle", "Smith");
         String result = user.register();
-        assertTrue(result.toLowerCase().contains("username"),
-                "Bad username should produce a username error message.");
+        assertTrue(result.toLowerCase().contains("handle"),
+                "Bad handle should produce a handle error message.");
     }
 
     /**
@@ -199,8 +199,8 @@ public class SwiftDeliverTest {
     public void testRegister_BadCellphone() {
         Login user = new Login("kyl_1", "Password1!", "0838968976", "Kyle", "Smith");
         String result = user.register();
-        assertTrue(result.toLowerCase().contains("cell"),
-                "Bad cellphone should produce a cellphone error message.");
+        assertTrue(result.toLowerCase().contains("contact"),
+                "Bad contact number should produce a contact number error message.");
     }
 
     // ===========================================================

@@ -204,13 +204,13 @@ public class Message {
      * @return multi-line string with all message details
      */
     public String printDetails() {
-        return "Message ID  : " + messageID
-             + "\nHash        : " + messageHash
-             + "\nRecipient   : " + recipient
-             + "\nMessage     : " + message
-             + "\nSent        : " + isSent
-             + "\nReceived    : " + isReceived
-             + "\nRead        : " + isRead;
+        return "Message ID   : " + messageID
+             + "\nHash         : " + messageHash
+             + "\nRecipient    : " + recipient
+             + "\nMessage      : " + message
+             + "\nDispatched   : " + isSent
+             + "\nDelivered    : " + isReceived
+             + "\nViewed       : " + isRead;
     }
 
     /**
@@ -248,7 +248,7 @@ public class Message {
             writer.newLine();
 
         } catch (IOException e) {
-            System.out.println("Error saving message: " + e.getMessage());
+            System.out.println("Could not save message: " + e.getMessage());
         }
     }
 
@@ -287,7 +287,7 @@ public class Message {
                 count++;
             }
         } catch (IOException e) {
-            System.out.println("Error reading messages from file: " + e.getMessage());
+            System.out.println("Could not load messages from file: " + e.getMessage());
         }
 
         return messages;

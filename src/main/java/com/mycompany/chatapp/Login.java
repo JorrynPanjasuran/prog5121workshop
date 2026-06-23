@@ -113,7 +113,7 @@ public class Login {
     public String register() {
 
         if (!checkUserName(username)) {
-            return "Username is not correctly formatted.\n"
+            return "That handle is not valid.\n"
                  + "It must contain an underscore and be no more than 5 characters.";
         }
 
@@ -124,7 +124,7 @@ public class Login {
         }
 
         if (!checkCellPhoneNumber(cellphone)) {
-            return "Cell phone number is not correctly formatted.\n"
+            return "That contact number is not valid.\n"
                  + "It must start with +27 followed by exactly 9 digits.";
         }
 
@@ -152,8 +152,7 @@ public class Login {
      */
     public String loginStatusMessage(boolean loginStatus) {
         if (loginStatus) {
-            return "Welcome " + firstName + " " + lastName
-                 + ", it is great to see you again.";
+            return "Welcome back, " + firstName + " " + lastName + "!";
         }
         return "Username or passkey incorrect, please try again.";
     }

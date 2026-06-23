@@ -107,18 +107,18 @@ public class SwiftDeliver {
 
             switch (option) {
                 case "1":
-                    System.out.print("How many messages would you like to send? ");
+                    System.out.print("How many messages to dispatch? ");
                     int total;
                     try {
                         total = Integer.parseInt(scanner.nextLine().trim());
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid number. Returning to menu.");
+                        System.out.println("Not a valid number. Back to menu.");
                         break;
                     }
                     for (int i = 0; i < total; i++) {
                         System.out.println("\n--- Message " + (i + 1) + " of " + total + " ---");
                         if (!MessageManager.sendMessage(scanner, i)) {
-                            System.out.println("Message not sent. Moving to next.");
+                            System.out.println("Message not dispatched. Moving to next.");
                         }
                     }
                     System.out.println("Total dispatched so far: " + MessageManager.getSentCount());
@@ -158,13 +158,12 @@ public class SwiftDeliver {
      */
     private static String getValidUsername(Scanner scanner) {
         while (true) {
-            System.out.print("Enter username (must contain _ and be 5 chars or less): ");
+            System.out.print("Enter handle (must contain _ and be 5 chars or less): ");
             String username = scanner.nextLine();
             if (Login.checkUserName(username)) {
                 return username;
             }
-            System.out.println("Username is not correctly formatted; please ensure that "
-                    + "your username contains an underscore and is no more than five characters in length.");
+            System.out.println("That handle is not valid; it must include an underscore and be at most five characters.");
         }
     }
 
@@ -198,12 +197,12 @@ public class SwiftDeliver {
      */
     private static String getValidCellphone(Scanner scanner) {
         while (true) {
-            System.out.print("Enter cellphone number (+27XXXXXXXXX): ");
+            System.out.print("Enter contact number (+27XXXXXXXXX): ");
             String phone = scanner.nextLine();
             if (Login.checkCellPhoneNumber(phone)) {
                 return phone;
             }
-            System.out.println("Cell phone number incorrectly formatted or does not contain international code.");
+            System.out.println("That contact number is not valid; make sure it starts with +27 and has 9 digits after.");
         }
     }
 }
