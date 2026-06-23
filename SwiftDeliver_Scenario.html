@@ -1,1086 +1,1321 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SwiftDeliver | PROG5121 Full POE Scenario</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg:       #0b0c18;
-      --surface:  #13142a;
-      --surface2: #1a1b35;
-      --border:   #252646;
-      --text:     #dcddf0;
-      --muted:    #8890b8;
-      --p1:       #e05c6e;
-      --p2:       #4c8fc4;
-      --p3:       #2eb8a0;
-      --gold:     #f2c96e;
-      --good:     #3a9e6a;
-      --warn:     #d4883a;
-      --bad:      #b84040;
-      --white:    #ffffff;
-    }
+<meta charset="UTF-8">
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Segoe UI', system-ui, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.75;
-      font-size: 14.5px;
-    }
+<title>SwiftDeliver | PROG5121 Full POE Scenario 2026</title>
 
-    /* ===== HEADER ===== */
-    header {
-      background: linear-gradient(160deg, #0f1030 0%, #1a0a2e 45%, #1e0810 100%);
-      border-bottom: 3px solid var(--p1);
-      padding: 52px 48px 44px;
-      text-align: center;
-    }
-    .cover-label {
-      display: inline-block;
-      background: var(--p1);
-      color: var(--white);
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      padding: 5px 20px;
-      border-radius: 4px;
-      margin-bottom: 20px;
-    }
-    header h1 { font-size: 3rem; font-weight: 900; color: var(--white); letter-spacing: 3px; line-height: 1; }
-    header h1 span { color: var(--p1); }
-    header .tagline { margin-top: 14px; font-size: 0.95rem; color: var(--muted); }
-    .meta-row { margin-top: 24px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-    .meta-chip {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 6px;
-      padding: 5px 16px;
-      font-size: 0.8rem;
-      color: #b0b1d0;
-    }
-    .meta-chip strong { color: var(--gold); }
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap" rel="stylesheet">
 
-    /* ===== LAYOUT ===== */
-    main { max-width: 1100px; margin: 0 auto; padding: 44px 24px 72px; }
+<style>
 
-    /* ===== TOC ===== */
-    .toc {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--gold);
-      border-radius: 10px;
-      padding: 22px 28px;
-      margin-bottom: 36px;
-    }
-    .toc h3 { font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
-    .toc ol { padding-left: 20px; color: var(--muted); line-height: 2; font-size: 0.9rem; }
-    .toc a { color: #7ab0e8; text-decoration: none; }
-    .toc a:hover { text-decoration: underline; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    /* ===== SECTION CARDS ===== */
-    .section {
-      margin-bottom: 32px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .section-header {
-      padding: 16px 26px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border-bottom: 1px solid var(--border);
-    }
-    .sec-badge {
-      display: flex; align-items: center; justify-content: center;
-      min-width: 34px; height: 34px;
-      border-radius: 8px;
-      font-size: 0.8rem; font-weight: 800;
-      color: var(--white); flex-shrink: 0;
-    }
-    .section-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--white); }
-    .section-header .marks { margin-left: auto; font-size: 0.78rem; font-weight: 700; color: var(--gold); white-space: nowrap; background: rgba(242,201,110,0.1); border: 1px solid rgba(242,201,110,0.3); padding: 3px 12px; border-radius: 20px; }
-    .section-body { padding: 26px 28px; }
+html{font-size:11px;}
 
-    .sp { background: var(--p1); }
-    .s0 { background: var(--gold); color: #1a1a00 !important; }
-    .s1 .section-header { border-left: 4px solid var(--p1); }
-    .s1 .sec-badge { background: var(--p1); }
-    .s2 .section-header { border-left: 4px solid var(--p2); }
-    .s2 .sec-badge { background: var(--p2); }
-    .s3 .section-header { border-left: 4px solid var(--p3); }
-    .s3 .sec-badge { background: var(--p3); }
-    .sg .section-header { border-left: 4px solid var(--gold); }
-    .sg .sec-badge { background: var(--gold); color: #1a1a00; }
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:#D0D0E0;color:#111;line-height:1.6;}
 
-    p { color: #b8b9d4; margin-bottom: 12px; line-height: 1.8; }
-    p:last-child { margin-bottom: 0; }
-    p strong { color: var(--text); }
 
-    h3.sub { font-size: 0.95rem; font-weight: 700; color: var(--gold); margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    h4.sub2 { font-size: 0.88rem; font-weight: 600; color: var(--text); margin: 16px 0 8px; }
 
-    /* ===== TABLES ===== */
-    .table-wrap { overflow-x: auto; margin: 10px 0 18px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-    thead tr { background: #1e1f3c; }
-    thead th { padding: 11px 14px; text-align: left; color: var(--gold); font-weight: 700; border-bottom: 2px solid var(--border); white-space: nowrap; }
-    tbody tr { border-bottom: 1px solid var(--border); }
-    tbody tr:nth-child(even) { background: #14152c; }
-    tbody tr:hover { background: #1f2045; }
-    tbody td { padding: 10px 14px; vertical-align: top; color: #c4c5de; }
-    td.label { font-weight: 600; color: var(--text); white-space: nowrap; }
-    td.yes { color: #5dd89a; }
-    td.no  { color: #f07070; }
+@page{size:A4;margin:10mm 11mm;}
 
-    code {
-      background: #0d0e20; border: 1px solid #2a2b4a; border-radius: 4px;
-      padding: 1px 6px; font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.81rem; color: #a5cfff;
-    }
+.page{background:#fff;padding:20px 30px;}
 
-    /* ===== RUBRIC TABLE ===== */
-    .rubric-table thead th { font-size: 0.8rem; }
-    .rubric-table td { font-size: 0.82rem; vertical-align: top; }
-    .level-ex  { background: #0d2e1a; color: #6ddbb8; }
-    .level-gd  { background: #1a2a10; color: #a8d870; }
-    .level-dev { background: #2a1010; color: #e89090; }
-    .level-hdr { text-align: center; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; }
-    .mark-range { font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 4px; }
+@media screen{.page{max-width:820px;margin:0 auto 12px;box-shadow:0 4px 32px rgba(0,0,0,.22);}}
 
-    /* ===== STATUS PILLS ===== */
-    .pill { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.4px; }
-    .pill-sent    { background: #0f3480; color: #93b8f8; }
-    .pill-stored  { background: #054030; color: #6ddbb8; }
-    .pill-discard { background: #5c1010; color: #f49090; }
+@media print{body{background:#fff;}.page{page-break-after:always;}.page:last-child{page-break-after:auto;}.snote{display:none!important;}}
 
-    /* ===== METHOD TABLE ===== */
-    .method-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.78rem; background: #1a1040; color: #c8a0f0; border: 1px solid #3a2060; }
-    .return-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.78rem; background: #0a2030; color: #80c8f0; border: 1px solid #1a4060; }
+.nb{page-break-inside:avoid;break-inside:avoid;}
 
-    /* ===== INFO / HIGHLIGHT BOXES ===== */
-    .info-box {
-      background: #101528; border: 1px solid #2a3560;
-      border-left: 4px solid var(--p2);
-      border-radius: 8px; padding: 14px 18px; margin: 14px 0;
-      font-size: 0.87rem; color: #a0b0d0;
-    }
-    .warn-box {
-      background: #1a1000; border: 1px solid #4a3000;
-      border-left: 4px solid var(--warn);
-      border-radius: 8px; padding: 14px 18px; margin: 14px 0;
-      font-size: 0.87rem; color: #d4b070;
-    }
-    .info-box strong, .warn-box strong { color: var(--gold); }
+.snote{background:#FFF3E0;border:1.5px dashed #FF9500;padding:4px 10px;font-size:9px;font-family:'IBM Plex Mono',monospace;color:#CC6600;text-align:center;margin:4px 0;border-radius:3px;}
 
-    /* ===== FLOW STEPS ===== */
-    .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
-    .flow-step { background: var(--surface2); border-radius: 10px; padding: 18px 12px; text-align: center; border-top: 3px solid; transition: transform 0.18s; }
-    .flow-step:hover { transform: translateY(-3px); }
-    .fc1 { border-color: var(--p1); } .fc1 .fn { color: var(--p1); }
-    .fc2 { border-color: var(--p2); } .fc2 .fn { color: var(--p2); }
-    .fc3 { border-color: var(--p3); } .fc3 .fn { color: var(--p3); }
-    .fc4 { border-color: var(--gold); } .fc4 .fn { color: var(--gold); }
-    .fc5 { border-color: #9a6fd8; } .fc5 .fn { color: #9a6fd8; }
-    .fn { font-size: 1.6rem; font-weight: 900; line-height: 1; }
-    .fl { margin-top: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text); }
-    .fd { margin-top: 4px; font-size: 0.75rem; color: var(--muted); }
 
-    /* ===== CODE BLOCK ===== */
-    pre {
-      background: #08090f; border: 1px solid #202040; border-radius: 10px;
-      padding: 18px 20px; overflow-x: auto;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.81rem; line-height: 1.65; color: #c6cde8; margin: 14px 0;
-    }
-    .kw  { color: #e07090; }
-    .str { color: #80c8f0; }
-    .cmt { color: #5a6080; font-style: italic; }
-    .mtd { color: #c8a0f0; }
 
-    /* ===== ATTRIBUTION ===== */
-    .attr-list { list-style: none; margin-top: 6px; }
-    .attr-list li { padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.86rem; }
-    .attr-list li:last-child { border-bottom: none; }
-    .attr-title { font-weight: 600; color: var(--text); }
-    .attr-source { color: var(--muted); font-size: 0.81rem; margin-top: 2px; }
-    .attr-list a { color: #7ab0e8; text-decoration: none; }
-    .attr-list a:hover { text-decoration: underline; }
+/* ===== COLOUR TOKENS ===== */
 
-    footer { text-align: center; padding: 28px; font-size: 0.79rem; color: #444468; border-top: 1px solid var(--border); }
-    kbd { background: #1e1f3c; border: 1px solid #3a3b60; border-radius: 4px; padding: 1px 7px; font-size: 0.79rem; font-family: 'Consolas', monospace; color: #b0c0e0; }
+:root{
 
-    /* ===== TOTAL MARKS BANNER ===== */
-    .total-banner {
-      background: linear-gradient(135deg, #1a0e30, #0e1a30);
-      border: 1px solid #3a2060;
-      border-radius: 12px; padding: 24px 28px; margin-bottom: 32px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    }
-    .total-banner .tb-part { text-align: center; }
-    .total-banner .tb-num { font-size: 2rem; font-weight: 900; }
-    .total-banner .tb-label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .tb-p1 .tb-num { color: var(--p1); }
-    .tb-p2 .tb-num { color: var(--p2); }
-    .tb-p3 .tb-num { color: var(--p3); }
-    .tb-total .tb-num { color: var(--gold); font-size: 2.6rem; }
-    .tb-div { width: 1px; height: 50px; background: var(--border); }
-  </style>
+  --p1:#FF3B5C;   --p1d:#B0001D; --p1l:#FFF0F3; --p1m:#FFAAB8;
+
+  --p2:#2D6BE4;   --p2d:#1A3A8A; --p2l:#EFF6FF; --p2m:#93BFFF;
+
+  --p3:#00B894;   --p3d:#007055; --p3l:#E6FAF6; --p3m:#80DFD0;
+
+  --gl:#FF9500;   --gld:#8A5000; --gll:#FFF8EE; --glm:#FFCC80;
+
+  --pu:#7C3AED;   --pud:#3D1B8E; --pul:#F5F0FF; --pum:#C4B0FF;
+
+  --ink:#111118;  --ch:#22223A;  --mu:#666688;  --ru:#E8E8F4;
+
+  --sf:#F6F6FB;   --wh:#FFFFFF;
+
+  --cb:#1E1E2E;
+
+}
+
+
+
+/* ============================================================ COVER */
+
+.cover{
+
+  min-height:94vh;
+
+  position:relative;
+
+  overflow:hidden;
+
+  display:flex;
+
+  flex-direction:column;
+
+  border:2px solid var(--ru);
+
+}
+
+.cov-bg{
+
+  position:absolute;inset:0;z-index:0;
+
+  background:#fff;
+
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+
+}
+
+.cov-top-fill{
+
+  position:absolute;top:0;left:0;right:0;height:46%;z-index:0;
+
+  background:var(--p1);
+
+  clip-path:polygon(0 0,100% 0,100% 80%,0 100%);
+
+}
+
+.cov-dots{position:absolute;top:10px;right:20px;z-index:1;opacity:.18;}
+
+
+
+.cov-inner{position:relative;z-index:2;padding:36px 42px 34px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+
+
+
+.ey{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:10px;}
+
+
+
+.h1{font-family:'Fraunces',Georgia,serif;font-size:66px;font-weight:900;line-height:.88;letter-spacing:-.03em;color:#fff;margin-bottom:6px;text-shadow:0 3px 16px rgba(0,0,0,.2);}
+
+.h1 .dot{color:rgba(255,255,255,.5);}
+
+.tg{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:0;font-weight:500;}
+
+
+
+.mg{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 14px;}
+
+.mc{background:var(--sf);border:1.5px solid var(--ru);border-radius:6px;padding:5px 12px;display:flex;flex-direction:column;gap:2px;}
+
+.mc b{font-family:'IBM Plex Mono',monospace;font-size:7.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mu);}
+
+.mc span{font-size:11.5px;font-weight:700;color:var(--ink);}
+
+
+
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:14px;}
+
+.fs{border-radius:8px;padding:11px 8px;text-align:center;border:2px solid transparent;}
+
+.fs1{background:var(--p1l);border-color:var(--p1m);}
+
+.fs2{background:var(--p2l);border-color:var(--p2m);}
+
+.fs3{background:var(--p3l);border-color:var(--p3m);}
+
+.fs4{background:var(--gll);border-color:var(--glm);}
+
+.fs5{background:var(--pul);border-color:var(--pum);}
+
+.fn{font-family:'Fraunces',serif;font-size:24px;font-weight:900;line-height:1;}
+
+.fs1 .fn{color:var(--p1);} .fs2 .fn{color:var(--p2);} .fs3 .fn{color:var(--p3);} .fs4 .fn{color:var(--gl);} .fs5 .fn{color:var(--pu);}
+
+.fl{margin-top:4px;font-size:10px;font-weight:700;color:var(--ink);}
+
+.fd{margin-top:2px;font-size:8.5px;color:var(--mu);}
+
+
+
+.tots{display:grid;grid-template-columns:1fr 1fr 1fr 1px 1fr;gap:0;border-radius:10px;overflow:hidden;border:2px solid var(--ru);margin-bottom:13px;}
+
+.ct{padding:13px 15px;text-align:center;border-right:2px solid var(--ru);}
+
+.ct1{background:var(--p1);} .ct2{background:var(--p2);} .ct3{background:var(--p3);}
+
+.ct .cn{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:#fff;line-height:1;}
+
+.ct .cl{font-size:9.5px;color:rgba(255,255,255,.7);margin-top:3px;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+
+.ct-div{width:1px;background:var(--ru);}
+
+.ct-total{background:var(--ink);padding:13px 15px;text-align:center;flex:1;}
+
+.ct-total .cn{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:#fff;line-height:1;}
+
+.ct-total .cl{font-size:9.5px;color:rgba(255,255,255,.45);margin-top:3px;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+
+
+
+.toc{background:var(--sf);border:1.5px solid var(--ru);border-radius:8px;padding:11px 14px;}
+
+.toc-t{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;}
+
+.toc-g{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;}
+
+.tr{display:flex;gap:7px;font-size:11px;color:var(--ch);padding:3px 0;border-bottom:1px solid var(--ru);}
+
+.tn{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;flex-shrink:0;padding:1px 6px;border-radius:3px;color:#fff;line-height:1.6;}
+
+.tn1{background:var(--p1);} .tn2{background:var(--p2);} .tn3{background:var(--p3);} .tng{background:var(--gl);} .tnp{background:var(--pu);}
+
+
+
+/* ===== SECTION HEADERS ===== */
+
+.sh{display:flex;align-items:center;gap:9px;margin:14px 0 9px;padding:8px 14px;border-radius:8px;}
+
+.sh1{background:var(--p1);} .sh2{background:var(--p2);} .sh3{background:var(--p3);}
+
+.shg{background:var(--gl);} .shp{background:var(--pu);} .shi{background:var(--ink);}
+
+.sh h2{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:-.01em;}
+
+.sb{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(0,0,0,.22);color:#fff;flex-shrink:0;letter-spacing:.05em;}
+
+.mp{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,.25);color:#fff;white-space:nowrap;flex-shrink:0;}
+
+
+
+h3.sub{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mu);margin:14px 0 8px;padding-bottom:5px;border-bottom:1.5px solid var(--ru);}
+
+
+
+p{font-size:11.5px;color:#333350;margin-bottom:7px;line-height:1.7;}
+
+p strong{color:var(--ink);font-weight:700;}
+
+
+
+/* ===== TABLES ===== */
+
+.tw{overflow-x:auto;margin:7px 0 13px;border-radius:7px;border:1.5px solid var(--ru);overflow:hidden;}
+
+table{width:100%;border-collapse:collapse;font-size:10.5px;background:var(--wh);}
+
+thead tr th{padding:8px 11px;text-align:left;font-weight:800;font-size:9.5px;letter-spacing:.03em;color:var(--wh);}
+
+tbody tr{border-bottom:1px solid var(--ru);}
+
+tbody tr:last-child{border-bottom:none;}
+
+tbody td{padding:7px 11px;vertical-align:top;color:#333350;line-height:1.6;}
+
+td.lb{font-weight:700;color:var(--ink);white-space:nowrap;}
+
+td.yes{color:#059669;font-weight:700;}
+
+td.no{color:#DC2626;font-weight:700;}
+
+code{background:#F0F0F8;border:1px solid #D8D8EC;border-radius:3px;padding:1px 5px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5B21B6;}
+
+
+
+.th-p1 thead tr{background:var(--p1);}
+
+.th-p2 thead tr{background:var(--p2);}
+
+.th-p3 thead tr{background:var(--p3);}
+
+.th-gl thead tr{background:var(--gl);}
+
+.th-pu thead tr{background:var(--pu);}
+
+.th-ink thead tr{background:var(--ink);}
+
+
+
+.th-p1 tbody tr:nth-child(even){background:var(--p1l);}
+
+.th-p2 tbody tr:nth-child(even){background:var(--p2l);}
+
+.th-p3 tbody tr:nth-child(even){background:var(--p3l);}
+
+.th-gl tbody tr:nth-child(even){background:var(--gll);}
+
+.th-pu tbody tr:nth-child(even){background:var(--pul);}
+
+.th-ink tbody tr:nth-child(even){background:var(--sf);}
+
+.th-pu thead tr{background:var(--pu);}
+
+.th-pu tbody tr:nth-child(even){background:var(--pul);}
+
+
+
+.rt{table-layout:fixed;width:100%;}
+
+.rt thead th:first-child{width:28%;}
+
+.rt td{font-size:9.5px;vertical-align:top;word-wrap:break-word;overflow-wrap:break-word;}
+
+.rt td.lb{white-space:normal;}
+
+.ex{background:#F0FDF4;} .ex .mr{color:#059669;}
+
+.gd{background:var(--p2l);} .gd .mr{color:var(--p2);}
+
+.dv{background:#FFF7ED;} .dv .mr{color:#D97706;}
+
+.lh{text-align:center;font-weight:800;font-size:9px;letter-spacing:.04em;}
+
+.mr{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:9.5px;display:block;margin-bottom:2px;}
+
+
+
+.pill{display:inline-block;padding:1px 8px;border-radius:20px;font-size:9px;font-weight:800;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+
+.ps{background:var(--p2l);color:var(--p2);border:1.5px solid var(--p2m);}
+
+.pst{background:var(--p3l);color:var(--p3d);border:1.5px solid var(--p3m);}
+
+.pd{background:#FFF1F2;color:#BE123C;border:1.5px solid #FECDD3;}
+
+.rp{display:inline-block;padding:1px 6px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;background:var(--p2l);color:var(--p2d);border:1px solid var(--p2m);}
+
+
+
+.box{border-radius:7px;padding:9px 13px;margin:9px 0;border-left:4px solid;font-size:11px;line-height:1.65;}
+
+.box .bt{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px;}
+
+.bp1{background:var(--p1l);border-color:var(--p1);} .bp1 .bt{color:var(--p1);}
+
+.bp2{background:var(--p2l);border-color:var(--p2);} .bp2 .bt{color:var(--p2);}
+
+.bp3{background:var(--p3l);border-color:var(--p3);} .bp3 .bt{color:var(--p3);}
+
+.bgl{background:var(--gll);border-color:var(--gl);} .bgl .bt{color:var(--gld);}
+
+
+
+pre{background:var(--cb);border:2px solid #313244;border-radius:8px;padding:14px 16px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:9.5px;line-height:1.7;color:#CDD6F4;margin:9px 0;}
+
+.kw{color:#F38BA8;} .str{color:#A6E3A1;} .cmt{color:#6C7086;font-style:italic;} .mtd{color:#89DCEB;}
+
+
+
+.atl{list-style:none;margin-top:5px;}
+
+.atl li{padding:7px 0;border-bottom:1px solid var(--ru);font-size:11px;}
+
+.atl li:last-child{border-bottom:none;}
+
+.at{font-weight:700;color:var(--ink);}
+
+.as{color:var(--mu);font-size:9.5px;margin-top:1px;}
+
+
+
+.pf{margin-top:12px;padding-top:8px;border-top:1.5px solid var(--ru);display:flex;justify-content:space-between;}
+
+.pf span{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--mu);letter-spacing:.04em;}
+
+
+
+.rt colgroup col:first-child{width:28%;}
+
+.rt colgroup col{width:24%;}
+
+</style>
+
 </head>
+
 <body>
 
-<header>
-  <div class="cover-label">PROG5121 / Programming 1A &nbsp; | &nbsp; Portfolio of Evidence 2026</div>
-  <h1>Swift<span>Deliver</span></h1>
-  <p class="tagline">Food Delivery Coordination Application &nbsp;|&nbsp; Full POE Scenario Document</p>
-  <div class="meta-row">
-    <span class="meta-chip"><strong>Tutor:</strong> Jorryn Panjasuran</span>
-    <span class="meta-chip"><strong>Module:</strong> PROG5121/p/w</span>
-    <span class="meta-chip"><strong>Total Marks:</strong> 300</span>
-    <span class="meta-chip"><strong>Language:</strong> Java 17</span>
-    <span class="meta-chip"><strong>Tests:</strong> JUnit 5</span>
-  </div>
-</header>
+<div style="max-width:820px;margin:0 auto;">
 
-<main>
 
-  <!-- TOTAL MARKS BANNER -->
-  <div class="total-banner">
-    <div class="tb-part tb-p1">
-      <div class="tb-num">100</div>
-      <div class="tb-label">Part 1 &mdash; Registration and Login</div>
-    </div>
-    <div class="tb-div"></div>
-    <div class="tb-part tb-p2">
-      <div class="tb-num">100</div>
-      <div class="tb-label">Part 2 &mdash; Sending Messages</div>
-    </div>
-    <div class="tb-div"></div>
-    <div class="tb-part tb-p3">
-      <div class="tb-num">100</div>
-      <div class="tb-label">Part 3 &mdash; Arrays and Reports</div>
-    </div>
-    <div class="tb-div"></div>
-    <div class="tb-part tb-total">
-      <div class="tb-num">300</div>
-      <div class="tb-label">Total POE Marks</div>
-    </div>
+
+<!-- COVER -->
+
+<div class="page cover">
+
+<div class="cov-bg"></div>
+
+<div class="cov-top-fill"></div>
+
+<div class="cov-inner">
+
+  <div>
+
+    <div class="ey">PROG5121 / Programming 1A &nbsp;&middot;&nbsp; Portfolio of Evidence 2026</div>
+
+    <div class="h1">Swift<br>Deliver<span class="dot">.</span></div>
+
+    <p class="tg">Food Delivery Coordination Application &nbsp;&middot;&nbsp; Full POE Scenario Document</p>
+
   </div>
 
-  <!-- TABLE OF CONTENTS -->
-  <div class="toc">
-    <h3>Contents</h3>
-    <ol>
-      <li><a href="#scenario">Scenario Overview</a></li>
-      <li><a href="#part1">Part 1 &mdash; Registration and Login (100 marks)</a></li>
-      <li><a href="#part2">Part 2 &mdash; Sending Messages (100 marks)</a></li>
-      <li><a href="#part3">Part 3 &mdash; Store Data and Display Reports (100 marks)</a></li>
-      <li><a href="#rubric">Full Marking Rubric</a></li>
-      <li><a href="#testdata">Consolidated Test Data</a></li>
-      <li><a href="#attribution">Code Attribution</a></li>
-    </ol>
+  <div>
+
+    <div class="mg">
+
+      <div class="mc"><b>Student</b><span>Jorryn Panjasuran</span></div>
+
+      <div class="mc"><b>Module</b><span>PROG5121/p/w</span></div>
+
+      <div class="mc"><b>Language</b><span>Java 17</span></div>
+
+      <div class="mc"><b>Tests</b><span>JUnit 5</span></div>
+
+    </div>
+
+    <div class="flow">
+
+      <div class="fs fs1"><div class="fn">1</div><div class="fl">Register</div><div class="fd">Handle, passkey, contact</div></div>
+
+      <div class="fs fs2"><div class="fn">2</div><div class="fl">Sign In</div><div class="fd">Credentials verified</div></div>
+
+      <div class="fs fs3"><div class="fn">3</div><div class="fl">Dispatch</div><div class="fd">Dispatch, save, cancel</div></div>
+
+      <div class="fs fs4"><div class="fn">4</div><div class="fl">Search</div><div class="fd">By ID, recipient, hash</div></div>
+
+      <div class="fs fs5"><div class="fn">5</div><div class="fl">Report</div><div class="fd">Full saved message report</div></div>
+
+    </div>
+
+    <div class="tots">
+
+      <div class="ct ct1"><div class="cn">100</div><div class="cl">PART 1</div></div>
+
+      <div class="ct ct2"><div class="cn">100</div><div class="cl">PART 2</div></div>
+
+      <div class="ct ct3"><div class="cn">100</div><div class="cl">PART 3</div></div>
+
+      <div class="ct-div"></div>
+
+      <div class="ct-total"><div class="cn">300</div><div class="cl">TOTAL MARKS</div></div>
+
+    </div>
+
+    <div class="toc">
+
+      <div class="toc-t">Contents</div>
+
+      <div class="toc-g">
+
+        <div class="tr"><span class="tn tng">OV</span>Scenario Overview</div>
+
+        <div class="tr"><span class="tn tn1">P1</span>Part 1: Account Setup and Sign In</div>
+
+        <div class="tr"><span class="tn tn2">P2</span>Part 2: Dispatching Messages</div>
+
+        <div class="tr"><span class="tn tn3">P3</span>Part 3: Arrays and Reports</div>
+
+        <div class="tr"><span class="tn tng">RB</span>Full Marking Rubric</div>
+
+        <div class="tr"><span class="tn tn2">TD</span>Consolidated Test Data</div>
+
+        <div class="tr"><span class="tn tnp">CA</span>Code Attribution</div>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <!-- SECTION: SCENARIO -->
-  <div id="scenario" class="section sg">
-    <div class="section-header">
-      <div class="sec-badge s0">SD</div>
-      <h2>Scenario Overview &mdash; SwiftDeliver</h2>
-    </div>
-    <div class="section-body">
-      <p>
-        <strong>SwiftDeliver</strong> is a console-based messaging application developed for a food delivery
-        service company operating across multiple branches in South Africa. Kitchen managers, branch supervisors,
-        and delivery riders use the application to exchange real-time coordination messages about orders, from
-        the moment a meal is prepared in the kitchen through to delivery confirmation at the customer's address.
-      </p>
-      <p>
-        The application is built entirely as a Java console application with no graphical user interface. All
-        user interaction happens through typed input and printed output. This mirrors the original POE
-        specification requirement that no GUIs or JOptionPane dialogs may be used.
-      </p>
-      <p>
-        The scenario demonstrates the same coding constructs required by the POE across all three parts:
-        variables and variable scope, data types, classes and methods, operators, decisions, loops, and arrays.
-        All five test messages are drawn from realistic food delivery communications.
-      </p>
+</div>
 
-      <div class="flow">
-        <div class="flow-step fc1"><div class="fn">1</div><div class="fl">Register</div><div class="fd">Username, password, SA cell</div></div>
-        <div class="flow-step fc2"><div class="fn">2</div><div class="fl">Login</div><div class="fd">Credentials verified</div></div>
-        <div class="flow-step fc3"><div class="fn">3</div><div class="fl">Send Messages</div><div class="fd">Send, store, or disregard</div></div>
-        <div class="flow-step fc4"><div class="fn">4</div><div class="fl">Search and Delete</div><div class="fd">By ID, recipient, or hash</div></div>
-        <div class="flow-step fc5"><div class="fn">5</div><div class="fl">Report</div><div class="fd">Full stored messages report</div></div>
-      </div>
+</div>
 
-      <div class="info-box" style="margin-top:20px;">
-        <strong>Application name:</strong> SwiftDeliver &nbsp;&nbsp;
-        <strong>Main class:</strong> <code>SwiftDeliver.java</code> &nbsp;&nbsp;
-        <strong>Test class:</strong> <code>SwiftDeliverTest.java</code>
-      </div>
-    </div>
-  </div>
 
-  <!-- SECTION: PART 1 -->
-  <div id="part1" class="section s1">
-    <div class="section-header">
-      <div class="sec-badge sp">P1</div>
-      <h2>Part 1 &mdash; Registration and Login Feature</h2>
-      <span class="marks">100 Marks</span>
-    </div>
-    <div class="section-body">
-      <p>
-        The registration and login feature allows a SwiftDeliver staff member to create an account and
-        then sign in. This is the entry point to the application and must be completed before any
-        messaging features are accessible.
-      </p>
 
-      <h3 class="sub">1.1 Registration Conditions and Messages</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>Condition</th><th>True Message</th><th>False Message</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="label">Username</td>
-              <td>Contains an underscore and is no more than 5 characters long.</td>
-              <td class="yes">"Username successfully captured."</td>
-              <td class="no">"Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length."</td>
-            </tr>
-            <tr>
-              <td class="label">Password</td>
-              <td>At least 8 characters, one capital letter, one number, one special character.</td>
-              <td class="yes">"Password successfully captured."</td>
-              <td class="no">"Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character."</td>
-            </tr>
-            <tr>
-              <td class="label">Cell Phone</td>
-              <td>Starts with international country code, no more than 10 characters after code. Implemented via a researched regex (must be attributed in code).</td>
-              <td class="yes">"Cell phone number successfully added."</td>
-              <td class="no">"Cell phone number incorrectly formatted or does not contain international code."</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!-- PAGE 2: SCENARIO + PART 1 -->
 
-      <h3 class="sub">1.2 Login Conditions and Messages</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Condition</th><th>True</th><th>False</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>Entered username and password match the registered credentials.</td>
-              <td class="yes">"Welcome [first name] [last name], it is great to see you again."</td>
-              <td class="no">"Username or password incorrect, please try again."</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="page">
 
-      <h3 class="sub">1.3 Required Login Class Methods</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Method Signature</th><th>Return Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>checkUserName()</code></td><td><span class="return-pill">boolean</span></td><td>Returns true if the username contains an underscore and is no more than 5 characters.</td></tr>
-            <tr><td><code>checkPasswordComplexity()</code></td><td><span class="return-pill">boolean</span></td><td>Returns true if the password meets all complexity requirements (8 chars, capital, number, special).</td></tr>
-            <tr><td><code>checkCellPhoneNumber()</code></td><td><span class="return-pill">boolean</span></td><td>Returns true if the cell number contains the international code and meets length requirements. Must be researched and attributed.</td></tr>
-            <tr><td><code>registerUser()</code></td><td><span class="return-pill">String</span></td><td>Returns the appropriate registration message depending on which validation passes or fails.</td></tr>
-            <tr><td><code>loginUser()</code></td><td><span class="return-pill">boolean</span></td><td>Verifies that the entered credentials match the stored registration credentials.</td></tr>
-            <tr><td><code>returnLoginStatus()</code></td><td><span class="return-pill">String</span></td><td>Returns the appropriate success or failure login message.</td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
 
-      <h3 class="sub">1.4 Unit Tests &mdash; Part 1</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Test Type</th><th>Test Description</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
-          <tbody>
-            <tr><td>assertEquals</td><td>Username correctly formatted</td><td>"jd_01"</td><td>true + welcome message</td></tr>
-            <tr><td>assertEquals</td><td>Username incorrectly formatted</td><td>"jdoe!!!!"</td><td>"Username is not correctly formatted..."</td></tr>
-            <tr><td>assertEquals</td><td>Password meets complexity</td><td>"Deliver@99!"</td><td>"Password successfully captured."</td></tr>
-            <tr><td>assertEquals</td><td>Password does not meet complexity</td><td>"delivery"</td><td>"Password is not correctly formatted..."</td></tr>
-            <tr><td>assertEquals</td><td>Cell phone correctly formatted</td><td>"+27761234567"</td><td>"Cell phone number successfully added."</td></tr>
-            <tr><td>assertEquals</td><td>Cell phone incorrectly formatted</td><td>"0766553"</td><td>"Cell phone number incorrectly formatted..."</td></tr>
-            <tr><td>assertTrue</td><td>Login successful</td><td>Correct username and password</td><td>true</td></tr>
-            <tr><td>assertFalse</td><td>Login failed</td><td>Wrong password</td><td>false</td></tr>
-            <tr><td>assertTrue</td><td>Username correctly formatted</td><td>"jd_01"</td><td>true</td></tr>
-            <tr><td>assertFalse</td><td>Username incorrectly formatted</td><td>"jdoe!!!!"</td><td>false</td></tr>
-            <tr><td>assertTrue</td><td>Password meets complexity</td><td>"Deliver@99!"</td><td>true</td></tr>
-            <tr><td>assertFalse</td><td>Password does not meet complexity</td><td>"delivery"</td><td>false</td></tr>
-            <tr><td>assertTrue</td><td>Cell phone correctly formatted</td><td>"+27761234567"</td><td>true</td></tr>
-            <tr><td>assertFalse</td><td>Cell phone incorrectly formatted</td><td>"0766553"</td><td>false</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
-  <!-- SECTION: PART 2 -->
-  <div id="part2" class="section s2">
-    <div class="section-header">
-      <div class="sec-badge" style="background:var(--p2);">P2</div>
-      <h2>Part 2 &mdash; Sending Messages</h2>
-      <span class="marks">100 Marks</span>
-    </div>
-    <div class="section-body">
-      <p>
-        Once a staff member has logged in successfully, they can send, store, or disregard messages using
-        a numeric menu. This part introduces loops, string manipulation, message ID and hash generation,
-        and JSON file storage.
-      </p>
 
-      <h3 class="sub">2.1 Application Menu</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Option</th><th>Feature</th><th>Behaviour</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>Send Messages</td><td>Prompts the user to enter and send one or more messages.</td></tr>
-            <tr><td>2</td><td>Show Recently Sent Messages</td><td>Feature still in development. Displays: "Coming Soon."</td></tr>
-            <tr><td>3</td><td>Quit</td><td>Exits the application cleanly.</td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="sh shg nb"><div class="sb">OVERVIEW</div><h2>Scenario Overview &mdash; SwiftDeliver</h2></div>
 
-      <div class="warn-box">
-        <strong>Important:</strong> The application must run until the user selects Quit (option 3). A while loop must control the menu. A for loop must control how many messages the user enters. No GUIs or JOptionPane dialogs are allowed.
-      </div>
+<p><strong>SwiftDeliver</strong> is a console-based messaging application developed for a food delivery service company operating across multiple branches in South Africa. Kitchen managers, branch supervisors, and delivery riders use the application to exchange real-time coordination messages about orders, from the moment a meal is prepared in the kitchen through to delivery confirmation at the customer's address.</p>
 
-      <h3 class="sub">2.2 Message Fields</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td class="label">Message ID</td><td>A randomly generated 10-digit number stored for each message to enable retrieval and deletion.</td></tr>
-            <tr><td class="label">Message Number</td><td>Starts at 0 and increments as more messages are sent. Generated using the loop counter.</td></tr>
-            <tr><td class="label">Recipient</td><td>The cell number of the recipient. Must start with an international code and contain no more than 10 characters after the code.</td></tr>
-            <tr><td class="label">Message</td><td>A short message. Must not exceed 250 characters. Error if exceeded; success if within limit.</td></tr>
-            <tr><td class="label">Message Hash</td><td>Auto-generated from: first two digits of the Message ID + ":" + message number + ":" + first word + last word, all in uppercase. Example: <code>00:0:HITHANKS</code></td></tr>
-          </tbody>
-        </table>
-      </div>
+<p>The application is built entirely as a Java console application with no graphical user interface. All user interaction happens through typed input and printed output. This mirrors the original POE specification requirement that no GUIs or JOptionPane dialogs may be used. The scenario demonstrates the same coding constructs required by the POE across all three parts: variables, data types, classes and methods, operators, decisions, loops, and arrays.</p>
 
-      <h3 class="sub">2.3 Send Options</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>User Choice</th><th>System Response</th></tr></thead>
-          <tbody>
-            <tr><td>Send Message</td><td class="yes">"Message successfully sent."</td></tr>
-            <tr><td>Disregard Message</td><td class="no">"Press 0 to delete the message."</td></tr>
-            <tr><td>Store Message to send later</td><td class="yes">"Message successfully stored."</td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="box bp2 nb"><div class="bt">Application identifiers</div><strong>Application name:</strong> SwiftDeliver &nbsp;&nbsp; <strong>Main class:</strong> <code>SwiftDeliver.java</code> &nbsp;&nbsp; <strong>Test class:</strong> <code>SwiftDeliverTest.java</code></div>
 
-      <h3 class="sub">2.4 Required Message Class Methods</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Method Signature</th><th>Return Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><code>checkMessageID()</code></td><td><span class="return-pill">boolean</span></td><td>Ensures the message ID is no more than 10 characters.</td></tr>
-            <tr><td><code>checkRecipientCell()</code></td><td><span class="return-pill">String</span></td><td>Ensures the recipient cell number starts with an international code and is the correct length.</td></tr>
-            <tr><td><code>createMessageHash()</code></td><td><span class="return-pill">String</span></td><td>Creates and returns the message hash in the format <code>XX:N:FIRSTLAST</code> all uppercase.</td></tr>
-            <tr><td><code>sendOptions()</code></td><td><span class="return-pill">String</span></td><td>Allows the user to choose to send, store, or disregard the message. Returns the appropriate status string.</td></tr>
-            <tr><td><code>printMessages()</code></td><td><span class="return-pill">String</span></td><td>Returns all messages sent while the program is running.</td></tr>
-            <tr><td><code>returnTotalMessages()</code></td><td><span class="return-pill">int</span></td><td>Returns the total number of messages sent in the current session.</td></tr>
-            <tr><td><code>storeMessageToJson()</code></td><td><span class="return-pill">void</span></td><td>Researched method. Stores the message as a JSON object appended to <code>messages.json</code>. Must be attributed in code.</td></tr>
-          </tbody>
-        </table>
-      </div>
 
-      <h3 class="sub">2.5 Unit Tests &mdash; Part 2</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Test</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
-          <tbody>
-            <tr><td>Message under 250 characters (success)</td><td>"Order #312 is ready for collection at counter B."</td><td>"Message ready to send."</td></tr>
-            <tr><td>Message over 250 characters (failure)</td><td>Any string over 250 chars</td><td>"Message exceeds 250 characters by X; please reduce the size."</td></tr>
-            <tr><td>Recipient correctly formatted</td><td>"+27761234567"</td><td>true</td></tr>
-            <tr><td>Recipient incorrectly formatted</td><td>"0766553"</td><td>false</td></tr>
-            <tr><td>Message hash correct for Test Message 1</td><td>ID="1234567890", msgNum=0, msg="Order ready"</td><td>"12:0:ORDERREADY"</td></tr>
-            <tr><td>Message ID is created (10 digits)</td><td>Auto-generated</td><td>Length equals 10</td></tr>
-            <tr><td>User selected Send</td><td>sendOptions("send")</td><td>"Message successfully sent."</td></tr>
-            <tr><td>User selected Disregard</td><td>sendOptions("discard")</td><td>"Press 0 to delete the message."</td></tr>
-            <tr><td>User selected Store</td><td>sendOptions("store")</td><td>"Message successfully stored."</td></tr>
-          </tbody>
-        </table>
-      </div>
 
-      <h3 class="sub">2.6 SwiftDeliver Part 2 Test Data</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>Message 1</th><th>Message 2</th></tr></thead>
-          <tbody>
-            <tr><td class="label">Recipient</td><td><code>+27761234567</code></td><td><code>08575975889</code></td></tr>
-            <tr><td class="label">Message</td><td>"Kitchen team, the special of the day is margherita pizza and garlic bread."</td><td>"Please note the customer at table three has a nut allergy."</td></tr>
-            <tr><td class="label">Action</td><td><span class="pill pill-sent">SEND</span></td><td><span class="pill pill-discard">DISCARD</span></td></tr>
-            <tr><td class="label">Message ID</td><td>Auto-generated</td><td>Auto-generated</td></tr>
-            <tr><td class="label">Message Hash</td><td>Auto-generated</td><td>Auto-generated</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div class="sh sh1 nb"><div class="sb">PART 1</div><h2>Part 1 &mdash; Account Setup and Sign In</h2><span class="mp">100 Marks</span></div>
 
-  <!-- SECTION: PART 3 -->
-  <div id="part3" class="section s3">
-    <div class="section-header">
-      <div class="sec-badge" style="background:var(--p3);">P3</div>
-      <h2>Part 3 &mdash; Store Data and Display Reports</h2>
-      <span class="marks">100 Marks</span>
-    </div>
-    <div class="section-body">
-      <p>
-        Part 3 extends SwiftDeliver with five in-memory arrays, a fourth menu option for stored messages,
-        and a full suite of unit tests. It also requires reading the JSON file back into an array on startup.
-      </p>
+<p>The account setup and sign-in feature allows a SwiftDeliver staff member to create an account and then sign in. This is the entry point to the application and must be completed before any messaging features are accessible.</p>
 
-      <h3 class="sub">3.1 Required Arrays</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Array Name</th><th>Contents</th></tr></thead>
-          <tbody>
-            <tr><td class="label">Sent Messages</td><td>Contains all messages the user chose to send.</td></tr>
-            <tr><td class="label">Disregarded Messages</td><td>Contains all messages the user chose to disregard.</td></tr>
-            <tr><td class="label">Stored Messages</td><td>Loaded from the <code>messages.json</code> file on startup, then updated as new messages are stored. Contains all stored messages.</td></tr>
-            <tr><td class="label">Message Hashes</td><td>Parallel array containing all message hashes in the same order as the sent messages array.</td></tr>
-            <tr><td class="label">Message IDs</td><td>Parallel array containing all message IDs in the same order as the sent messages array.</td></tr>
-          </tbody>
-        </table>
-      </div>
 
-      <h3 class="sub">3.2 Fourth Menu Option &mdash; Stored Messages Sub-Menu</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Option</th><th>Feature</th><th>Expected Behaviour</th></tr></thead>
-          <tbody>
-            <tr><td>a</td><td>Display sender and recipient of all stored messages</td><td>Loops over the stored messages array and prints each recipient and message body.</td></tr>
-            <tr><td>b</td><td>Display the longest stored message</td><td>Finds and prints the message with the greatest character count from the stored array.</td></tr>
-            <tr><td>c</td><td>Search by Message ID</td><td>Accepts a message ID from the user, searches the sent and stored arrays, returns the matching recipient and message.</td></tr>
-            <tr><td>d</td><td>Search by recipient</td><td>Accepts a recipient number, returns all messages in the sent and stored arrays for that recipient.</td></tr>
-            <tr><td>e</td><td>Delete by Message Hash</td><td>Accepts a hash, removes the matching message from the stored array and compacts the array. Returns a confirmation message.</td></tr>
-            <tr><td>f</td><td>Display full report</td><td>Prints the Message Hash, Recipient, and Message body for every stored message.</td></tr>
-          </tbody>
-        </table>
-      </div>
 
-      <h3 class="sub">3.3 SwiftDeliver Part 3 Test Data &mdash; 5 Messages</h3>
-      <p>
-        The method <code>populateTestMessages()</code> pre-loads these five messages so the marker can
-        immediately exercise every sub-menu option without entering messages manually.
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Recipient</th><th>Message</th><th>Flag</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><strong>1</strong></td>
-              <td><code>+27761234567</code></td>
-              <td>"Has the pizza left the kitchen yet?"</td>
-              <td><span class="pill pill-sent">SENT</span></td>
-            </tr>
-            <tr>
-              <td><strong>2</strong></td>
-              <td><code>+27769876543</code></td>
-              <td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td>
-              <td><span class="pill pill-stored">STORED</span></td>
-            </tr>
-            <tr>
-              <td><strong>3</strong></td>
-              <td><code>+27761112233</code></td>
-              <td>"Oops, wrong order sent to table six."</td>
-              <td><span class="pill pill-discard">DISREGARDED</span></td>
-            </tr>
-            <tr>
-              <td><strong>4</strong></td>
-              <td><code>0769876543</code></td>
-              <td>"Rider is outside now!"</td>
-              <td><span class="pill pill-sent">SENT</span></td>
-            </tr>
-            <tr>
-              <td><strong>5</strong></td>
-              <td><code>+27769876543</code></td>
-              <td>"Order confirmed and signed for, thanks!"</td>
-              <td><span class="pill pill-stored">STORED</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<h3 class="sub">1.1 Registration Conditions and Messages</h3>
 
-      <div class="info-box">
-        <strong>Message 2</strong> is the longest stored message and satisfies sub-menu option (b).<br>
-        <strong>Messages 2 and 5</strong> share recipient <code>+27769876543</code> and satisfy sub-menu option (d).<br>
-        <strong>Message 4</strong> uses a local-format number, mirroring the original POE test data structure.
-      </div>
+<div class="tw nb">
 
-      <h3 class="sub">3.4 Unit Tests &mdash; Part 3</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Test (assertEquals)</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>Sent messages array correctly populated</td>
-              <td>Messages 1 and 4 from <code>populateTestMessages()</code></td>
-              <td>"Has the pizza left the kitchen yet?" and "Rider is outside now!"</td>
-            </tr>
-            <tr>
-              <td>Display the longest stored message</td>
-              <td>Messages 1 through 5</td>
-              <td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td>
-            </tr>
-            <tr>
-              <td>Search for a message ID</td>
-              <td>Message 4 ID (auto-generated, retrieved from array)</td>
-              <td>"Rider is outside now!"</td>
-            </tr>
-            <tr>
-              <td>Search all messages for a particular recipient</td>
-              <td>"+27769876543"</td>
-              <td>"Your order is stuck in traffic on the N1..." and "Order confirmed and signed for, thanks!"</td>
-            </tr>
-            <tr>
-              <td>Delete a message using a message hash</td>
-              <td>Hash of Message 2 (auto-generated, retrieved from array)</td>
-              <td>Message: "Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM." successfully deleted.</td>
-            </tr>
-            <tr>
-              <td>Display report</td>
-              <td>All stored messages</td>
-              <td>Report showing Message Hash, Recipient, and Message for each stored entry.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<table class="th-p1">
 
-      <h3 class="sub">3.5 populateTestMessages Code Snippet</h3>
+<thead><tr><th>Field</th><th>Condition</th><th>True Message</th><th>False Message</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Handle</td><td>Contains an underscore and is no more than 5 characters long.</td><td class="yes">"Handle successfully captured."</td><td class="no">"That handle is not valid; it must include an underscore and be at most five characters."</td></tr>
+
+<tr><td class="lb">Passkey</td><td>At least 8 characters, one capital letter, one number, one special character.</td><td class="yes">"Passkey successfully captured."</td><td class="no">"Passkey is not correctly formatted; please ensure it contains at least eight characters, a capital letter, a number, and a special character."</td></tr>
+
+<tr><td class="lb">Contact Number</td><td>Starts with international country code (+27), followed by exactly 9 digits. Implemented via a researched regex (must be attributed in code).</td><td class="yes">"Contact number successfully added."</td><td class="no">"That contact number is not valid; make sure it starts with +27 and has 9 digits after."</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">1.2 Sign In Conditions and Messages</h3>
+
+<div class="tw nb">
+
+<table class="th-p1">
+
+<thead><tr><th>Condition</th><th>True</th><th>False</th></tr></thead>
+
+<tbody>
+
+<tr><td>Entered handle and passkey match the registered credentials.</td><td class="yes">"Welcome back, [first name] [last name]!"</td><td class="no">"Username or passkey incorrect, please try again."</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Part 1: Account Setup</span></div>
+
+</div>
+
+
+
+<!-- PAGE 2b: P1 continued + P2 -->
+
+<div class="page">
+
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
+
+<h3 class="sub">1.3 Required Login Class Methods</h3>
+
+<div class="tw">
+
+<table class="th-p1">
+
+<thead><tr><th>Method Signature</th><th>Return Type</th><th>Description</th></tr></thead>
+
+<tbody>
+
+<tr><td><code>checkUserName()</code></td><td><span class="rp">boolean</span></td><td>Returns true if the handle contains an underscore and is no more than 5 characters.</td></tr>
+
+<tr><td><code>checkPasswordComplexity()</code></td><td><span class="rp">boolean</span></td><td>Returns true if the passkey meets all complexity requirements (8 chars, capital, number, special).</td></tr>
+
+<tr><td><code>checkCellPhoneNumber()</code></td><td><span class="rp">boolean</span></td><td>Returns true if the contact number starts with +27 and has exactly 9 digits after it. Must be researched and attributed.</td></tr>
+
+<tr><td><code>registerUser()</code></td><td><span class="rp">String</span></td><td>Returns the appropriate registration message depending on which validation passes or fails.</td></tr>
+
+<tr><td><code>loginUser()</code></td><td><span class="rp">boolean</span></td><td>Verifies that the entered credentials match the stored registration credentials.</td></tr>
+
+<tr><td><code>returnLoginStatus()</code></td><td><span class="rp">String</span></td><td>Returns the appropriate success or failure sign-in message.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">1.4 Unit Tests &mdash; Part 1</h3>
+
+<div class="tw">
+
+<table class="th-p1">
+
+<thead><tr><th>Test Type</th><th>Test Description</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
+
+<tbody>
+
+<tr><td>assertEquals</td><td>Handle correctly formatted</td><td><code>"jd_01"</code></td><td>true + welcome message</td></tr>
+
+<tr><td>assertEquals</td><td>Handle incorrectly formatted</td><td><code>"jdoe!!!!"</code></td><td>"That handle is not valid..."</td></tr>
+
+<tr><td>assertEquals</td><td>Passkey meets complexity</td><td><code>"Deliver@99!"</code></td><td>"Passkey successfully captured."</td></tr>
+
+<tr><td>assertEquals</td><td>Passkey does not meet complexity</td><td><code>"delivery"</code></td><td>"Passkey is not correctly formatted..."</td></tr>
+
+<tr><td>assertEquals</td><td>Contact number correctly formatted</td><td><code>"+27761234567"</code></td><td>"Contact number successfully added."</td></tr>
+
+<tr><td>assertEquals</td><td>Contact number incorrectly formatted</td><td><code>"0766553"</code></td><td>"That contact number is not valid..."</td></tr>
+
+<tr><td>assertTrue</td><td>Sign in successful</td><td>Correct handle and passkey</td><td>true</td></tr>
+
+<tr><td>assertFalse</td><td>Sign in failed</td><td>Wrong passkey</td><td>false</td></tr>
+
+<tr><td>assertTrue</td><td>Handle correctly formatted</td><td><code>"jd_01"</code></td><td>true</td></tr>
+
+<tr><td>assertFalse</td><td>Handle incorrectly formatted</td><td><code>"jdoe!!!!"</code></td><td>false</td></tr>
+
+<tr><td>assertTrue</td><td>Passkey meets complexity</td><td><code>"Deliver@99!"</code></td><td>true</td></tr>
+
+<tr><td>assertFalse</td><td>Passkey does not meet complexity</td><td><code>"delivery"</code></td><td>false</td></tr>
+
+<tr><td>assertTrue</td><td>Contact number correctly formatted</td><td><code>"+27761234567"</code></td><td>true</td></tr>
+
+<tr><td>assertFalse</td><td>Contact number incorrectly formatted</td><td><code>"0766553"</code></td><td>false</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Scenario Overview / Part 1</span></div>
+
+</div>
+
+<!-- PAGE 3: PART 2 -->
+
+<div class="page">
+
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
+
+<div class="sh sh2 nb"><div class="sb">PART 2</div><h2>Part 2 &mdash; Dispatching Messages</h2><span class="mp">100 Marks</span></div>
+
+<p>Once a staff member has signed in successfully, they can dispatch, save, or cancel messages using a numeric menu. This part introduces loops, string manipulation, message ID and hash generation, and JSON file storage.</p>
+
+
+
+<h3 class="sub">2.1 Application Menu</h3>
+
+<div class="tw nb">
+
+<table class="th-p2">
+
+<thead><tr><th>Option</th><th>Feature</th><th>Behaviour</th></tr></thead>
+
+<tbody>
+
+<tr><td>1</td><td>Dispatch Messages</td><td>Prompts the user to enter and dispatch one or more messages.</td></tr>
+
+<tr><td>2</td><td>Recently Dispatched</td><td>Feature still in development. Displays: "Coming Soon."</td></tr>
+
+<tr><td>3</td><td>Exit</td><td>Exits the application cleanly.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="box bgl nb"><div class="bt">Important constraint</div>The application must run until the user selects Exit (option 3). A while loop must control the menu. A for loop must control how many messages the user enters. No GUIs or JOptionPane dialogs are allowed.</div>
+
+
+
+<h3 class="sub">2.2 Message Fields</h3>
+
+<div class="tw nb">
+
+<table class="th-p2">
+
+<thead><tr><th>Field</th><th>Description</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Message ID</td><td>A randomly generated 10-digit number stored for each message to enable retrieval and deletion.</td></tr>
+
+<tr><td class="lb">Message Number</td><td>Starts at 0 and increments as more messages are dispatched. Generated using the loop counter.</td></tr>
+
+<tr><td class="lb">Recipient</td><td>The contact number of the recipient. Must start with an international code and contain no more than 10 characters after the code.</td></tr>
+
+<tr><td class="lb">Message</td><td>A short message. Must not exceed 250 characters. Error if exceeded; success if within limit.</td></tr>
+
+<tr><td class="lb">Message Hash</td><td>Auto-generated from: first two digits of the Message ID + ":" + message number + ":" + first word + last word, all in uppercase. Example: <code>00:0:HITHANKS</code></td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">2.3 Dispatch Options</h3>
+
+<div class="tw nb">
+
+<table class="th-p2">
+
+<thead><tr><th>User Choice</th><th>System Response</th></tr></thead>
+
+<tbody>
+
+<tr><td>Dispatch Message</td><td class="yes">"Message successfully sent."</td></tr>
+
+<tr><td>Cancel Message</td><td class="no">"Press 0 to delete the message."</td></tr>
+
+<tr><td>Save Message to send later</td><td class="yes">"Message successfully stored."</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">2.4 Required Message Class Methods</h3>
+
+<div class="tw">
+
+<table class="th-p2">
+
+<thead><tr><th>Method Signature</th><th>Return Type</th><th>Description</th></tr></thead>
+
+<tbody>
+
+<tr><td><code>checkMessageID()</code></td><td><span class="rp">boolean</span></td><td>Ensures the message ID is no more than 10 characters.</td></tr>
+
+<tr><td><code>checkRecipientCell()</code></td><td><span class="rp">String</span></td><td>Ensures the recipient contact number starts with an international code and is the correct length.</td></tr>
+
+<tr><td><code>createMessageHash()</code></td><td><span class="rp">String</span></td><td>Creates and returns the message hash in the format <code>XX:N:FIRSTLAST</code> all uppercase.</td></tr>
+
+<tr><td><code>sendOptions()</code></td><td><span class="rp">String</span></td><td>Allows the user to choose to dispatch, save, or cancel the message. Returns the appropriate status string.</td></tr>
+
+<tr><td><code>printMessages()</code></td><td><span class="rp">String</span></td><td>Returns all messages dispatched while the program is running.</td></tr>
+
+<tr><td><code>returnTotalMessages()</code></td><td><span class="rp">int</span></td><td>Returns the total number of messages dispatched in the current session.</td></tr>
+
+<tr><td><code>storeMessageToJson()</code></td><td><span class="rp">void</span></td><td>Researched method. Saves the message as a JSON object appended to <code>messages.json</code>. Must be attributed in code.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">2.5 Unit Tests &mdash; Part 2</h3>
+
+<div class="tw">
+
+<table class="th-p2">
+
+<thead><tr><th>Test</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
+
+<tbody>
+
+<tr><td>Message under 250 characters (success)</td><td><code>"Order #312 is ready for collection at counter B."</code></td><td>"Message ready to send."</td></tr>
+
+<tr><td>Message over 250 characters (failure)</td><td>Any string over 250 chars</td><td>"Message exceeds 250 characters by X; please reduce the size."</td></tr>
+
+<tr><td>Recipient correctly formatted</td><td><code>"+27761234567"</code></td><td>true</td></tr>
+
+<tr><td>Recipient incorrectly formatted</td><td><code>"0766553"</code></td><td>false</td></tr>
+
+<tr><td>Message hash correct for Test Message 1</td><td>ID="1234567890", msgNum=0, msg="Order ready"</td><td><code>"12:0:ORDERREADY"</code></td></tr>
+
+<tr><td>Message ID is created (10 digits)</td><td>Auto-generated</td><td>Length equals 10</td></tr>
+
+<tr><td>User selected Dispatch</td><td>sendOptions("send")</td><td>"Message successfully sent."</td></tr>
+
+<tr><td>User selected Cancel</td><td>sendOptions("discard")</td><td>"Press 0 to delete the message."</td></tr>
+
+<tr><td>User selected Save</td><td>sendOptions("store")</td><td>"Message successfully stored."</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">2.6 SwiftDeliver Part 2 Test Data</h3>
+
+<div class="tw nb">
+
+<table class="th-p2">
+
+<thead><tr><th>Field</th><th>Message 1</th><th>Message 2</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Recipient</td><td><code>+27761234567</code></td><td><code>08575975889</code></td></tr>
+
+<tr><td class="lb">Message</td><td>"Kitchen team, the special of the day is margherita pizza and garlic bread."</td><td>"Please note the customer at table three has a nut allergy."</td></tr>
+
+<tr><td class="lb">Action</td><td><span class="pill ps">DISPATCH</span></td><td><span class="pill pd">CANCEL</span></td></tr>
+
+<tr><td class="lb">Message ID</td><td>Auto-generated</td><td>Auto-generated</td></tr>
+
+<tr><td class="lb">Message Hash</td><td>Auto-generated</td><td>Auto-generated</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Part 2: Dispatching Messages</span></div>
+
+</div>
+
+
+
+<!-- PAGE 4: PART 3 -->
+
+<div class="page">
+
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
+
+<div class="sh sh3 nb"><div class="sb">PART 3</div><h2>Part 3 &mdash; Store Data and Display Reports</h2><span class="mp">100 Marks</span></div>
+
+<p>Part 3 extends SwiftDeliver with five in-memory arrays, a fourth menu option for saved messages, and a full suite of unit tests. It also requires reading the JSON file back into an array on startup.</p>
+
+
+
+<h3 class="sub">3.1 Required Arrays</h3>
+
+<div class="tw nb">
+
+<table class="th-p3">
+
+<thead><tr><th>Array Name</th><th>Contents</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Dispatched Messages</td><td>Contains all messages the user chose to dispatch.</td></tr>
+
+<tr><td class="lb">Cancelled Messages</td><td>Contains all messages the user chose to cancel.</td></tr>
+
+<tr><td class="lb">Saved Messages</td><td>Loaded from the <code>messages.json</code> file on startup, then updated as new messages are saved. Contains all saved messages.</td></tr>
+
+<tr><td class="lb">Message Hashes</td><td>Parallel array containing all message hashes in the same order as the dispatched messages array.</td></tr>
+
+<tr><td class="lb">Message IDs</td><td>Parallel array containing all message IDs in the same order as the dispatched messages array.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">3.2 Fourth Menu Option &mdash; Saved Messages Sub-Menu</h3>
+
+<div class="tw">
+
+<table class="th-p3">
+
+<thead><tr><th>Option</th><th>Feature</th><th>Expected Behaviour</th></tr></thead>
+
+<tbody>
+
+<tr><td>a</td><td>Display sender and recipient of all saved messages</td><td>Loops over the saved messages array and prints each recipient and message body.</td></tr>
+
+<tr><td>b</td><td>Display the longest saved message</td><td>Finds and prints the message with the greatest character count from the saved array.</td></tr>
+
+<tr><td>c</td><td>Look up by Message ID</td><td>Accepts a message ID, searches the dispatched and saved arrays, returns the matching recipient and message.</td></tr>
+
+<tr><td>d</td><td>Look up by recipient</td><td>Accepts a recipient number, returns all messages in the dispatched and saved arrays for that recipient.</td></tr>
+
+<tr><td>e</td><td>Remove by Message Hash</td><td>Accepts a hash, removes the matching message from the saved array and compacts the array. Returns a confirmation message.</td></tr>
+
+<tr><td>f</td><td>Display full report</td><td>Prints the Message Hash, Recipient, and Message body for every saved message.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">3.3 SwiftDeliver Part 3 Test Data &mdash; 5 Messages</h3>
+
+<p>The method <code>populateTestMessages()</code> pre-loads these five messages so the marker can immediately exercise every sub-menu option without entering messages manually.</p>
+
+<div class="tw nb">
+
+<table class="th-p3">
+
+<thead><tr><th>#</th><th>Recipient</th><th>Message</th><th>Flag</th></tr></thead>
+
+<tbody>
+
+<tr><td><strong>1</strong></td><td><code>+27761234567</code></td><td>"Has the pizza left the kitchen yet?"</td><td><span class="pill ps">DISPATCHED</span></td></tr>
+
+<tr><td><strong>2</strong></td><td><code>+27769876543</code></td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td><td><span class="pill pst">SAVED</span></td></tr>
+
+<tr><td><strong>3</strong></td><td><code>+27761112233</code></td><td>"Oops, wrong order sent to table six."</td><td><span class="pill pd">CANCELLED</span></td></tr>
+
+<tr><td><strong>4</strong></td><td><code>0769876543</code></td><td>"Rider is outside now!"</td><td><span class="pill ps">DISPATCHED</span></td></tr>
+
+<tr><td><strong>5</strong></td><td><code>+27769876543</code></td><td>"Order confirmed and signed for, thanks!"</td><td><span class="pill pst">SAVED</span></td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="box bp3 nb"><div class="bt">Key markers for sub-menu testing</div><strong>Message 2</strong> is the longest saved message and satisfies sub-menu option (b). <strong>Messages 2 and 5</strong> share recipient <code>+27769876543</code> and satisfy sub-menu option (d). <strong>Message 4</strong> uses a local-format number, mirroring the original POE test data structure.</div>
+
+
+
+<h3 class="sub">3.4 Unit Tests &mdash; Part 3</h3>
+
+<div class="tw">
+
+<table class="th-p3">
+
+<thead><tr><th>Test (assertEquals)</th><th>SwiftDeliver Test Data</th><th>Expected Result</th></tr></thead>
+
+<tbody>
+
+<tr><td>Dispatched messages array correctly populated</td><td>Messages 1 and 4 from <code>populateTestMessages()</code></td><td>"Has the pizza left the kitchen yet?" and "Rider is outside now!"</td></tr>
+
+<tr><td>Display the longest saved message</td><td>Messages 1 through 5</td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td></tr>
+
+<tr><td>Look up a message ID</td><td>Message 4 ID (auto-generated, retrieved from array)</td><td>"Rider is outside now!"</td></tr>
+
+<tr><td>Look up all messages for a particular recipient</td><td><code>"+27769876543"</code></td><td>"Your order is stuck in traffic on the N1..." and "Order confirmed and signed for, thanks!"</td></tr>
+
+<tr><td>Remove a message using a message hash</td><td>Hash of Message 2 (auto-generated, retrieved from array)</td><td>Message: "Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM." successfully deleted.</td></tr>
+
+<tr><td>Display report</td><td>All saved messages</td><td>Report showing Message Hash, Recipient, and Message for each saved entry.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">3.5 populateTestMessages Code Snippet</h3>
+
 <pre>
+
 <span class="cmt">// I pre-load the 5 SwiftDeliver test messages specified in my Part 3 scenario.</span>
+
 <span class="kw">public static void</span> <span class="mtd">populateTestMessages</span>() {
 
-    <span class="cmt">// Message 1 Sent: kitchen manager asks if the pizza has left</span>
+    <span class="cmt">// Message 1 Dispatched: kitchen manager asks if the pizza has left</span>
+
     Message msg1 = <span class="kw">new</span> <span class="mtd">Message</span>(<span class="str">"+27761234567"</span>, <span class="str">"Has the pizza left the kitchen yet?"</span>, sentCount);
+
     msg1.<span class="mtd">setMessageType</span>(<span class="str">"sent"</span>);
+
     sentMessages[sentCount] = msg1;  messageHashes[sentCount] = msg1.<span class="mtd">getMessageHash</span>();
+
     messageIDs[sentCount]   = msg1.<span class="mtd">getMessageID</span>();   sentCount++;
 
-    <span class="cmt">// Message 2 Stored: rider notifies customer about a traffic delay (longest message)</span>
+    <span class="cmt">// Message 2 Saved: rider notifies customer about a traffic delay (longest message)</span>
+
     Message msg2 = <span class="kw">new</span> <span class="mtd">Message</span>(<span class="str">"+27769876543"</span>,
+
         <span class="str">"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</span>, storeCount);
+
     msg2.<span class="mtd">setMessageType</span>(<span class="str">"stored"</span>);
+
     storedMessages[storeCount] = msg2;   storeCount++;
 
-    <span class="cmt">// Message 3 Disregarded: wrong order notification, no longer relevant</span>
+    <span class="cmt">// Message 3 Cancelled: wrong order notification, no longer relevant</span>
+
     Message msg3 = <span class="kw">new</span> <span class="mtd">Message</span>(<span class="str">"+27761112233"</span>, <span class="str">"Oops, wrong order sent to table six."</span>, discardCount);
+
     msg3.<span class="mtd">setMessageType</span>(<span class="str">"disregarded"</span>);
+
     disregardedMessages[discardCount] = msg3;   discardCount++;
 
-    <span class="cmt">// Message 4 Sent: rider confirms arrival (local format number as per POE table)</span>
+    <span class="cmt">// Message 4 Dispatched: rider confirms arrival (local format number as per POE table)</span>
+
     Message msg4 = <span class="kw">new</span> <span class="mtd">Message</span>(<span class="str">"0769876543"</span>, <span class="str">"Rider is outside now!"</span>, sentCount);
+
     msg4.<span class="mtd">setMessageType</span>(<span class="str">"sent"</span>);
+
     sentMessages[sentCount] = msg4;  messageHashes[sentCount] = msg4.<span class="mtd">getMessageHash</span>();
+
     messageIDs[sentCount]   = msg4.<span class="mtd">getMessageID</span>();   sentCount++;
 
-    <span class="cmt">// Message 5 Stored: customer confirms delivery was successful</span>
+    <span class="cmt">// Message 5 Saved: customer confirms delivery was successful</span>
+
     Message msg5 = <span class="kw">new</span> <span class="mtd">Message</span>(<span class="str">"+27769876543"</span>, <span class="str">"Order confirmed and signed for, thanks!"</span>, storeCount);
+
     msg5.<span class="mtd">setMessageType</span>(<span class="str">"stored"</span>);
+
     storedMessages[storeCount] = msg5;   storeCount++;
+
 }
+
 </pre>
-    </div>
-  </div>
 
-  <!-- SECTION: FULL RUBRIC -->
-  <div id="rubric" class="section sg">
-    <div class="section-header">
-      <div class="sec-badge s0">RB</div>
-      <h2>Full Marking Rubric &mdash; All Three Parts</h2>
-      <span class="marks">300 Total Marks</span>
-    </div>
-    <div class="section-body">
 
-      <h3 class="sub">Part 1 Rubric &mdash; Registration and Login (100 Marks)</h3>
-      <div class="table-wrap">
-        <table class="rubric-table">
-          <thead>
-            <tr>
-              <th style="width:30%">Criteria</th>
-              <th class="level-ex level-hdr">Excellent</th>
-              <th class="level-gd level-hdr">Good</th>
-              <th class="level-dev level-hdr">Developing</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="label">Registration: Username validation contains underscore and max 5 chars</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly with some bugs.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td>
-            </tr>
-            <tr>
-              <td class="label">Registration: Password meets complexity requirements</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly with some bugs.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td>
-            </tr>
-            <tr>
-              <td class="label">Registration: Researched regex cell phone checker implemented and attributed</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented and attributed.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly, with some bugs or is not attributed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy. Feature is not attributed.</td>
-            </tr>
-            <tr>
-              <td class="label">Login: Appropriate decision structure used to verify authentication</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly with some bugs.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td>
-            </tr>
-            <tr>
-              <td class="label">Login: System responds with appropriate confirmation and error messages</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly with some bugs.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td>
-            </tr>
-            <tr>
-              <td class="label">Unit Tests: Created and correctly test the expected functionality</td>
-              <td class="level-ex"><span class="mark-range">13 to 15</span>Feature excellently implemented.</td>
-              <td class="level-gd"><span class="mark-range">8 to 12</span>Feature working mostly with some bugs.</td>
-              <td class="level-dev"><span class="mark-range">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td>
-            </tr>
-            <tr>
-              <td class="label">Coding Standard and Code Complexity</td>
-              <td class="level-ex"><span class="mark-range">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Sufficient variable names, acceptable complexity, low code redundancy, comments present.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td>
-            </tr>
-            <tr>
-              <td class="label">GitHub not used</td>
-              <td colspan="3" style="color:#f07070; text-align:center;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
-      <h3 class="sub" style="margin-top:28px;">Part 2 Rubric &mdash; Sending Messages (100 Marks)</h3>
-      <div class="table-wrap">
-        <table class="rubric-table">
-          <thead>
-            <tr>
-              <th style="width:30%">Criteria</th>
-              <th class="level-ex level-hdr">Excellent</th>
-              <th class="level-gd level-hdr">Good</th>
-              <th class="level-dev level-hdr">Developing</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="label">Welcome message and numeric menu display correctly</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>Numeric menu displays and allows the user to choose an option using numbers 1 to 3.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>Menu displays; users are able to choose an option.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>Menu does not display or throws errors when user enters a numeric option.</td>
-            </tr>
-            <tr>
-              <td class="label">While loop: Application runs until user quits</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>The loop runs correctly and quits on correct input.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>Loop present but does not quit on correct input, or does not run for the duration of the app.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>No loop present or infinite loop.</td>
-            </tr>
-            <tr>
-              <td class="label">For loop: User enters the assigned number of messages</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>A for loop allows the user to enter the assigned number of messages. Loop runs and exits correctly.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>A for loop is used with one-off errors; still allows user to enter messages.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>No loop or infinite loop.</td>
-            </tr>
-            <tr>
-              <td class="label">Enter message details: adequate output, appropriate variables</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Application provides adequate output for the user to enter all necessary message details. Appropriate variables exist.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Feature allows the user to add details to messages.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Not all data can be entered or variables are not stored correctly.</td>
-            </tr>
-            <tr>
-              <td class="label">Message number increments correctly via loop counter</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>The message number increments correctly as the loop runs.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>One-off errors in incrementing.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>Loop does not run correctly and does not generate task numbers.</td>
-            </tr>
-            <tr>
-              <td class="label">Message ID: created using string manipulation and loop counters, displayed correctly</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Message ID created using string manipulation and loop counters, displayed correctly for all looped tests.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Message ID created using string manipulation and counters but contains one-off or other errors.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Message ID is hard-coded or incorrect.</td>
-            </tr>
-            <tr>
-              <td class="label">Message Hash: created using string manipulation, displayed correctly</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Message Hash created using string manipulation and loop counters, displayed correctly for all looped tests.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Message Hash created but contains one-off or other errors.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Message Hash is hard-coded or incorrect.</td>
-            </tr>
-            <tr>
-              <td class="label">Message details display correctly and all tests pass</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Message details displayed in the correct order and tests pass.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Majority of message details display correctly.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Message details do not display or display with multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Messages stored as JSON file and code attributed</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Messages successfully stored as a JSON file and the code is attributed.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Messages stored as a JSON file but the code is not attributed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Messages not stored as JSON file or the code contains multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Unit Tests: created, passed, and adequately test functionality</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Unit tests created, passed, and adequately test the functionality.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Unit tests created but do not adequately test the functionality.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>No tests, or very little tests with errors in the test class.</td>
-            </tr>
-            <tr>
-              <td class="label">Automated Unit Tests via GitHub Actions</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>testjava.yml file updated to run test class tests and executes in GitHub. All tests present and passed.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>testjava.yml created but does not contain all tests. Executes in GitHub with some failures.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>No tests or multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Coding Standard and Code Complexity</td>
-              <td class="level-ex"><span class="mark-range">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Sufficient variable names, acceptable complexity, low redundancy, comments present.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td>
-            </tr>
-            <tr>
-              <td class="label">GitHub not used</td>
-              <td colspan="3" style="color:#f07070; text-align:center;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Part 3: Store Data and Display Reports</span></div>
 
-      <h3 class="sub" style="margin-top:28px;">Part 3 Rubric &mdash; Arrays and Reports (100 Marks)</h3>
-      <div class="table-wrap">
-        <table class="rubric-table">
-          <thead>
-            <tr>
-              <th style="width:30%">Criteria</th>
-              <th class="level-ex level-hdr">Excellent</th>
-              <th class="level-gd level-hdr">Good</th>
-              <th class="level-dev level-hdr">Developing</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="label">Arrays correctly populated</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Arrays created and populated correctly.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Arrays created but not populated correctly.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>No arrays, or arrays with multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Display details for the longest message</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>Application successfully searches parallel arrays and displays correct output.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>System searches parallel arrays but incorrect output is displayed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>Feature omitted or contains multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Search array for messages sent to particular recipient</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Application successfully searches parallel arrays and displays correct output.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>System searches parallel arrays but incorrect output is displayed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Feature omitted or contains multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Delete message using message hash</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Array successfully searched and the appropriate value removed.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Array searched; incorrect values or no value are removed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Feature not implemented or contains multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Read JSON file into array and display to the user (code attributed)</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>File read in correctly and the code is attributed.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>File read in; code is not attributed.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Feature not implemented or with multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Display message report</td>
-              <td class="level-ex"><span class="mark-range">8 to 10</span>Report displays correctly with the necessary information (Hash, Recipient, Message).</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Report displays but omits some information.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Feature not implemented or contains multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Unit Tests: created, passed, and adequately test functionality</td>
-              <td class="level-ex"><span class="mark-range">12 to 15</span>Unit tests created, passed, and adequately test the functionality.</td>
-              <td class="level-gd"><span class="mark-range">7 to 11</span>Unit tests created but do not adequately test the functionality.</td>
-              <td class="level-dev"><span class="mark-range">0 to 5</span>No tests, or very little tests with errors in the test class.</td>
-            </tr>
-            <tr>
-              <td class="label">Automated Unit Tests via GitHub Actions</td>
-              <td class="level-ex"><span class="mark-range">4 to 5</span>testjava.yml updated, executes in GitHub, all tests present and passed.</td>
-              <td class="level-gd"><span class="mark-range">2 to 3</span>testjava.yml created but does not contain all tests; executes with some failures.</td>
-              <td class="level-dev"><span class="mark-range">0 to 1</span>No tests or multiple errors.</td>
-            </tr>
-            <tr>
-              <td class="label">Completed application functions as a whole</td>
-              <td class="level-ex"><span class="mark-range">12 to 15</span>Exceptional work submitted. Student went beyond what is expected.</td>
-              <td class="level-gd"><span class="mark-range">7 to 11</span>Every feature detailed in parts 1 to 3 is working together holistically.</td>
-              <td class="level-dev"><span class="mark-range">0 to 5</span>No features working or multiple errors present.</td>
-            </tr>
-            <tr>
-              <td class="label">Coding Standard and Code Complexity</td>
-              <td class="level-ex"><span class="mark-range">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td>
-              <td class="level-gd"><span class="mark-range">4 to 7</span>Sufficient variable names, acceptable complexity, low redundancy, comments present.</td>
-              <td class="level-dev"><span class="mark-range">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td>
-            </tr>
-            <tr>
-              <td class="label">GitHub not used</td>
-              <td colspan="3" style="color:#f07070; text-align:center;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <!-- SECTION: CONSOLIDATED TEST DATA -->
-  <div id="testdata" class="section s2">
-    <div class="section-header">
-      <div class="sec-badge" style="background:var(--p2);">TD</div>
-      <h2>Consolidated Test Data Reference</h2>
-    </div>
-    <div class="section-body">
-      <h3 class="sub">Part 1 Test Data</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>Valid Example</th><th>Invalid Example</th></tr></thead>
-          <tbody>
-            <tr><td class="label">Username</td><td>"jd_01" (contains _, max 5 chars)</td><td>"jdoe!!!!" (no underscore, too long)</td></tr>
-            <tr><td class="label">Password</td><td>"Deliver@99!" (8+, capital, digit, special)</td><td>"delivery" (no capital, digit, or special)</td></tr>
-            <tr><td class="label">Cell Phone</td><td>"+27761234567" (international code + 9 digits)</td><td>"0766553" (no international code, too short)</td></tr>
-          </tbody>
-        </table>
-      </div>
+<!-- PAGE 5: RUBRIC PARTS 1 + 2 -->
 
-      <h3 class="sub">Part 2 Test Data</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>Message 1</th><th>Message 2</th></tr></thead>
-          <tbody>
-            <tr><td class="label">Recipient</td><td>+27761234567</td><td>08575975889</td></tr>
-            <tr><td class="label">Message</td><td>"Kitchen team, the special of the day is margherita pizza and garlic bread."</td><td>"Please note the customer at table three has a nut allergy."</td></tr>
-            <tr><td class="label">Action</td><td><span class="pill pill-sent">SEND</span></td><td><span class="pill pill-discard">DISCARD</span></td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="page">
 
-      <h3 class="sub">Part 3 Test Data</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Recipient</th><th>Message</th><th>Flag</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>+27761234567</td><td>"Has the pizza left the kitchen yet?"</td><td><span class="pill pill-sent">SENT</span></td></tr>
-            <tr><td>2</td><td>+27769876543</td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td><td><span class="pill pill-stored">STORED</span></td></tr>
-            <tr><td>3</td><td>+27761112233</td><td>"Oops, wrong order sent to table six."</td><td><span class="pill pill-discard">DISREGARDED</span></td></tr>
-            <tr><td>4</td><td>0769876543</td><td>"Rider is outside now!"</td><td><span class="pill pill-sent">SENT</span></td></tr>
-            <tr><td>5</td><td>+27769876543</td><td>"Order confirmed and signed for, thanks!"</td><td><span class="pill pill-stored">STORED</span></td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
 
-      <h3 class="sub">Expected JUnit Outcomes</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Test Class</th><th>Test Method</th><th>Expected Result</th></tr></thead>
-          <tbody>
-            <tr><td rowspan="6"><strong>MessageManagerTest</strong></td><td><code>testSentMessages_FirstMessageBody</code></td><td>"Has the pizza left the kitchen yet?"</td></tr>
-            <tr><td><code>testSentMessages_SecondMessageBody</code></td><td>"Rider is outside now!"</td></tr>
-            <tr><td><code>testLongestStoredMessage</code></td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td></tr>
-            <tr><td><code>testSearchByMessageID_FindsMessage4</code></td><td>"Rider is outside now!"</td></tr>
-            <tr><td><code>testSearchByRecipient_FindsBothMessages</code></td><td>Contains message 2 text and message 5 text</td></tr>
-            <tr><td><code>testDeleteByMessageHash_SuccessMessage</code></td><td>Contains "successfully deleted" and message 2 body</td></tr>
-            <tr><td rowspan="4"><strong>MessageTest</strong></td><td><code>testGenerateMessageID_Length</code></td><td>10</td></tr>
-            <tr><td><code>testCreateMessageHash_Format</code></td><td>"12:0:HELLOWORLD"</td></tr>
-            <tr><td><code>testSendOptions_Send</code></td><td>"Message successfully sent."</td></tr>
-            <tr><td><code>testSendOptions_Discard</code></td><td>"Press 0 to delete the message."</td></tr>
-            <tr><td rowspan="4"><strong>SwiftDeliverTest</strong></td><td><code>testCheckUserName_Valid</code></td><td>true</td></tr>
-            <tr><td><code>testCheckPasswordComplexity_Valid</code></td><td>true</td></tr>
-            <tr><td><code>testCheckCellPhoneNumber_Valid</code></td><td>true</td></tr>
-            <tr><td><code>testLogin_CorrectCredentials</code></td><td>true</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div class="sh shg nb"><div class="sb">RUBRIC</div><h2>Full Marking Rubric &mdash; All Three Parts</h2><span class="mp">300 Total Marks</span></div>
 
-  <!-- SECTION: ATTRIBUTION -->
-  <div id="attribution" class="section sg">
-    <div class="section-header">
-      <div class="sec-badge s0">CA</div>
-      <h2>Code Attribution</h2>
-    </div>
-    <div class="section-body">
-      <p>
-        The following external sources were used in writing the SwiftDeliver application. All comments
-        inside the source files are written in first-person to satisfy the attribution rubric requirement.
-        Consistent and congruent IEEE-style referencing has been applied throughout.
-      </p>
-      <ul class="attr-list">
-        <li>
-          <div class="attr-title">Scanner Console Input</div>
-          <div class="attr-source">Oracle. (2015). <em>Class Scanner</em>. Java SE 8 API Documentation. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html" target="_blank">https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html</a></div>
-        </li>
-        <li>
-          <div class="attr-title">Username Regex (contains underscore and max 5 characters)</div>
-          <div class="attr-source">Stack Overflow. (n.d.). <em>Regex to check string contains underscore and max 5 characters</em>. <a href="https://stackoverflow.com/questions/336210/" target="_blank">https://stackoverflow.com/questions/336210/</a> | GeeksforGeeks. (n.d.). <em>How to Validate a Username using Regular Expressions in Java</em>. <a href="https://www.geeksforgeeks.org/how-to-validate-a-username-using-regular-expressions-in-java/" target="_blank">geeksforgeeks.org</a></div>
-        </li>
-        <li>
-          <div class="attr-title">Password Complexity Regex with Look-aheads</div>
-          <div class="attr-source">Stack Overflow. (n.d.). <em>Password Complexity Check using Regex</em>. <a href="https://stackoverflow.com/questions/19605150/" target="_blank">https://stackoverflow.com/questions/19605150/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">SA (+27) Cell-Number Regex</div>
-          <div class="attr-source">Stack Overflow. (n.d.). <em>South African phone number validation regex</em>. <a href="https://stackoverflow.com/questions/33477950/" target="_blank">https://stackoverflow.com/questions/33477950/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">Random Class for Message ID Generation</div>
-          <div class="attr-source">Oracle. (2015). <em>Class Random</em>. Java SE 8 API Documentation. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" target="_blank">https://docs.oracle.com/javase/8/docs/api/java/util/Random.html</a></div>
-        </li>
-        <li>
-          <div class="attr-title">BufferedWriter and FileWriter Append Pattern (JSON Storage)</div>
-          <div class="attr-source">DigitalOcean. (n.d.). <em>Java append to file</em>. <a href="https://www.digitalocean.com/community/tutorials/java-append-to-file" target="_blank">https://www.digitalocean.com/community/tutorials/java-append-to-file</a></div>
-        </li>
-        <li>
-          <div class="attr-title">BufferedReader Line-by-Line File Read (JSON Loading)</div>
-          <div class="attr-source">DigitalOcean. (n.d.). <em>Java Read File Line by Line</em>. <a href="https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line" target="_blank">https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line</a></div>
-        </li>
-        <li>
-          <div class="attr-title">Arrays in Java</div>
-          <div class="attr-source">GeeksforGeeks. (n.d.). <em>Arrays in Java</em>. <a href="https://www.geeksforgeeks.org/arrays-in-java/" target="_blank">https://www.geeksforgeeks.org/arrays-in-java/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">File.exists() Persistence Check</div>
-          <div class="attr-source">Stack Overflow. (n.d.). <em>How to check if a file exists in Java</em>. <a href="https://stackoverflow.com/questions/1816673/" target="_blank">https://stackoverflow.com/questions/1816673/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">JUnit 5 Assertion Methods</div>
-          <div class="attr-source">JUnit Team. (2023). <em>JUnit 5 API Documentation</em>. <a href="https://junit.org/junit5/docs/current/api/" target="_blank">https://junit.org/junit5/docs/current/api/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">JUnit 5 Lifecycle Annotations</div>
-          <div class="attr-source">JUnit Team. (2023). <em>JUnit 5 User Guide</em>. <a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations" target="_blank">https://junit.org/junit5/docs/current/user-guide/</a></div>
-        </li>
-        <li>
-          <div class="attr-title">PROG5121 Lecture Slides and Course Material</div>
-          <div class="attr-source">The IIE / Rochelle Moodley. (2025). <em>PROG5121 Programming 1A Lecture Slides</em>. The Independent Institute of Education (internal, unpublished).</div>
-        </li>
-      </ul>
-    </div>
-  </div>
 
-</main>
 
-<footer>
-  SwiftDeliver &nbsp;|&nbsp; PROG5121 / Programming 1A POE &nbsp;|&nbsp; Tutor: Jorryn Panjasuran &nbsp;|&nbsp; 2026
-</footer>
+<h3 class="sub">Part 1 Rubric &mdash; Account Setup and Sign In (100 Marks)</h3>
+
+<div class="tw">
+
+<table class="th-p1 rt">
+
+<colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup>
+
+<thead><tr><th>Criteria</th><th class="lh">Excellent</th><th class="lh">Good</th><th class="lh">Developing</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Registration: Handle validation contains underscore and max 5 chars</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly with some bugs.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td></tr>
+
+<tr><td class="lb">Registration: Passkey meets complexity requirements</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly with some bugs.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td></tr>
+
+<tr><td class="lb">Registration: Researched regex contact number checker implemented and attributed</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented and attributed.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly, with some bugs or is not attributed.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy. Feature is not attributed.</td></tr>
+
+<tr><td class="lb">Sign In: Appropriate decision structure used to verify authentication</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly with some bugs.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td></tr>
+
+<tr><td class="lb">Sign In: System responds with appropriate confirmation and error messages</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly with some bugs.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td></tr>
+
+<tr><td class="lb">Unit Tests: Created and correctly test the expected functionality</td><td class="ex"><span class="mr">13 to 15</span>Feature excellently implemented.</td><td class="gd"><span class="mr">8 to 12</span>Feature working mostly with some bugs.</td><td class="dv"><span class="mr">0 to 7</span>Feature not implemented or very buggy, or the app does not compile.</td></tr>
+
+<tr><td class="lb">Coding Standard and Code Complexity</td><td class="ex"><span class="mr">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td><td class="gd"><span class="mr">4 to 7</span>Sufficient variable names, acceptable complexity, low code redundancy, comments present.</td><td class="dv"><span class="mr">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td></tr>
+
+<tr><td class="lb">GitHub not used</td><td colspan="3" style="color:#DC2626;text-align:center;font-weight:700;background:#FFF1F2;font-size:10px;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">Part 2 Rubric &mdash; Dispatching Messages (100 Marks)</h3>
+
+<div class="tw">
+
+<table class="th-p2 rt">
+
+<colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup>
+
+<thead><tr><th>Criteria</th><th class="lh">Excellent</th><th class="lh">Good</th><th class="lh">Developing</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Welcome message and numeric menu display correctly</td><td class="ex"><span class="mr">4 to 5</span>Numeric menu displays and allows the user to choose an option using numbers 1 to 3.</td><td class="gd"><span class="mr">2 to 3</span>Menu displays; users are able to choose an option.</td><td class="dv"><span class="mr">0 to 1</span>Menu does not display or throws errors when user enters a numeric option.</td></tr>
+
+<tr><td class="lb">While loop: Application runs until user exits</td><td class="ex"><span class="mr">4 to 5</span>The loop runs correctly and exits on correct input.</td><td class="gd"><span class="mr">2 to 3</span>Loop present but does not exit on correct input, or does not run for the duration of the app.</td><td class="dv"><span class="mr">0 to 1</span>No loop present or infinite loop.</td></tr>
+
+<tr><td class="lb">For loop: User enters the assigned number of messages</td><td class="ex"><span class="mr">8 to 10</span>A for loop allows the user to enter the assigned number of messages. Loop runs and exits correctly.</td><td class="gd"><span class="mr">4 to 7</span>A for loop is used with one-off errors; still allows user to enter messages.</td><td class="dv"><span class="mr">0 to 3</span>No loop or infinite loop.</td></tr>
+
+<tr><td class="lb">Enter message details: adequate output, appropriate variables</td><td class="ex"><span class="mr">8 to 10</span>Application provides adequate output for the user to enter all necessary message details.</td><td class="gd"><span class="mr">4 to 7</span>Feature allows the user to add details to messages.</td><td class="dv"><span class="mr">0 to 3</span>Not all data can be entered or variables are not stored correctly.</td></tr>
+
+<tr><td class="lb">Message number increments correctly via loop counter</td><td class="ex"><span class="mr">4 to 5</span>The message number increments correctly as the loop runs.</td><td class="gd"><span class="mr">2 to 3</span>One-off errors in incrementing.</td><td class="dv"><span class="mr">0 to 1</span>Loop does not run correctly and does not generate task numbers.</td></tr>
+
+<tr><td class="lb">Message ID: created using string manipulation and loop counters, displayed correctly</td><td class="ex"><span class="mr">8 to 10</span>Message ID created using string manipulation and loop counters, displayed correctly for all looped tests.</td><td class="gd"><span class="mr">4 to 7</span>Message ID created using string manipulation and counters but contains one-off or other errors.</td><td class="dv"><span class="mr">0 to 3</span>Message ID is hard-coded or incorrect.</td></tr>
+
+<tr><td class="lb">Message Hash: created using string manipulation, displayed correctly</td><td class="ex"><span class="mr">8 to 10</span>Message Hash created using string manipulation and loop counters, displayed correctly for all looped tests.</td><td class="gd"><span class="mr">4 to 7</span>Message Hash created but contains one-off or other errors.</td><td class="dv"><span class="mr">0 to 3</span>Message Hash is hard-coded or incorrect.</td></tr>
+
+<tr><td class="lb">Message details display correctly and all tests pass</td><td class="ex"><span class="mr">8 to 10</span>Message details displayed in the correct order and tests pass.</td><td class="gd"><span class="mr">4 to 7</span>Majority of message details display correctly.</td><td class="dv"><span class="mr">0 to 3</span>Message details do not display or display with multiple errors.</td></tr>
+
+<tr><td class="lb">Messages saved as JSON file and code attributed</td><td class="ex"><span class="mr">8 to 10</span>Messages successfully saved as a JSON file and the code is attributed.</td><td class="gd"><span class="mr">4 to 7</span>Messages saved as a JSON file but the code is not attributed.</td><td class="dv"><span class="mr">0 to 3</span>Messages not saved as JSON file or the code contains multiple errors.</td></tr>
+
+<tr><td class="lb">Unit Tests: created, passed, and adequately test functionality</td><td class="ex"><span class="mr">8 to 10</span>Unit tests created, passed, and adequately test the functionality.</td><td class="gd"><span class="mr">4 to 7</span>Unit tests created but do not adequately test the functionality.</td><td class="dv"><span class="mr">0 to 3</span>No tests, or very little tests with errors in the test class.</td></tr>
+
+<tr><td class="lb">Automated Unit Tests via GitHub Actions</td><td class="ex"><span class="mr">4 to 5</span>testjava.yml file updated to run test class tests and executes in GitHub. All tests present and passed.</td><td class="gd"><span class="mr">2 to 3</span>testjava.yml created but does not contain all tests. Executes in GitHub with some failures.</td><td class="dv"><span class="mr">0 to 1</span>No tests or multiple errors.</td></tr>
+
+<tr><td class="lb">Coding Standard and Code Complexity</td><td class="ex"><span class="mr">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td><td class="gd"><span class="mr">4 to 7</span>Sufficient variable names, acceptable complexity, low redundancy, comments present.</td><td class="dv"><span class="mr">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td></tr>
+
+<tr><td class="lb">GitHub not used</td><td colspan="3" style="color:#DC2626;text-align:center;font-weight:700;background:#FFF1F2;font-size:10px;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Full Marking Rubric: Parts 1 and 2</span></div>
+
+</div>
+
+
+
+<!-- PAGE 6: RUBRIC PART 3 + TEST DATA + ATTRIBUTION -->
+
+<div class="page">
+
+<div class="snote">SwiftDeliver | PROG5121 POE 2026 | Student: Jorryn Panjasuran | All content unchanged</div>
+
+<h3 class="sub">Part 3 Rubric &mdash; Arrays and Reports (100 Marks)</h3>
+
+<div class="tw">
+
+<table class="th-p3 rt">
+
+<colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup>
+
+<thead><tr><th>Criteria</th><th class="lh">Excellent</th><th class="lh">Good</th><th class="lh">Developing</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Arrays correctly populated</td><td class="ex"><span class="mr">8 to 10</span>Arrays created and populated correctly.</td><td class="gd"><span class="mr">4 to 7</span>Arrays created but not populated correctly.</td><td class="dv"><span class="mr">0 to 3</span>No arrays, or arrays with multiple errors.</td></tr>
+
+<tr><td class="lb">Display details for the longest message</td><td class="ex"><span class="mr">4 to 5</span>Application successfully searches parallel arrays and displays correct output.</td><td class="gd"><span class="mr">2 to 3</span>System searches parallel arrays but incorrect output is displayed.</td><td class="dv"><span class="mr">0 to 1</span>Feature omitted or contains multiple errors.</td></tr>
+
+<tr><td class="lb">Search array for messages sent to particular recipient</td><td class="ex"><span class="mr">8 to 10</span>Application successfully searches parallel arrays and displays correct output.</td><td class="gd"><span class="mr">4 to 7</span>System searches parallel arrays but incorrect output is displayed.</td><td class="dv"><span class="mr">0 to 3</span>Feature omitted or contains multiple errors.</td></tr>
+
+<tr><td class="lb">Remove message using message hash</td><td class="ex"><span class="mr">8 to 10</span>Array successfully searched and the appropriate value removed.</td><td class="gd"><span class="mr">4 to 7</span>Array searched; incorrect values or no value are removed.</td><td class="dv"><span class="mr">0 to 3</span>Feature not implemented or contains multiple errors.</td></tr>
+
+<tr><td class="lb">Read JSON file into array and display to the user (code attributed)</td><td class="ex"><span class="mr">8 to 10</span>File read in correctly and the code is attributed.</td><td class="gd"><span class="mr">4 to 7</span>File read in; code is not attributed.</td><td class="dv"><span class="mr">0 to 3</span>Feature not implemented or with multiple errors.</td></tr>
+
+<tr><td class="lb">Display message report</td><td class="ex"><span class="mr">8 to 10</span>Report displays correctly with the necessary information (Hash, Recipient, Message).</td><td class="gd"><span class="mr">4 to 7</span>Report displays but omits some information.</td><td class="dv"><span class="mr">0 to 3</span>Feature not implemented or contains multiple errors.</td></tr>
+
+<tr><td class="lb">Unit Tests: created, passed, and adequately test functionality</td><td class="ex"><span class="mr">12 to 15</span>Unit tests created, passed, and adequately test the functionality.</td><td class="gd"><span class="mr">7 to 11</span>Unit tests created but do not adequately test the functionality.</td><td class="dv"><span class="mr">0 to 5</span>No tests, or very little tests with errors in the test class.</td></tr>
+
+<tr><td class="lb">Automated Unit Tests via GitHub Actions</td><td class="ex"><span class="mr">4 to 5</span>testjava.yml updated, executes in GitHub, all tests present and passed.</td><td class="gd"><span class="mr">2 to 3</span>testjava.yml created but does not contain all tests; executes with some failures.</td><td class="dv"><span class="mr">0 to 1</span>No tests or multiple errors.</td></tr>
+
+<tr><td class="lb">Completed application functions as a whole</td><td class="ex"><span class="mr">12 to 15</span>Exceptional work submitted. Student went beyond what is expected.</td><td class="gd"><span class="mr">7 to 11</span>Every feature detailed in parts 1 to 3 is working together holistically.</td><td class="dv"><span class="mr">0 to 5</span>No features working or multiple errors present.</td></tr>
+
+<tr><td class="lb">Coding Standard and Code Complexity</td><td class="ex"><span class="mr">7 to 10</span>Good variable names, low complexity, no redundant code, commented class files, efficient code.</td><td class="gd"><span class="mr">4 to 7</span>Sufficient variable names, acceptable complexity, low redundancy, comments present.</td><td class="dv"><span class="mr">0 to 3</span>Poor variable names, overly complex, redundant code, poor commenting, not efficient.</td></tr>
+
+<tr><td class="lb">GitHub not used</td><td colspan="3" style="color:#DC2626;text-align:center;font-weight:700;background:#FFF1F2;font-size:10px;">Penalty: minus 5% from the total if GitHub is not used or is used incorrectly.</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="sh shi nb" style="margin-top:14px;"><div class="sb">TEST DATA</div><h2>Consolidated Test Data Reference</h2></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+
+<div>
+
+<h3 class="sub" style="margin-top:8px;">Part 1 Test Data</h3>
+
+<div class="tw nb">
+
+<table class="th-p1">
+
+<thead><tr><th>Field</th><th>Valid</th><th>Invalid</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Handle</td><td><code>"jd_01"</code></td><td><code>"jdoe!!!!"</code></td></tr>
+
+<tr><td class="lb">Passkey</td><td><code>"Deliver@99!"</code></td><td><code>"delivery"</code></td></tr>
+
+<tr><td class="lb">Contact Number</td><td><code>"+27761234567"</code></td><td><code>"0766553"</code></td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div>
+
+<h3 class="sub" style="margin-top:8px;">Part 2 Test Data</h3>
+
+<div class="tw nb">
+
+<table class="th-p2">
+
+<thead><tr><th>Field</th><th>Msg 1</th><th>Msg 2</th></tr></thead>
+
+<tbody>
+
+<tr><td class="lb">Recipient</td><td><code>+27761234567</code></td><td><code>08575975889</code></td></tr>
+
+<tr><td class="lb">Message</td><td>Kitchen team, the special...</td><td>Please note the customer...</td></tr>
+
+<tr><td class="lb">Action</td><td><span class="pill ps">DISPATCH</span></td><td><span class="pill pd">CANCEL</span></td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<h3 class="sub">Part 3 Test Data</h3>
+
+<div class="tw nb">
+
+<table class="th-p3">
+
+<thead><tr><th>#</th><th>Recipient</th><th>Message</th><th>Flag</th></tr></thead>
+
+<tbody>
+
+<tr><td>1</td><td><code>+27761234567</code></td><td>"Has the pizza left the kitchen yet?"</td><td><span class="pill ps">DISPATCHED</span></td></tr>
+
+<tr><td>2</td><td><code>+27769876543</code></td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td><td><span class="pill pst">SAVED</span></td></tr>
+
+<tr><td>3</td><td><code>+27761112233</code></td><td>"Oops, wrong order sent to table six."</td><td><span class="pill pd">CANCELLED</span></td></tr>
+
+<tr><td>4</td><td><code>0769876543</code></td><td>"Rider is outside now!"</td><td><span class="pill ps">DISPATCHED</span></td></tr>
+
+<tr><td>5</td><td><code>+27769876543</code></td><td>"Order confirmed and signed for, thanks!"</td><td><span class="pill pst">SAVED</span></td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<h3 class="sub">Expected JUnit Outcomes</h3>
+
+<div class="tw">
+
+<table class="th-pu">
+
+<thead><tr><th>Test Class</th><th>Test Method</th><th>Expected Result</th></tr></thead>
+
+<tbody>
+
+<tr><td rowspan="6"><strong>MessageManagerTest</strong></td><td><code>testSentMessages_FirstMessageBody</code></td><td>"Has the pizza left the kitchen yet?"</td></tr>
+
+<tr><td><code>testSentMessages_SecondMessageBody</code></td><td>"Rider is outside now!"</td></tr>
+
+<tr><td><code>testLongestStoredMessage</code></td><td>"Your order is stuck in traffic on the N1, estimated arrival is now 8:15 PM."</td></tr>
+
+<tr><td><code>testSearchByMessageID_FindsMessage4</code></td><td>"Rider is outside now!"</td></tr>
+
+<tr><td><code>testSearchByRecipient_FindsBothMessages</code></td><td>Contains message 2 text and message 5 text</td></tr>
+
+<tr><td><code>testDeleteByMessageHash_SuccessMessage</code></td><td>Contains "successfully deleted" and message 2 body</td></tr>
+
+<tr><td rowspan="4"><strong>MessageTest</strong></td><td><code>testGenerateMessageID_Length</code></td><td>10</td></tr>
+
+<tr><td><code>testCreateMessageHash_Format</code></td><td>"12:0:HELLOWORLD"</td></tr>
+
+<tr><td><code>testSendOptions_Send</code></td><td>"Message successfully sent."</td></tr>
+
+<tr><td><code>testSendOptions_Discard</code></td><td>"Press 0 to delete the message."</td></tr>
+
+<tr><td rowspan="4"><strong>SwiftDeliverTest</strong></td><td><code>testCheckUserName_Valid</code></td><td>true</td></tr>
+
+<tr><td><code>testCheckPasswordComplexity_Valid</code></td><td>true</td></tr>
+
+<tr><td><code>testCheckCellPhoneNumber_Valid</code></td><td>true</td></tr>
+
+<tr><td><code>testLogin_CorrectCredentials</code></td><td>true</td></tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<div class="sh shp nb" style="margin-top:12px;"><div class="sb">ATTRIBUTION</div><h2>Code Attribution</h2></div>
+
+<p>All comments inside the source files are written in first-person to satisfy the attribution rubric requirement. Consistent and congruent IEEE-style referencing has been applied throughout.</p>
+
+<ul class="atl">
+
+<li><div class="at">Scanner Console Input</div><div class="as">Oracle. (2015). <em>Class Scanner</em>. Java SE 8 API Documentation. https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html</div></li>
+
+<li><div class="at">Handle Regex (contains underscore and max 5 characters)</div><div class="as">Stack Overflow. (n.d.). https://stackoverflow.com/questions/336210/ &nbsp;|&nbsp; GeeksforGeeks. (n.d.). https://www.geeksforgeeks.org/how-to-validate-a-username-using-regular-expressions-in-java/</div></li>
+
+<li><div class="at">Passkey Complexity Regex with Look-aheads</div><div class="as">Stack Overflow. (n.d.). <em>Password Complexity Check using Regex</em>. https://stackoverflow.com/questions/19605150/</div></li>
+
+<li><div class="at">SA (+27) Contact Number Regex</div><div class="as">Stack Overflow. (n.d.). <em>South African phone number validation regex</em>. https://stackoverflow.com/questions/33477950/</div></li>
+
+<li><div class="at">Random Class for Message ID Generation</div><div class="as">Oracle. (2015). <em>Class Random</em>. Java SE 8 API Documentation. https://docs.oracle.com/javase/8/docs/api/java/util/Random.html</div></li>
+
+<li><div class="at">BufferedWriter and FileWriter Append Pattern (JSON Storage)</div><div class="as">DigitalOcean. (n.d.). <em>Java append to file</em>. https://www.digitalocean.com/community/tutorials/java-append-to-file</div></li>
+
+<li><div class="at">BufferedReader Line-by-Line File Read (JSON Loading)</div><div class="as">DigitalOcean. (n.d.). <em>Java Read File Line by Line</em>. https://www.digitalocean.com/community/tutorials/java-read-file-line-by-line</div></li>
+
+<li><div class="at">Arrays in Java</div><div class="as">GeeksforGeeks. (n.d.). <em>Arrays in Java</em>. https://www.geeksforgeeks.org/arrays-in-java/</div></li>
+
+<li><div class="at">File.exists() Persistence Check</div><div class="as">Stack Overflow. (n.d.). <em>How to check if a file exists in Java</em>. https://stackoverflow.com/questions/1816673/</div></li>
+
+<li><div class="at">JUnit 5 Assertion Methods</div><div class="as">JUnit Team. (2023). <em>JUnit 5 API Documentation</em>. https://junit.org/junit5/docs/current/api/</div></li>
+
+<li><div class="at">JUnit 5 Lifecycle Annotations</div><div class="as">JUnit Team. (2023). <em>JUnit 5 User Guide</em>. https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations</div></li>
+
+<li><div class="at">PROG5121 Lecture Slides and Course Material</div><div class="as">The IIE / Rochelle Moodley. (2025). <em>PROG5121 Programming 1A Lecture Slides</em>. The Independent Institute of Education (internal, unpublished).</div></li>
+
+</ul>
+
+
+
+<div class="pf"><span>SwiftDeliver &middot; PROG5121 POE 2026 &middot; Jorryn Panjasuran</span><span>Rubric Part 3 / Test Data / Attribution</span></div>
+
+</div>
+
+
+
+</div>
 
 </body>
+
 </html>
